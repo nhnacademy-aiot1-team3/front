@@ -1,4 +1,4 @@
-package com.front.dto;
+package com.front.login.dto;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;

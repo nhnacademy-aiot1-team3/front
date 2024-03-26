@@ -1,7 +1,7 @@
-package com.front.controller;
+package com.front.login.controller;
 
-import com.front.dto.UserDto;
-import com.front.service.FrontService;
+import com.front.login.dto.UserDto;
+import com.front.login.service.FrontService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

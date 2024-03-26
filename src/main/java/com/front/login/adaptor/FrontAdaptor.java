@@ -1,6 +1,6 @@
-package com.front.adaptor;
+package com.front.login.adaptor;
 
-import com.front.dto.UserDto;
+import com.front.login.dto.UserDto;
 import org.springframework.stereotype.Component;
 
 @Component
