@@ -8,13 +8,16 @@
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
 </head>
-<th:block th:replace="fragments/header :: header"></th:block>
 <body>
-<!--<th:block th:replace="fragments/aside :: aside"></th:block>-->
-<th:block layout:fragment="content"></th:block>
+<div th:replace="fragments/header::header"></div>
+
+<div th:replace="fragments/aside :: aside"></div>
+<div layout:fragment="content" class="content"></div>
+
+<div th:replace="fragments/footer::footer"></div>
 </body>
-<th:block th:replace="fragments/footer :: footer"></th:block>
 </html>
