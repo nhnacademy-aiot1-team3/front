@@ -1,6 +1,6 @@
 package com.front.login.controller;
 
-import com.front.login.dto.UserDto;
+import com.front.login.dto.LoginRequestDto;
 import com.front.login.service.FrontService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class FrontController {
     }
 
     @PostMapping("/login")
-    public String postLogin(UserDto userDto, Model model) {
+    public String postLogin(LoginRequestDto userDto, Model model) {
         try {
             frontService.doLogin(userDto);
             model.addAttribute("message", "로그인 성공");
