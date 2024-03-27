@@ -1,7 +1,7 @@
-package com.front.login.controller;
+package com.front.member.controller;
 
-import com.front.login.dto.LoginRequestDto;
-import com.front.login.service.FrontService;
+import com.front.member.dto.MemberRequestDto;
+import com.front.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
-public class FrontController {
-    private final FrontService frontService;
+public class MemberController {
+    private final MemberService frontService;
     @GetMapping("/")
     public String getMain(){
         return "main";
@@ -23,7 +23,7 @@ public class FrontController {
     }
 
     @PostMapping("/login")
-    public String postLogin(LoginRequestDto userDto, Model model) {
+    public String postLogin(MemberRequestDto userDto, Model model) {
         try {
             frontService.doLogin(userDto);
             model.addAttribute("message", "로그인 성공");

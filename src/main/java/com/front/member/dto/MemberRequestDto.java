@@ -1,11 +1,11 @@
-package com.front.login.dto;
+package com.front.member.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class LoginRequestDto {
+public class MemberRequestDto {
     String id;
-    String pw;
+    String password;
 }

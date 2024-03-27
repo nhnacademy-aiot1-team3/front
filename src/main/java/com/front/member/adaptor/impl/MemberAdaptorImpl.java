@@ -1,8 +1,9 @@
-package com.front.login.adaptor.impl;
+package com.front.member.adaptor.impl;
 
-import com.front.login.adaptor.FrontAdaptor;
-import com.front.login.dto.LoginRequestDto;
+import com.front.member.adaptor.MemberAdaptor;
+import com.front.member.dto.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,18 +15,21 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class FrontAdaptorImpl implements FrontAdaptor {
+public class MemberAdaptorImpl implements MemberAdaptor {
 
     private final RestTemplate restTemplate;
 
+    @Value("${account.api.url}")
+    String gatewayDomain;
+
     @Override
-    public void doLogin(LoginRequestDto userDto) {
+    public void doLogin(MemberRequestDto userDto) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpEntity<LoginRequestDto> request = new HttpEntity<>(userDto);
-        restTemplate.postForEntity("/login", request, Void.class);
+        HttpEntity<MemberRequestDto> request = new HttpEntity<>(userDto);
+        restTemplate.postForEntity(gatewayDomain+"/login", request, Void.class);
     }
 }
