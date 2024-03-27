@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,13 +24,14 @@ public class MemberAdaptorImpl implements MemberAdaptor {
     String gatewayDomain;
 
     @Override
-    public void doLogin(MemberRequestDto userDto) {
+    public ResponseEntity<Void> doLogin(MemberRequestDto userDto) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<MemberRequestDto> request = new HttpEntity<>(userDto);
-        restTemplate.postForEntity(gatewayDomain+"/login", request, Void.class);
+        return restTemplate.postForEntity(gatewayDomain+"/login", request, Void.class);
+
     }
 }

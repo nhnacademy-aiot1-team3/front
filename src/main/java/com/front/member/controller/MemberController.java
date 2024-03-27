@@ -8,6 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
+
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -23,13 +27,20 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String postLogin(MemberRequestDto userDto, Model model) {
+    public String postLogin(HttpServletResponse response, MemberRequestDto userDto, Model model) {
         try {
-            frontService.doLogin(userDto);
-            model.addAttribute("message", "로그인 성공");
-            model.addAttribute("searchUrl","main");
-            return "alert";
+            Optional<String> result = frontService.doLogin(userDto);
 
+            if(result.isPresent()) {
+                String authorization = result.get();
+                Cookie cookie = new Cookie("token", authorization);
+                response.addCookie(cookie);
+
+                model.addAttribute("message", "로그인 성공");
+                model.addAttribute("searchUrl","main");
+                return "alert";
+            }
+            throw new Exception();
         } catch(Exception e){
             model.addAttribute("message", "로그인 실패");
             model.addAttribute("searchUrl","login");

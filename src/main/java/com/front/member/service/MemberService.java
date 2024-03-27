@@ -2,6 +2,8 @@ package com.front.member.service;
 
 import com.front.member.dto.MemberRequestDto;
 
+import java.util.Optional;
+
 public interface MemberService {
-    void doLogin(MemberRequestDto userDto);
+    Optional<String> doLogin(MemberRequestDto userDto);
 }
