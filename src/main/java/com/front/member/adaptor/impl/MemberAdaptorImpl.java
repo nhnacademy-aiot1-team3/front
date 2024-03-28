@@ -20,7 +20,7 @@ public class MemberAdaptorImpl implements MemberAdaptor {
 
     private final RestTemplate restTemplate;
 
-    @Value("${account.api.url}")
+    @Value("${gateway.api.url}")
     String gatewayDomain;
 
     @Override
@@ -31,7 +31,7 @@ public class MemberAdaptorImpl implements MemberAdaptor {
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto);
-        return restTemplate.postForEntity(gatewayDomain+"/login", request, Void.class);
+        return restTemplate.postForEntity(gatewayDomain+"/auth/login", request, Void.class);
 
     }
 
