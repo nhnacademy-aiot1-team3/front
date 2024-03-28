@@ -48,6 +48,11 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/register")
+    public String getRegister(){
+        return "register";
+    }
+
     @PostMapping("/register")
     public String postRegister(MemberRequestDto memberRequestDto) {
         memberService.doRegister(memberRequestDto);
