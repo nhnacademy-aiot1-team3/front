@@ -1,4 +1,4 @@
-package com.front.login.config;
+package com.front.member.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
