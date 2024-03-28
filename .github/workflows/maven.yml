@@ -42,8 +42,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         source: "target/*.jar"
         target: "~/"
-        rm: true
-        debug: true
+        rm: false
 
     - name: execute shell script
       uses: appleboy/ssh-action@master
