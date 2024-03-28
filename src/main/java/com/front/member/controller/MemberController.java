@@ -27,9 +27,9 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String postLogin(HttpServletResponse response, MemberRequestDto userDto, Model model) {
+    public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
         try {
-            Optional<String> result = frontService.doLogin(userDto);
+            Optional<String> result = frontService.doLogin(memberRequestDto);
 
             if(result.isPresent()) {
                 String authorization = result.get();
