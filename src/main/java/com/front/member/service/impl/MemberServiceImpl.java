@@ -16,8 +16,8 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
     private final MemberAdaptor memberAdaptor;
     @Override
-    public Optional<String> doLogin(MemberRequestDto userDto) {
-        ResponseEntity<Void> answer = memberAdaptor.doLogin(userDto);
+    public Optional<String> doLogin(MemberRequestDto memberRequestDto) {
+        ResponseEntity<Void> answer = memberAdaptor.doLogin(memberRequestDto);
         HttpHeaders header = answer.getHeaders();
         return header.get("Authorization").stream().findFirst();
     }

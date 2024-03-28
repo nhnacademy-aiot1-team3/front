@@ -24,13 +24,13 @@ public class MemberAdaptorImpl implements MemberAdaptor {
     String gatewayDomain;
 
     @Override
-    public ResponseEntity<Void> doLogin(MemberRequestDto userDto) {
+    public ResponseEntity<Void> doLogin(MemberRequestDto memberRequestDto) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpEntity<MemberRequestDto> request = new HttpEntity<>(userDto);
+        HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto);
         return restTemplate.postForEntity(gatewayDomain+"/login", request, Void.class);
 
     }
