@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface MemberService {
     Optional<String> doLogin(MemberRequestDto memberRequestDto);
+
+    void doRegister(MemberRequestDto memberRequestDto);
 }

@@ -21,4 +21,9 @@ public class MemberServiceImpl implements MemberService {
         HttpHeaders header = answer.getHeaders();
         return header.get("Authorization").stream().findFirst();
     }
+
+    @Override
+    public void doRegister(MemberRequestDto memberRequestDto) {
+        memberAdaptor.doRegister(memberRequestDto);
+    }
 }
