@@ -20,7 +20,7 @@ public class MemberAdaptorImpl implements MemberAdaptor {
 
     private final RestTemplate restTemplate;
 
-    @Value("${account.api.url}")
+    @Value("${gateway.api.url}")
     String gatewayDomain;
 
     @Override
