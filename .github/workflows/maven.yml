@@ -43,6 +43,7 @@ jobs:
         source: "target/*.jar"
         target: "~/"
         rm: true
+        debug: true
 
     - name: execute shell script
       uses: appleboy/ssh-action@master
