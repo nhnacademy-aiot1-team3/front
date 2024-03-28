@@ -15,7 +15,7 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
-    private final MemberService frontService;
+    private final MemberService memberService;
     @GetMapping("/")
     public String getMain(){
         return "main";
@@ -29,7 +29,7 @@ public class MemberController {
     @PostMapping("/login")
     public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
         try {
-            Optional<String> result = frontService.doLogin(memberRequestDto);
+            Optional<String> result = memberService.doLogin(memberRequestDto);
 
             if(result.isPresent()) {
                 String authorization = result.get();
@@ -46,5 +46,11 @@ public class MemberController {
             model.addAttribute("searchUrl","login");
             return "alert";
         }
+    }
+
+    @PostMapping("/register")
+    public String postRegister(MemberRequestDto memberRequestDto) {
+        memberService.doRegister(memberRequestDto);
+        return "login";
     }
 }

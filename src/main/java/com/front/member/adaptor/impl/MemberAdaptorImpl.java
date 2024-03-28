@@ -34,4 +34,14 @@ public class MemberAdaptorImpl implements MemberAdaptor {
         return restTemplate.postForEntity(gatewayDomain+"/login", request, Void.class);
 
     }
+
+    @Override
+    public void doRegister(MemberRequestDto memberRequestDto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto);
+        restTemplate.postForEntity(gatewayDomain+"/register", request, Void.class);
+    }
 }
