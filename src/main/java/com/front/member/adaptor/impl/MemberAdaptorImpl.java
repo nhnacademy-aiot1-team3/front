@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -25,14 +26,19 @@ public class MemberAdaptorImpl implements MemberAdaptor {
 
     @Override
     public ResponseEntity<Void> doLogin(MemberRequestDto memberRequestDto) {
+        ResponseEntity<Void> a = null;
+try {
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-        HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto);
-        return restTemplate.postForEntity(gatewayDomain+"/auth/login", request, Void.class);
-
+    HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto, httpHeaders);
+    a = restTemplate.postForEntity(gatewayDomain + "/auth/login", request, Void.class);
+} catch (
+        RestClientException e) {
+    e.getMessage();
+}
+        return  a;
     }
 
     @Override

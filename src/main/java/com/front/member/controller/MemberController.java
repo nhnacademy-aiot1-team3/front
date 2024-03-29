@@ -34,7 +34,8 @@ public class MemberController {
 
             if(result.isPresent()) {
                 String authorization = result.get();
-                authorization = authorization.replace("Bearer ","");
+                authorization = authorization.replace("Bearer ", "");
+
                 Cookie cookie = new Cookie("token", authorization);
                 response.addCookie(cookie);
 
