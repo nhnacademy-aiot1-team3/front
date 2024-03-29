@@ -17,7 +17,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberAdaptor memberAdaptor;
     @Override
     public Optional<String> doLogin(MemberRequestDto memberRequestDto) {
-        ResponseEntity<MemberRequestDto> answer = memberAdaptor.doLogin(memberRequestDto);
+        ResponseEntity<Void> answer = memberAdaptor.doLogin(memberRequestDto);
         HttpHeaders header = answer.getHeaders();
         return header.get("Authorization").stream().findFirst();
     }
