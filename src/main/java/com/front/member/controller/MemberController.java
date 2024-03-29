@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
@@ -33,12 +34,13 @@ public class MemberController {
 
             if(result.isPresent()) {
                 String authorization = result.get();
+                authorization = authorization.replace("Bearer ","");
                 Cookie cookie = new Cookie("token", authorization);
                 response.addCookie(cookie);
 
                 model.addAttribute("message", "로그인 성공");
                 model.addAttribute("searchUrl","main");
-                return "alert";
+                return "main";
             }
             throw new Exception();
         } catch(Exception e){
@@ -46,6 +48,18 @@ public class MemberController {
             model.addAttribute("searchUrl","login");
             return "alert";
         }
+    }
+
+    @GetMapping("/logout")
+    public String getLogout(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies) {
+            if(cookie.getName().equals("token")) {
+                cookie.setMaxAge(0);
+                cookie.setValue("");
+            }
+        }
+        return "main";
     }
 
     @GetMapping("/register")
