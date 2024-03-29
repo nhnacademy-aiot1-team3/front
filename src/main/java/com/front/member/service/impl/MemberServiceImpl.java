@@ -2,6 +2,7 @@ package com.front.member.service.impl;
 
 import com.front.member.adaptor.MemberAdaptor;
 import com.front.member.dto.MemberRequestDto;
+import com.front.member.dto.ResponseDto;
 import com.front.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberAdaptor memberAdaptor;
     @Override
     public Optional<String> doLogin(MemberRequestDto memberRequestDto) {
-        ResponseEntity<MemberRequestDto> answer = memberAdaptor.doLogin(memberRequestDto);
+        ResponseEntity<ResponseDto> answer = memberAdaptor.doLogin(memberRequestDto);
         HttpHeaders header = answer.getHeaders();
         return header.get("Authorization").stream().findFirst();
     }

@@ -1,14 +1,15 @@
 package com.front.member.adaptor.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.front.member.adaptor.MemberAdaptor;
 import com.front.member.dto.MemberRequestDto;
+import com.front.member.dto.ResponseDto;
+import com.front.member.dto.ResponseHeaderDto;
+import com.front.member.dto.TokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -27,13 +28,35 @@ public class MemberAdaptorImpl implements MemberAdaptor {
     String gatewayDomain;
 
     @Override
-    public ResponseEntity<MemberRequestDto> doLogin(MemberRequestDto memberRequestDto) {
+    public ResponseEntity<ResponseDto> doLogin(MemberRequestDto memberRequestDto) {
+
+
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto, httpHeaders);
-        return restTemplate.postForEntity(gatewayDomain+"/auth/login", request, MemberRequestDto.class);
+
+//
+//        ResponseEntity<ResponseDto> exchange = restTemplate.exchange(
+//                "http://localhost:9090/auth/login",
+//                HttpMethod.POST,
+//                entity,
+//                ResponseDto.class
+//        );
+
+
+
+
+        ResponseEntity<ResponseDto> result = restTemplate.postForEntity(gatewayDomain+"/auth/login", request, ResponseDto.class);
+
+        log.info("{}",result.getBody());
+        TokenResponseDto tokenResponseDto = new ObjectMapper().convertValue(result.getBody().getBody(), TokenResponseDto.class);
+        log.info("{}", tokenResponseDto);
+        ResponseHeaderDto responseHeaderDto = new ObjectMapper().convertValue(result.getBody().getHeader(), ResponseHeaderDto.class);
+        log.info("{}", responseHeaderDto);
+        return result;
     }
 
     @Override
