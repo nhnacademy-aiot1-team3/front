@@ -51,15 +51,16 @@ public class MemberController {
     }
 
     @GetMapping("/logout")
-    public String getLogout(HttpServletRequest request) {
+    public String getLogout(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
         for(Cookie cookie : cookies) {
             if(cookie.getName().equals("token")) {
-                cookie.setMaxAge(0);
                 cookie.setValue("");
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
             }
         }
-        return "main";
+        return "redirect:/";
     }
 
     @GetMapping("/register")
