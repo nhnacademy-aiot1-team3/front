@@ -36,16 +36,15 @@ public class MemberController {
                 authorization = authorization.replace("Bearer ", "");
                 Cookie cookie = new Cookie("token", authorization);
                 response.addCookie(cookie);
-
-                model.addAttribute("message", "로그인 성공");
-                model.addAttribute("searchUrl","main");
-                return "alert";
+//                model.addAttribute("message", "로그인 성공");
+//                model.addAttribute("searchUrl","main");
+                return "redirect:/";
             }
             throw new Exception();
         } catch(Exception e){
-            model.addAttribute("message", "로그인 실패");
-            model.addAttribute("searchUrl","login");
-            return "alert";
+//            model.addAttribute("message", "로그인 실패");
+//            model.addAttribute("searchUrl","login");
+            return "login";
         }
     }
 
