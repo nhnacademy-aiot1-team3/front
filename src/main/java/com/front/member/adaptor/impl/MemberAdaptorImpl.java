@@ -3,6 +3,7 @@ package com.front.member.adaptor.impl;
 import com.front.member.adaptor.MemberAdaptor;
 import com.front.member.dto.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class MemberAdaptorImpl implements MemberAdaptor {
@@ -24,15 +26,22 @@ public class MemberAdaptorImpl implements MemberAdaptor {
     String gatewayDomain;
 
     @Override
-    public ResponseEntity<Void> doLogin(MemberRequestDto memberRequestDto) {
+    public ResponseEntity<MemberRequestDto> doLogin(MemberRequestDto memberRequestDto) {
+        ResponseEntity<MemberRequestDto> res = null;
+        try{
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto);
-        return restTemplate.postForEntity(gatewayDomain+"/auth/login", request, Void.class);
-
+        HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto, httpHeaders);
+        res = restTemplate.postForEntity(gatewayDomain+"/auth/login", request, MemberRequestDto.class);
+        log.info(res.getBody()+"");
+        log.info(res.getStatusCodeValue()+"");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 
     @Override
@@ -41,7 +50,7 @@ public class MemberAdaptorImpl implements MemberAdaptor {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto);
+        HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto, headers);
         restTemplate.postForEntity(gatewayDomain+"/register", request, Void.class);
     }
 }
