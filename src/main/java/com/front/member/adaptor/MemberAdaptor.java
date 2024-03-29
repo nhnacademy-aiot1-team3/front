@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface MemberAdaptor {
-    ResponseEntity<MemberRequestDto> doLogin(MemberRequestDto memberRequestDto);
+    ResponseEntity<Void> doLogin(MemberRequestDto memberRequestDto);
 
     void doRegister(MemberRequestDto memberRequestDto);
 }

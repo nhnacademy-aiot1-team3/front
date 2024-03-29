@@ -25,15 +25,15 @@ public class MemberAdaptorImpl implements MemberAdaptor {
     String gatewayDomain;
 
     @Override
-    public ResponseEntity<MemberRequestDto> doLogin(MemberRequestDto memberRequestDto) {
-        ResponseEntity<MemberRequestDto> a = null;
+    public ResponseEntity<Void> doLogin(MemberRequestDto memberRequestDto) {
+        ResponseEntity<Void> a = null;
 try {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
     httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
     HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto, httpHeaders);
-    a = restTemplate.postForEntity(gatewayDomain + "/auth/login", request, MemberRequestDto.class);
+    a = restTemplate.postForEntity(gatewayDomain + "/auth/login", request, Void.class);
 } catch (
         RestClientException e) {
     e.getMessage();
