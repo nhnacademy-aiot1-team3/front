@@ -1,6 +1,9 @@
 package com.front.member.controller;
 
 import com.front.member.dto.MemberRequestDto;
+import com.front.member.dto.ResponseDto;
+import com.front.member.dto.ResponseHeaderDto;
+import com.front.member.dto.TokenResponseDto;
 import com.front.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -30,11 +33,10 @@ public class MemberController {
     @PostMapping("/login")
     public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
         try {
-            Optional<String> result = memberService.doLogin(memberRequestDto);
+            Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = memberService.doLogin(memberRequestDto);
 
             if(result.isPresent()) {
-                String authorization = result.get();
-                authorization = authorization.replace("Bearer ", "");
+                String authorization = result.get().getBody().getAccessToken();
 
                 Cookie cookie = new Cookie("token", authorization);
                 response.addCookie(cookie);
