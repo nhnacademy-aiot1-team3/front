@@ -9,6 +9,7 @@ import com.front.member.dto.TokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -28,9 +29,7 @@ public class MemberAdaptorImpl implements MemberAdaptor {
     String gatewayDomain;
 
     @Override
-    public ResponseEntity<ResponseDto> doLogin(MemberRequestDto memberRequestDto) {
-
-
+    public ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> doLogin(MemberRequestDto memberRequestDto) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -38,25 +37,28 @@ public class MemberAdaptorImpl implements MemberAdaptor {
 
         HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto, httpHeaders);
 
-//
-//        ResponseEntity<ResponseDto> exchange = restTemplate.exchange(
-//                "http://localhost:9090/auth/login",
-//                HttpMethod.POST,
-//                entity,
-//                ResponseDto.class
-//        );
+        ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> exchange = restTemplate.exchange(
+                gatewayDomain+"/auth/login",
+                HttpMethod.POST,
+                request,
+                new ParameterizedTypeReference<>() {
+                }
+        );
+        log.info("{}",exchange.getBody());
+        log.info("{}",exchange.getBody().getBody());
+        log.info("{}",exchange.getBody().getHeader());
 
+//        ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = restTemplate.postForEntity(
+//                gatewayDomain+"/auth/login",
+//                request,
+//                ResponseDto.class);
 
-
-
-        ResponseEntity<ResponseDto> result = restTemplate.postForEntity(gatewayDomain+"/auth/login", request, ResponseDto.class);
-
-        log.info("{}",result.getBody());
-        TokenResponseDto tokenResponseDto = new ObjectMapper().convertValue(result.getBody().getBody(), TokenResponseDto.class);
-        log.info("{}", tokenResponseDto);
-        ResponseHeaderDto responseHeaderDto = new ObjectMapper().convertValue(result.getBody().getHeader(), ResponseHeaderDto.class);
-        log.info("{}", responseHeaderDto);
-        return result;
+//        log.info("{}",result.getBody());
+//        TokenResponseDto tokenResponseDto = new ObjectMapper().convertValue(result.getBody().getBody(), TokenResponseDto.class);
+//        log.info("{}", tokenResponseDto);
+//        ResponseHeaderDto responseHeaderDto = new ObjectMapper().convertValue(result.getBody().getHeader(), ResponseHeaderDto.class);
+//        log.info("{}", responseHeaderDto);
+        return exchange;
     }
 
     @Override
