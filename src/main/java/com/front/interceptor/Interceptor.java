@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class Interceptor implements HandlerInterceptor {
-
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -23,5 +22,6 @@ public class Interceptor implements HandlerInterceptor {
                 }
             }
         }
+        return true;
     }
 }
