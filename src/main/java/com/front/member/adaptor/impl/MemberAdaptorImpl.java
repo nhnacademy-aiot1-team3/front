@@ -68,6 +68,6 @@ public class MemberAdaptorImpl implements MemberAdaptor {
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto, headers);
-        restTemplate.postForEntity(gatewayDomain+"/register", request, Void.class);
+        restTemplate.postForEntity(gatewayDomain+"/api/account/member", request, Void.class);
     }
 }
