@@ -32,6 +32,10 @@ public class MemberController {
 
     @PostMapping("/login")
     public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
+//        Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = memberService.doLogin(memberRequestDto);
+//        model.addAttribute("message", "로그인 성공");
+//        model.addAttribute("searchUrl","/");
+//        return "alert";
         try {
             Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = memberService.doLogin(memberRequestDto);
 
@@ -70,9 +74,10 @@ public class MemberController {
         return "register";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register1")
     public String postRegister(MemberRequestDto memberRequestDto) {
         memberService.doRegister(memberRequestDto);
         return "login";
     }
+
 }
