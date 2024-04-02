@@ -1,4 +1,4 @@
-package com.front.interceptor;
+package live.databo3.front.interceptor;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

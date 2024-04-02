@@ -1,10 +1,10 @@
-package com.front.member.controller;
+package live.databo3.front.member.controller;
 
-import com.front.member.dto.MemberRequestDto;
-import com.front.member.dto.ResponseDto;
-import com.front.member.dto.ResponseHeaderDto;
-import com.front.member.dto.TokenResponseDto;
-import com.front.member.service.MemberService;
+import live.databo3.front.member.dto.MemberRequestDto;
+import live.databo3.front.member.dto.ResponseDto;
+import live.databo3.front.member.dto.ResponseHeaderDto;
+import live.databo3.front.member.dto.TokenResponseDto;
+import live.databo3.front.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

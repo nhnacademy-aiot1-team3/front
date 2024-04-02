@@ -1,18 +1,16 @@
-package com.front.member.adaptor.impl;
+package live.databo3.front.member.adaptor.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.front.member.adaptor.MemberAdaptor;
-import com.front.member.dto.MemberRequestDto;
-import com.front.member.dto.ResponseDto;
-import com.front.member.dto.ResponseHeaderDto;
-import com.front.member.dto.TokenResponseDto;
+import live.databo3.front.member.adaptor.MemberAdaptor;
+import live.databo3.front.member.dto.MemberRequestDto;
+import live.databo3.front.member.dto.ResponseDto;
+import live.databo3.front.member.dto.ResponseHeaderDto;
+import live.databo3.front.member.dto.TokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;

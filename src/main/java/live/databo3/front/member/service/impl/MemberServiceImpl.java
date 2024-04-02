@@ -1,14 +1,12 @@
-package com.front.member.service.impl;
+package live.databo3.front.member.service.impl;
 
-import com.front.member.adaptor.MemberAdaptor;
-import com.front.member.dto.MemberRequestDto;
-import com.front.member.dto.ResponseDto;
-import com.front.member.dto.ResponseHeaderDto;
-import com.front.member.dto.TokenResponseDto;
-import com.front.member.service.MemberService;
+import live.databo3.front.member.adaptor.MemberAdaptor;
+import live.databo3.front.member.dto.MemberRequestDto;
+import live.databo3.front.member.dto.ResponseDto;
+import live.databo3.front.member.dto.ResponseHeaderDto;
+import live.databo3.front.member.dto.TokenResponseDto;
+import live.databo3.front.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
      * @return 로그인 성공시 토큰 정보를 Optional에 담아서 return, 로그인 실패시 빈 객체를 Optional에 담아서 return
      */
     @Override
-    public Optional<ResponseDto<ResponseHeaderDto,TokenResponseDto>> doLogin(MemberRequestDto memberRequestDto) {
+    public Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> doLogin(MemberRequestDto memberRequestDto) {
         ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> answer = memberAdaptor.doLogin(memberRequestDto);
 //        HttpHeaders header = answer.getHeaders();
 //        header.get("Authorization").stream().findFirst();

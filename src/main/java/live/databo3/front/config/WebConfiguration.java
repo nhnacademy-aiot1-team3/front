@@ -1,6 +1,6 @@
-package com.front.config;
+package live.databo3.front.config;
 
-import com.front.interceptor.Interceptor;
+import live.databo3.front.interceptor.Interceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;

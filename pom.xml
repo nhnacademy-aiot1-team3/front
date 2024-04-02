@@ -8,7 +8,7 @@
 		<version>2.7.18</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com</groupId>
+	<groupId>live.databo3</groupId>
 	<artifactId>front</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>front</name>
