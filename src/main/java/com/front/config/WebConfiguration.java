@@ -9,10 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
-    @Bean
-    public RestTemplate restTemplate(){
-        return new RestTemplate();
-    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
