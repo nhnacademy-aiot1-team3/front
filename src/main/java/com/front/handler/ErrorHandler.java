@@ -10,10 +10,11 @@ import java.util.Map;
 
 @ControllerAdvice
 public class ErrorHandler {
-    @ExceptionHandler(Exception.class)
-    public String errorCheck(HttpServletResponse response, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        if (response.getStatus() == 401) {
-        }
-        return "redirect:" + request.getRequestURI();
-    }
+//    @ExceptionHandler(Exception.class)
+//    public String errorCheck(HttpServletResponse response, HttpServletRequest request) {
+//        log.info(response.getStatus() + ", " +request.getRequestURI());
+//        if(response.getStatus() == 401){
+//            //토큰 재발급 요청 메서드
+//        }
+//          return "redirect:" + request.getRequestURI();
 }
