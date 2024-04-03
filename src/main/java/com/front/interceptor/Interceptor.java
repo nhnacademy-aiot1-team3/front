@@ -1,4 +1,4 @@
-package live.databo3.front.interceptor;
+package com.front.interceptor;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -22,6 +22,7 @@ public class Interceptor implements HandlerInterceptor {
      * @param handler 핸들러 객체
      * @return true를 반환하여 요청처리가 계속 진행
      * @throws Exception 예외 처리를 위한 선언
+     * @since 1.0.0
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

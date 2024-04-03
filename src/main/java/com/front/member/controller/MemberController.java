@@ -1,10 +1,10 @@
-package live.databo3.front.member.controller;
+package com.front.member.controller;
 
-import live.databo3.front.member.dto.MemberRequestDto;
-import live.databo3.front.member.dto.ResponseDto;
-import live.databo3.front.member.dto.ResponseHeaderDto;
-import live.databo3.front.member.dto.TokenResponseDto;
-import live.databo3.front.member.service.MemberService;
+import com.front.member.dto.MemberRequestDto;
+import com.front.member.dto.ResponseDto;
+import com.front.member.dto.ResponseHeaderDto;
+import com.front.member.dto.TokenResponseDto;
+import com.front.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ import java.util.Optional;
  * 회원 관련 작업을 처리하는 컨트롤러
  *
  * @author 이지현
- * @version 1.0
+ * @version 1.0.0
  */
 @Controller
 @RequiredArgsConstructor
@@ -30,6 +30,7 @@ public class MemberController {
     /**
      * main 페이지로 이동
      * @return main으로 이동
+     * @since 1.0.0
      */
     @GetMapping("/")
     public String getMain(){
@@ -39,6 +40,7 @@ public class MemberController {
     /**
      * login 페이지로 이동
      * @return login으로 이동
+     * @since 1.0.0
      */
     @GetMapping("/login")
     public String getLogin(){
@@ -53,6 +55,7 @@ public class MemberController {
      * @param memberRequestDto 사용자 가입 정보 (id, pw)
      * @param model key에 따라 객체 저장
      * @return alert로 이동
+     * @since 1.0.0
      */
     @PostMapping("/login")
     public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
@@ -85,6 +88,7 @@ public class MemberController {
      * @param request 요청 객체
      * @param response 응답 객체
      * @return /로 redirect
+     * @since 1.0.0
      */
     @GetMapping("/logout")
     public String getLogout(HttpServletRequest request, HttpServletResponse response) {
@@ -102,6 +106,7 @@ public class MemberController {
     /**
      * 회원가입 페이지 이동
      * @return register로 이동
+     * @since 1.0.0
      */
     @GetMapping("/register")
     public String getRegister(){
@@ -112,6 +117,7 @@ public class MemberController {
      * 회원 가입 기능 실행
      * @param memberRequestDto 사용자 가입 정보 (id, pw)
      * @return login으로 이동
+     * @since 1.0.0
      */
     @PostMapping("/register")
     public String postRegister(MemberRequestDto memberRequestDto) {
@@ -124,6 +130,7 @@ public class MemberController {
      * @param response 응답 객체
      * @param request 요청 객체
      * @return request에 저장되어있는 path로 이동
+     * @since 1.0.0
      */
     @GetMapping("/token")
     public String token(HttpServletResponse response, HttpServletRequest request) {

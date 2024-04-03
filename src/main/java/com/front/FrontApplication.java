@@ -1,4 +1,4 @@
-package live.databo3.front;
+package com.front;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

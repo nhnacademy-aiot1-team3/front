@@ -1,4 +1,4 @@
-package live.databo3.front.handler;
+package com.front.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,6 +20,7 @@ public class ErrorHandler {
      * @param response 응답 객체
      * @param request 요청 객체
      * @return 기존의 uri로 redirect
+     * @since 1.0.0
      */
     @ExceptionHandler(Exception.class)
     public String errorCheck(HttpServletResponse response, HttpServletRequest request) {

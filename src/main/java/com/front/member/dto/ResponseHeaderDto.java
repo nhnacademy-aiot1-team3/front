@@ -1,4 +1,4 @@
-package live.databo3.front.member.dto;
+package com.front.member.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

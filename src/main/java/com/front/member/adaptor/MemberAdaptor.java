@@ -1,9 +1,9 @@
-package live.databo3.front.member.adaptor;
+package com.front.member.adaptor;
 
-import live.databo3.front.member.dto.MemberRequestDto;
-import live.databo3.front.member.dto.ResponseDto;
-import live.databo3.front.member.dto.ResponseHeaderDto;
-import live.databo3.front.member.dto.TokenResponseDto;
+import com.front.member.dto.MemberRequestDto;
+import com.front.member.dto.ResponseDto;
+import com.front.member.dto.ResponseHeaderDto;
+import com.front.member.dto.TokenResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
