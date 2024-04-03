@@ -11297,3 +11297,16 @@ body {
 .button--github:hover {
   background-color: #262626;
 }
+.button--payco {
+  background-color: #ff0000;
+  border: 1px solid #ff0000;
+}
+.button--payco .icon {
+  border-right: 1px solid #ff0000;
+}
+.button--payco .icon:after {
+  border-right: 1px solid #ff0000;
+}
+.button--payco:hover {
+  background-color: #ff0000;
+}
