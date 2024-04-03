@@ -57,23 +57,13 @@ public class MemberAdaptorImpl implements MemberAdaptor {
         log.info("{}",exchange.getBody().getBody());
         log.info("{}",exchange.getBody().getHeader());
 
-//        ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = restTemplate.postForEntity(
-//                gatewayDomain+"/auth/login",
-//                request,
-//                ResponseDto.class);
-
-//        log.info("{}",result.getBody());
-//        TokenResponseDto tokenResponseDto = new ObjectMapper().convertValue(result.getBody().getBody(), TokenResponseDto.class);
-//        log.info("{}", tokenResponseDto);
-//        ResponseHeaderDto responseHeaderDto = new ObjectMapper().convertValue(result.getBody().getHeader(), ResponseHeaderDto.class);
-//        log.info("{}", responseHeaderDto);
         return exchange;
     }
 
     /**
-     * 회원가입 요청을 id, password를 담아서 게이트웨이에 회원가입 요청을 보냅니다.
+     * 회원가입 요청을 id, password, email를 담아서 게이트웨이에 회원가입 요청을 보냅니다.
      *
-     * @param memberRegisterRequest 회원가입에 필요에 필요한 id, password를 받는 dto (이건 수정할겁니다)
+     * @param memberRegisterRequest 회원가입에 필요에 필요한 정보를(id, password, email) 받는 request
      * @since 1.0.0
      */
     @Override
