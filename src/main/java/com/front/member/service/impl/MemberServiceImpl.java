@@ -35,7 +35,8 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 회원 가입 정보를 바탕으로 회원 가입 절차 진행
-     * @param memberRequestDto 사용자 가입 정보 (id, pw)
+     * @param memberRegisterRequest 사용자 가입 정보 (id, pw, email)
+     * @since 1.0.0
      */
     @Override
     public void doRegister(MemberRegisterRequest memberRegisterRequest) {
