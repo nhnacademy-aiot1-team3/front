@@ -53,7 +53,6 @@ public class MemberAdaptorImpl implements MemberAdaptor {
                 new ParameterizedTypeReference<>() {
                 }
         );
-        ResponseEntity.
         log.info("{}",exchange.getBody());
         log.info("{}",exchange.getBody().getBody());
         log.info("{}",exchange.getBody().getHeader());
