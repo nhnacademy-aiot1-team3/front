@@ -1,55 +1,41 @@
 package com.front.oauth.adaptor.impl;
 
+import com.front.member.dto.ResponseDto;
+import com.front.member.dto.ResponseHeaderDto;
+import com.front.member.dto.TokenResponseDto;
 import com.front.oauth.adaptor.OAuthAdaptor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+
 
 @Component
 @RequiredArgsConstructor
 public class OAuthAdaptorImpl implements OAuthAdaptor {
     private final RestTemplate restTemplate;
-
     @Override
-    public ResponseEntity<String> getToken(String url) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+    public ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> doOAuthLogin(String domain,String code) {
         return restTemplate.exchange(
-                url,
+                "http://localhost:9090/auth/{domain}/oauth",
                 HttpMethod.POST,
-                new HttpEntity<>(headers),
-                String.class
+                makeHttpEntity(code),
+                new ParameterizedTypeReference<>() {
+                },
+                domain
         );
     }
 
-    @Override
-    public ResponseEntity<String> getUser(String url, String accessToken) {
+    private HttpEntity<MultiValueMap<String, String>> makeHttpEntity(String code) {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("code", code);
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION,"Bearer "+accessToken);
-        return restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                new HttpEntity<>(headers),
-                String.class
-        );
-    }
-
-    @Override
-    public ResponseEntity<String> getUser(String url,String clientId, String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("client_id",clientId);
-        headers.add("access_token",accessToken);
-
-        return restTemplate.exchange(
-                url,
-                HttpMethod.POST,
-                new HttpEntity<>(headers),
-                String.class
-        );
+        return new HttpEntity<>(params,headers);
     }
 }

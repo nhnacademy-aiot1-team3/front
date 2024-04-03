@@ -3,6 +3,11 @@ package com.front.oauth.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * 알맞은 OAuthService 리턴해주는 클래스
+ *
+ * @author 양현성
+ */
 @Component
 @RequiredArgsConstructor
 public class OAuthServiceResolver {
