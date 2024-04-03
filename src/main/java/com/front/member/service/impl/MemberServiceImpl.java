@@ -1,10 +1,7 @@
 package com.front.member.service.impl;
 
 import com.front.member.adaptor.MemberAdaptor;
-import com.front.member.dto.MemberRequestDto;
-import com.front.member.dto.ResponseDto;
-import com.front.member.dto.ResponseHeaderDto;
-import com.front.member.dto.TokenResponseDto;
+import com.front.member.dto.*;
 import com.front.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
      * @param memberRequestDto 사용자 가입 정보 (id, pw)
      */
     @Override
-    public void doRegister(MemberRequestDto memberRequestDto) {
-        memberAdaptor.doRegister(memberRequestDto);
+    public void doRegister(MemberRegisterRequest memberRegisterRequest) {
+        memberAdaptor.doRegister(memberRegisterRequest);
     }
 }

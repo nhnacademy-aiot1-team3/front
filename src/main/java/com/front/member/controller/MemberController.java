@@ -1,9 +1,6 @@
 package com.front.member.controller;
 
-import com.front.member.dto.MemberRequestDto;
-import com.front.member.dto.ResponseDto;
-import com.front.member.dto.ResponseHeaderDto;
-import com.front.member.dto.TokenResponseDto;
+import com.front.member.dto.*;
 import com.front.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -59,10 +56,6 @@ public class MemberController {
      */
     @PostMapping("/login")
     public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
-//        Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = memberService.doLogin(memberRequestDto);
-//        model.addAttribute("message", "로그인 성공");
-//        model.addAttribute("searchUrl","/");
-//        return "alert";
         try {
             Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = memberService.doLogin(memberRequestDto);
 
@@ -115,13 +108,13 @@ public class MemberController {
 
     /**
      * 회원 가입 기능 실행
-     * @param memberRequestDto 사용자 가입 정보 (id, pw)
+     * @param memberRegisterRequest 사용자 회원가입 정보 (id, password, email)
      * @return login으로 이동
      * @since 1.0.0
      */
     @PostMapping("/register")
-    public String postRegister(MemberRequestDto memberRequestDto) {
-        memberService.doRegister(memberRequestDto);
+    public String postRegister(MemberRegisterRequest memberRegisterRequest) {
+        memberService.doRegister(memberRegisterRequest);
         return "login";
     }
 

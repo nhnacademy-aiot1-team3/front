@@ -14,15 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
-    /**
-     * {@link RestTemplate}의 인스턴스 생성하고 스프링 빈으로 등록
-     * @return 새로 생성된 {@link RestTemplate} 인스턴스
-     * @since 1.0.0
-     */
-    @Bean
-    public RestTemplate restTemplate(){
-        return new RestTemplate();
-    }
 
     /**
      * 애플리케이션의 인터셉터를 등록하는 메소드로,
