@@ -1,9 +1,6 @@
 package com.front.member.controller;
 
-import com.front.member.dto.MemberRequestDto;
-import com.front.member.dto.ResponseDto;
-import com.front.member.dto.ResponseHeaderDto;
-import com.front.member.dto.TokenResponseDto;
+import com.front.member.dto.*;
 import com.front.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -71,8 +68,8 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public String postRegister(MemberRequestDto memberRequestDto) {
-        memberService.doRegister(memberRequestDto);
+    public String postRegister(MemberRegisterRequest memberRegisterRequest) {
+        memberService.doRegister(memberRegisterRequest);
         return "login";
     }
 
