@@ -9,47 +9,31 @@
     <div id="layoutSidenav">
         <div id="layoutSidenav_content">
             <main>
-                <div class="container white-box">
-                    <div class="row">
-                        <div class="col-md-8 profile-simple">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0">
-                                    <img src="../img/증명사진1.jpg" />
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h3>Hyewon</h3>
-                                    <p>Front-end Designer</p>
-                                    <div>
-                                        <i
-                                                class="fa-solid fa-location-dot d-inline-block"
-                                                style="color: #6fbaf8"
-                                        ></i>
-                                        <span style="color: #6fbaf8">서울시 동대문구</span>
-                                    </div>
-                                    <button
-                                            class="btn text-white mt-3"
-                                            style="background-color: #6fbaf8"
-                                    >
-                                        연락하기
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 border-left">
-                            <div class="row profile-detail">
-                                <div class="col-6"><p>Location</p></div>
-                                <div class="col-6"><p>서울 근무</p></div>
-                                <div class="col-6"><p>Age</p></div>
-                                <div class="col-6"><p>25</p></div>
-                                <div class="col-6"><p>Experience</p></div>
-                                <div class="col-6"><p>신입</p></div>
-                                <div class="col-6"><p>School</p></div>
-                                <div class="col-6"><p>서일대학교 컴퓨터전자공학과</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="container-fluid px-4">
 
+                    <h1 class="mt-4">Profile</h1>
+                        <form method="post" th:action="@{/member/update}">
+                            <div class="form-floating">
+                                <p style="font-size: 16px; font-weight: bold;">아이디
+        <!--                            <input class="form-control" type="text" th:value="${session.user.userId}" name="userId" readonly>-->
+                                </p>
+                            </div>
+
+                            <div class="col-xl-4 col-md-6">
+                            <div class="form-floating">
+                                <p style="font-size: 16px; font-weight: bold;">email<input class="form-control" type="email" value="" name="email"></p>
+                            </div>
+                            </div>
+<!--                            <a href="/" class="nav-link px-2 text-secondary"-->
+<!--                               style="font-size: 16px; font-weight: bold;"></a>-->
+                            <div class="col-xl-2 col-md-6">
+                                <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">회원정보수정</button>
+                            </div>
+                        </form>
+<!--                <form method="post" th:action="@{/member/delete}">-->
+<!--                    <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">회원탈퇴</button>-->
+<!--                </form>-->
+                </div>
             </main>
         </div>
     </div>

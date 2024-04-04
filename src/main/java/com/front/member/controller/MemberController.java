@@ -132,4 +132,8 @@ public class MemberController {
         return (String)request.getAttribute("path");
     }
 
+    @GetMapping("/profile")
+    public String getProfile(){
+        return "profile";
+    }
 }
