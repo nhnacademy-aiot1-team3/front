@@ -132,4 +132,13 @@ public class MemberController {
         return (String)request.getAttribute("path");
     }
 
+    /**
+     * profile 페이지로 이동
+     * @return profile으로 이동
+     * @since 1.0.0
+     */
+    @GetMapping("/profile")
+    public String getProfile(){
+        return "profile";
+    }
 }
