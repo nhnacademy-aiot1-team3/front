@@ -65,6 +65,7 @@ public class MemberController {
 
                 Cookie cookie = new Cookie("token", authorization);
                 response.addCookie(cookie);
+//                cookie.setHttpOnly(true); // sonaqube에서 쿠키 저장할때 중요 정보가 들어간 쿠키는 httpOnly,Secure을 true로 설정해서 보호하라고 가이드 해줌
                 model.addAttribute("message", "로그인 성공");
                 model.addAttribute("searchUrl","/");
                 return "alert";
@@ -141,5 +142,15 @@ public class MemberController {
     @GetMapping("/profile")
     public String getProfile(){
         return "profile";
+    }
+
+    /**
+     * 비밀번호 찾기 페이지로 이동
+     * @return password로 이동
+     * @since 1.0.0
+     */
+    @GetMapping("/password")
+    public String getFindPassword(){
+        return "password";
     }
 }

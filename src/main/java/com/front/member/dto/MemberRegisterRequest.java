@@ -12,6 +12,7 @@ import lombok.Getter;
 @Getter
 public class MemberRegisterRequest {
     private String id;
-    private String password;
     private String email;
+    private String password;
+    private String role;
 }
