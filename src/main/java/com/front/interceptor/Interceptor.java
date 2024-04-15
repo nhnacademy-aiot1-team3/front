@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class Interceptor implements HandlerInterceptor {
-    /**
+      /**
      * 요청이 controller 진입 전에 호출되는 메소드
      * @param request 요청 객체
      * @param response 응답 객체
@@ -24,18 +24,18 @@ public class Interceptor implements HandlerInterceptor {
      * @throws Exception 예외 처리를 위한 선언
      * @since 1.0.0
      */
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getName();
-                    request.setAttribute("token", token);
-                    break;
-                }
-            }
-        }
-        return true;
-    }
+//    @Override
+//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+//        Cookie[] cookies = request.getCookies();
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                if (cookie.getName().equals("token")) {
+//                    String token = cookie.getName();
+//                    request.setAttribute("token", token);
+//                    break;
+//                }
+//            }
+//        }
+//        return true;
+//    }
 }

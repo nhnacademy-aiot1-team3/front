@@ -6,7 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
-
+/**
+ * RestTemplate 설정 클래스
+ *
+ * @author 양현성
+ */
 @Configuration
 public class RestTemplateConfig {
     @Bean

@@ -5,7 +5,11 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-
+/**
+ * OAuth에 필요한 Github 설정
+ *
+ * @author 양현성
+ */
 @Getter
 @Setter
 @Configuration
@@ -13,5 +17,6 @@ import org.springframework.context.annotation.Configuration;
 public class GithubOAuthProperties {
     private String clientId;
     private String secret;
-    private String redirectUrl;
+    private String redirectUri;
+    private String authorizationUri;
 }
