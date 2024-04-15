@@ -142,4 +142,14 @@ public class MemberController {
     public String getProfile(){
         return "profile";
     }
+
+    /**
+     * 비밀번호 찾기 페이지로 이동
+     * @return password로 이동
+     * @since 1.0.0
+     */
+    @GetMapping("/password")
+    public String getFindPassword(){
+        return "password";
+    }
 }
