@@ -1,6 +1,10 @@
 package com.front.config;
 
 
+import com.front.auth.adaptor.AuthAdaptor;
+import com.front.auth.filter.JwtAuthenticationFilter;
+import com.front.auth.filter.TokenRenewalFilter;
+import com.front.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 /**
  * Security 설정 클래스
@@ -18,6 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private final JwtUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -25,12 +31,11 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().disable()
                 .formLogin().disable()
-                .logout().disable()
-                .oauth2Login()
-                .loginPage("/login");
+                .logout().disable();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        http.addFilterAfter(jwtAuthenticationFilter(), SecurityContextPersistenceFilter.class);
+        http.addFilterBefore(tokenRenewalFilter(null), JwtAuthenticationFilter.class);
         return http.build();
     }
 
@@ -43,5 +48,15 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtUtil);
+    }
+
+    @Bean
+    public TokenRenewalFilter tokenRenewalFilter(AuthAdaptor authAdaptor) {
+        return new TokenRenewalFilter(authAdaptor,jwtUtil);
     }
 }

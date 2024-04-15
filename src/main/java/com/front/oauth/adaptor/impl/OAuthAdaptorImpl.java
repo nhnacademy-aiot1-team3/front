@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -31,7 +32,6 @@ public class OAuthAdaptorImpl implements OAuthAdaptor {
                 domain
         );
     }
-
     private HttpEntity<MultiValueMap<String, String>> makeHttpEntity(String code) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("code", code);

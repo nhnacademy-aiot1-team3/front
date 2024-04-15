@@ -10,18 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class Interceptor implements HandlerInterceptor {
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getName();
-                    request.setAttribute("token", token);
-                    break;
-                }
-            }
-        }
-        return true;
-    }
+//    @Override
+//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+//        Cookie[] cookies = request.getCookies();
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                if (cookie.getName().equals("token")) {
+//                    String token = cookie.getName();
+//                    request.setAttribute("token", token);
+//                    break;
+//                }
+//            }
+//        }
+//        return true;
+//    }
 }
