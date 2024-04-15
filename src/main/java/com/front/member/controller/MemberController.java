@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.Duration;
 import java.util.Optional;
 
 /**
@@ -61,10 +62,27 @@ public class MemberController {
             Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = memberService.doLogin(memberRequestDto);
 
             if(result.isPresent()) {
-                String authorization = result.get().getBody().getAccessToken();
+                TokenResponseDto token = result.get().getBody();
 
-                Cookie cookie = new Cookie("token", authorization);
-                response.addCookie(cookie);
+
+                String accesesToken = token.getAccessToken();
+                String refreshToken = token.getRefreshToken();
+                Long accessTokenExpireTime = token.getAccessTokenExpireTime();
+                Long refreshTokenExpireTime = token.getRefreshTokenExpireTime();
+
+
+                Cookie accesesCookie = new Cookie("access_token", accesesToken);
+                Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
+
+                accesesCookie.setMaxAge((int) Duration.ofHours(1).toSeconds());
+                accesesCookie.setPath("/");
+
+                refreshCookie.setMaxAge((int) Duration.ofHours(1).toSeconds());
+                refreshCookie.setPath("/");
+
+                response.addCookie(accesesCookie);
+                response.addCookie(refreshCookie);
+
 //                cookie.setHttpOnly(true); // sonaqube에서 쿠키 저장할때 중요 정보가 들어간 쿠키는 httpOnly,Secure을 true로 설정해서 보호하라고 가이드 해줌
                 model.addAttribute("message", "로그인 성공");
                 model.addAttribute("searchUrl","/");
@@ -132,6 +150,22 @@ public class MemberController {
         // jwt token 새로 발급
         System.out.println("response = " + response);
         return (String)request.getAttribute("path");
+    }
+
+    @GetMapping("/outstanding")
+    public String outstanding(){
+        return "outstanding";
+    }
+
+    @GetMapping("/changePassword")
+    public String getChangePassword(){
+        return "changePassword";
+    }
+
+    @PostMapping("/changePassword")
+    public String postChangePassword(){
+        // TODO 비밀번호 확인하는 api 만들기
+        return "changePassword";
     }
 
     /**
