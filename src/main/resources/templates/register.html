@@ -15,6 +15,11 @@
             var associatedLabel = document.querySelector('label[for="' + labelId + '"]');
             associatedLabel.click();
         }
+
+        function go() {
+            document.form.target="/idcheck";
+            document.form.submit();
+
         function validateForm() {
             var checkboxes = document.querySelectorAll('input[name="role"]:checked');
             if (checkboxes.length === 0) {
@@ -22,6 +27,7 @@
                 return false;
             }
             return true;
+
         }
     </script>
     <body class="bg-primary">
@@ -34,12 +40,15 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
                                     <div class="card-body">
+
                                         <form th:action="@{/register}" method="post" onsubmit="return validateForm()">
-<!--                                        <form th:action="@{/register}" method="post">-->
+
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="id" name="id" type="text" placeholder="id" required/>
                                                 <label for="id">id</label>
                                             </div>
+                                            <button type="submit" onclick="go()">중복 확인</button>
+                                        <form th:action="@{/register}" method="post">
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="email" name="email" type="text" placeholder="email" required/>
                                                 <label for="id">email</label>

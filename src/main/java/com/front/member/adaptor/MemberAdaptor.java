@@ -28,4 +28,6 @@ public interface MemberAdaptor {
      * @since 1.0.0
      */
     void doRegister(MemberRegisterRequest memberRegisterRequest);
+
+    boolean doIdCheck(String id);
 }

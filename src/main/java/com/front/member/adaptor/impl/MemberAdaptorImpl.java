@@ -75,4 +75,15 @@ public class MemberAdaptorImpl implements MemberAdaptor {
         HttpEntity<MemberRegisterRequest> request = new HttpEntity<>(memberRegisterRequest, headers);
         restTemplate.postForEntity(gatewayDomain+"/api/account/member/register", request, Void.class);
     }
+
+    @Override
+    public boolean doIdCheck(String id) {
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(id, headers);
+        ResponseEntity<Boolean> result = restTemplate.postForEntity(gatewayDomain+"/api/account/member/idcheck", request, Boolean.class);
+        return result.getBody();
+    }
 }
