@@ -1,10 +1,10 @@
 package live.databo3.front.member;
 
-import com.front.member.controller.MemberController;
-import com.front.member.dto.ResponseDto;
-import com.front.member.dto.ResponseHeaderDto;
-import com.front.member.dto.TokenResponseDto;
-import com.front.member.service.MemberService;
+import live.databo3.front.member.controller.MemberController;
+import live.databo3.front.member.dto.ResponseDto;
+import live.databo3.front.member.dto.ResponseHeaderDto;
+import live.databo3.front.member.dto.TokenResponseDto;
+import live.databo3.front.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

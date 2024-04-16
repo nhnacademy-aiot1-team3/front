@@ -1,8 +1,8 @@
 package live.databo3.front.member;
 
-import com.front.member.adaptor.MemberAdaptor;
-import com.front.member.dto.*;
-import com.front.member.service.impl.MemberServiceImpl;
+import live.databo3.front.member.adaptor.MemberAdaptor;
+import live.databo3.front.member.dto.*;
+import live.databo3.front.member.service.impl.MemberServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
