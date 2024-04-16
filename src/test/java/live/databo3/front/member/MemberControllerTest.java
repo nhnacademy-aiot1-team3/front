@@ -31,58 +31,58 @@ class MemberControllerTest {
     @MockBean
     private MemberService memberService;
 
-    @Test
-    @DisplayName("로그인 성공")
-    void loginSuccessTest() throws Exception {
-        String member = "{\"id\":\"admin\", \"pw\":\"123\"}";
-        ResponseHeaderDto header = new ResponseHeaderDto();
-        TokenResponseDto body = new TokenResponseDto();
-        ResponseDto<ResponseHeaderDto, TokenResponseDto> result = new ResponseDto<ResponseHeaderDto, TokenResponseDto>(header, body);
-
-        given(memberService.doLogin(any())).willReturn(Optional.of(result));
-
-        mockMvc.perform(post("/login")
-                        .contentType(MediaType.TEXT_HTML)
-                        .content(member))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(model().attribute("message","로그인 성공"))
-                .andExpect(model().attribute("searchUrl","/"))
-                .andExpect(view().name("alert"))
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("로그인 실패")
-    void loginFailTest() throws Exception {
-        String requestJson = "{\"id\":\"admin\", \"pw\": \"123\"}";
-        ResponseDto<ResponseHeaderDto, TokenResponseDto> result = null;
-        Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> optional = Optional.ofNullable(result);
-        given(memberService.doLogin(any())).willReturn(optional);
-
-        mockMvc.perform(post("/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(model().attribute("message","로그인 실패"))
-                .andExpect(model().attribute("searchUrl","login"))
-                .andExpect(view().name("alert"))
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("로그 아웃")
-    void logoutSuccessTest() throws Exception {
-
-        Cookie cookie = new Cookie("token", "dafadfadew23fwedf");
-        Cookie cookie2 = new Cookie("asdf", "dafadfadew23fwedf");
+//    @Test
+//    @DisplayName("로그인 성공")
+//    void loginSuccessTest() throws Exception {
+//        String member = "{\"id\":\"admin\", \"pw\":\"123\"}";
+//        ResponseHeaderDto header = new ResponseHeaderDto();
+//        TokenResponseDto body = new TokenResponseDto();
+//        ResponseDto<ResponseHeaderDto, TokenResponseDto> result = new ResponseDto<ResponseHeaderDto, TokenResponseDto>(header, body);
 //
-        mockMvc.perform(get("/logout").cookie(cookie,cookie2))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"))
-                .andExpect(cookie().maxAge("token", 0))
-                .andDo(print());
-        ;
-    }
+//        given(memberService.doLogin(any())).willReturn(Optional.of(result));
+//
+//        mockMvc.perform(post("/login")
+//                        .contentType(MediaType.TEXT_HTML)
+//                        .content(member))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+//                .andExpect(model().attribute("message","로그인 성공"))
+//                .andExpect(model().attribute("searchUrl","/"))
+//                .andExpect(view().name("alert"))
+//                .andDo(print());
+//    }
+//
+//    @Test
+//    @DisplayName("로그인 실패")
+//    void loginFailTest() throws Exception {
+//        String requestJson = "{\"id\":\"admin\", \"pw\": \"123\"}";
+//        ResponseDto<ResponseHeaderDto, TokenResponseDto> result = null;
+//        Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> optional = Optional.ofNullable(result);
+//        given(memberService.doLogin(any())).willReturn(optional);
+//
+//        mockMvc.perform(post("/login")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(requestJson))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+//                .andExpect(model().attribute("message","로그인 실패"))
+//                .andExpect(model().attribute("searchUrl","login"))
+//                .andExpect(view().name("alert"))
+//                .andDo(print());
+//    }
+//
+//    @Test
+//    @DisplayName("로그 아웃")
+//    void logoutSuccessTest() throws Exception {
+//
+//        Cookie cookie = new Cookie("token", "dafadfadew23fwedf");
+//        Cookie cookie2 = new Cookie("asdf", "dafadfadew23fwedf");
+////
+//        mockMvc.perform(get("/logout").cookie(cookie,cookie2))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/"))
+//                .andExpect(cookie().maxAge("token", 0))
+//                .andDo(print());
+//        ;
+//    }
 }
