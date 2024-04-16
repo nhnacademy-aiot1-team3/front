@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" lang="ko">
+
+<th:block layout:fragment="content">
+    <body class="sb-nav-fixed">
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+
+                    <h1 class="mt-4">Profile</h1>
+                        <form method="post" th:action="@{/member/update}">
+                            <div class="form-floating">
+                                <p style="font-size: 16px; font-weight: bold;">아이디
+        <!--                           <input class="form-control" type="text" th:value="${session.user.userId}" name="userId" readonly>-->
+                                </p>
+                            </div>
+
+                            <div class="col-xl-4 col-md-6">
+                            <div class="form-floating">
+                                <p style="font-size: 16px; font-weight: bold;">email<input class="form-control" type="email" value="" name="email"></p>
+                            </div>
+                            </div>
+<!--                            <a href="/" class="nav-link px-2 text-secondary"-->
+<!--                               style="font-size: 16px; font-weight: bold;"></a>-->
+                            <div class="col-xl-2 col-md-6">
+                                <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">회원정보수정</button>
+                            </div>
+                        </form>
+<!--                <form method="post" th:action="@{/member/delete}">-->
+<!--                    <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">회원탈퇴</button>-->
+<!--                </form>-->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    </body>
+</th:block>
+
+</html>
