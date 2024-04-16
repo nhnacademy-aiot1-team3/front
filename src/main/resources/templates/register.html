@@ -15,6 +15,14 @@
             var associatedLabel = document.querySelector('label[for="' + labelId + '"]');
             associatedLabel.click();
         }
+        function validateForm() {
+            var checkboxes = document.querySelectorAll('input[name="role"]:checked');
+            if (checkboxes.length === 0) {
+                alert("OWNER ViEWER 중 선택 해야합니다");
+                return false;
+            }
+            return true;
+        }
     </script>
     <body class="bg-primary">
         <div id="layoutAuthentication">
@@ -26,17 +34,18 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
                                     <div class="card-body">
-                                        <form th:action="@{/register}" method="post">
+                                        <form th:action="@{/register}" method="post" onsubmit="return validateForm()">
+<!--                                        <form th:action="@{/register}" method="post">-->
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="id" name="id" type="text" placeholder="id" />
+                                                <input class="form-control" id="id" name="id" type="text" placeholder="id" required/>
                                                 <label for="id">id</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="email" name="email" type="text" placeholder="email" />
+                                                <input class="form-control" id="email" name="email" type="text" placeholder="email" required/>
                                                 <label for="id">email</label>
                                             </div>
                                             <div class="form-floating mb-3 mb-md-0">
-                                                <input class="form-control" id="password" name="password" type="password" placeholder="Create a password" />
+                                                <input class="form-control" id="password" name="password" type="password" placeholder="Create a password" required/>
                                                 <label for="password">password</label>
                                             </div>
 
