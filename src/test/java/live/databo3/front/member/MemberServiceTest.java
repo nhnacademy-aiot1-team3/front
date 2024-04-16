@@ -43,7 +43,7 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원가입 테스트")
     void doRegisterTest(){
-        MemberRegisterRequest request = new MemberRegisterRequest("admin","123","");
+        MemberRegisterRequest request = new MemberRegisterRequest("admin","a@naver,com","123",2);
         memberService.doRegister(request);
 
         verify(memberAdaptor,times(1)).doRegister(any());
