@@ -149,8 +149,8 @@ public class MemberController {
      * @return password로 이동
      * @since 1.0.0
      */
-    @GetMapping("/password")
+    @GetMapping("/passwordSearch")
     public String getFindPassword(){
-        return "password";
+        return "passwordSearch";
     }
 }
