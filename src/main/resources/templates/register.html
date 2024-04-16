@@ -27,10 +27,12 @@
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
                                     <div class="card-body">
                                         <form th:action="@{/register}" method="post">
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="id" name="id" type="text" placeholder="id" />
-                                                <label for="id">id</label>
-                                            </div>
+                                            <form th:action="@{/idCheck}" method="post">
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control" id="id" name="id" type="text" placeholder="id" />
+                                                    <label for="id">id</label>
+                                                </div>
+                                            </form>
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="email" name="email" type="text" placeholder="email" />
                                                 <label for="id">email</label>

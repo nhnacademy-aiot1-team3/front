@@ -5,7 +5,6 @@ import com.front.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +24,7 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
-    private final MemberService memberService;
+    private final MemberService service;
 
     /**
      * main 페이지로 이동
@@ -60,7 +59,7 @@ public class MemberController {
     @PostMapping("/login")
     public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
         try {
-            Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = memberService.doLogin(memberRequestDto);
+            Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = service.doLogin(memberRequestDto);
 
             if(result.isPresent()) {
                 TokenResponseDto token = result.get().getBody();
@@ -135,22 +134,8 @@ public class MemberController {
      */
     @PostMapping("/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest) {
-        memberService.doRegister(memberRegisterRequest);
+        service.doRegister(memberRegisterRequest);
         return "login";
-    }
-
-    /**
-     * jwt token 새로 발급
-     * @param response 응답 객체
-     * @param request 요청 객체
-     * @return request에 저장되어있는 path로 이동
-     * @since 1.0.0
-     */
-    @GetMapping("/token")
-    public String token(HttpServletResponse response, HttpServletRequest request) {
-        // jwt token 새로 발급
-        System.out.println("response = " + response);
-        return (String)request.getAttribute("path");
     }
 
     /**
@@ -198,6 +183,15 @@ public class MemberController {
     @GetMapping("/profile")
     public String getProfile(){
         return "profile";
+    }
+
+    @PostMapping("/idCheck")
+    public String idCheck(@RequestParam String id, Model model){
+        if(service.doIdCheck(id)){
+            model.addAttribute("message","이미 있는 아이디 입니다");
+            model.addAttribute("searchUrl","register");
+        }
+        return "alert";
     }
 
     /**

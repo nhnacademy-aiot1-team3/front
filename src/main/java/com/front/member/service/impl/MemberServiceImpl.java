@@ -42,4 +42,9 @@ public class MemberServiceImpl implements MemberService {
     public void doRegister(MemberRegisterRequest memberRegisterRequest) {
         memberAdaptor.doRegister(memberRegisterRequest);
     }
+
+    @Override
+    public boolean doIdCheck(String id) {
+        return memberAdaptor.doIdCheck(id);
+    }
 }
