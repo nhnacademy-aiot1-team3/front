@@ -15,6 +15,10 @@
             var associatedLabel = document.querySelector('label[for="' + labelId + '"]');
             associatedLabel.click();
         }
+        function go() {
+            document.form.target="/idcheck";
+            document.form.submit();
+        }
     </script>
     <body class="bg-primary">
         <div id="layoutAuthentication">
@@ -26,14 +30,12 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
                                     <div class="card-body">
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="id" name="id" type="text" placeholder="id" />
+                                                <label for="id">id</label>
+                                            </div>
+                                            <button type="submit" onclick="go()">중복 확인</button>
                                         <form th:action="@{/register}" method="post">
-                                            <form th:action="@{/idCheck}" method="post">
-                                                <div class="form-floating mb-3">
-                                                    <input class="form-control" id="id" name="id" type="text" placeholder="id" />
-                                                    <label for="id">id</label>
-                                                </div>
-                                                <button type="submit">중복 확인</button>
-                                            </form>
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="email" name="email" type="text" placeholder="email" />
                                                 <label for="id">email</label>
