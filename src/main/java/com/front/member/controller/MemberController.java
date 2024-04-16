@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ import java.util.Optional;
  * 회원 관련 작업을 처리하는 컨트롤러
  *
  * @author 이지현
- * @version 1.0.0
+ * @version 1.0.1
  */
 @Controller
 @RequiredArgsConstructor
@@ -152,18 +153,39 @@ public class MemberController {
         return (String)request.getAttribute("path");
     }
 
+    /**
+     * 승인 대기화면 페이지로 이동
+     * @return outstanding으로 이동
+     * @since 1.0.0
+     */
     @GetMapping("/outstanding")
     public String outstanding(){
         return "outstanding";
     }
 
+    /**
+     * 비밀번호 변경 페이지로 이동
+     * @return changePassword로 이동
+     * @since 1.0.0
+     */
     @GetMapping("/changePassword")
     public String getChangePassword(){
         return "changePassword";
     }
-
+    /**
+     * 현재 비밀번호에서 새 비밀번호로 바꿔 준다
+     * 현재 비밀번호와 비밀번호 확인란이 서로 다르다면 비밀번호 입력이 잘못 되었음을 알린다
+     * 확인란이 맞다면 기존 비밀번호를 새 비밀번호로 바꿔 저장한다
+     * @return check를 실패하면 alert로 이동, 비밀번호 맞을 시 mypage로 이동
+     * @since 1.0.0
+     */
     @PostMapping("/changePassword")
-    public String postChangePassword(){
+    public String postChangePassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
+        if(!nowPassword.equals(passwordCheck)){
+            model.addAttribute("message", "비밀번호를 잘못 입력하었습니다");
+            model.addAttribute("searchUrl","changePassword");
+            return "alert";
+        }
         // TODO 비밀번호 확인하는 api 만들기
         return "changePassword";
     }
