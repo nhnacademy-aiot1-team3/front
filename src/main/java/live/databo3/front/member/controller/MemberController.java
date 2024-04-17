@@ -203,4 +203,9 @@ public class MemberController {
     public String getFindPassword(){
         return "passwordSearch";
     }
+
+    @GetMapping("/test")
+    public String getTest(){
+        return "charts";
+    }
 }
