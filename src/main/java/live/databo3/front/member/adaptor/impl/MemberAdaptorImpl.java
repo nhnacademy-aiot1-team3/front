@@ -83,7 +83,7 @@ public class MemberAdaptorImpl implements MemberAdaptor {
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(id, headers);
-        ResponseEntity<Boolean> result = restTemplate.postForEntity(gatewayDomain+"/api/account/member/idcheck", request, Boolean.class);
+        ResponseEntity<Boolean> result = restTemplate.postForEntity("http://localhost:8888/api/account/member/"+id, request, Boolean.class);
         return result.getBody();
     }
 }

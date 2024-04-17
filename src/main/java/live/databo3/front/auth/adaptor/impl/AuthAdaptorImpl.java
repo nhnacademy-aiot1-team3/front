@@ -5,6 +5,7 @@ import live.databo3.front.member.dto.ResponseDto;
 import live.databo3.front.member.dto.ResponseHeaderDto;
 import live.databo3.front.member.dto.TokenResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +19,9 @@ import org.springframework.web.client.RestTemplate;
 public class AuthAdaptorImpl implements AuthAdaptor {
 
     private final RestTemplate restTemplate;
+    @Value("${gateway.api.url}")
+    String gatewayDomain;
+
     @Override
     public ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> tokenReIssue(String refreshToken) {
         HttpHeaders headers = new HttpHeaders();

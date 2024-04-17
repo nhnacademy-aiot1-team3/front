@@ -15,6 +15,13 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
+                        <form th:action="@{/idCheck}" method="post">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="id" name="id" type="text" placeholder="id" required/>
+                                <label for="id">id</label>
+                            </div>
+                            <button class="btn btn-primary" type="submit">RestTemplate 테스트</button>
+                        </form>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
