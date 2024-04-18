@@ -37,7 +37,7 @@ public class MemberController {
      */
     @GetMapping("/")
     public String getMain(){
-        return "viewer/main";
+        return "admin/main";
     }
 
     /**
@@ -213,16 +213,6 @@ public class MemberController {
         return "changePassword";
     }
 
-    /**
-     * profile 페이지로 이동
-     * @return profile으로 이동
-     * @since 1.0.0
-     */
-    @GetMapping("/profile")
-    public String getProfile(){
-        return "profile";
-    }
-
     @PostMapping("/idCheck")
     public String idCheck(@RequestParam String id, Model model){
         if(service.doIdCheck(id)){
@@ -230,20 +220,5 @@ public class MemberController {
             model.addAttribute("searchUrl","register");
         }
         return "alert";
-    }
-
-    /**
-     * 비밀번호 찾기 페이지로 이동
-     * @return password로 이동
-     * @since 1.0.0
-     */
-    @GetMapping("/passwordSearch")
-    public String getFindPassword(){
-        return "passwordSearch";
-    }
-
-    @GetMapping("/test")
-    public String getTest(){
-        return "charts";
     }
 }
