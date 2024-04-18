@@ -2,7 +2,9 @@ package live.databo3.front.member.controller;
 
 import live.databo3.front.member.dto.*;
 import live.databo3.front.member.service.MemberService;
+import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -21,6 +24,7 @@ import java.util.Optional;
  * @author 이지현
  * @version 1.0.1
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -33,7 +37,7 @@ public class MemberController {
      */
     @GetMapping("/")
     public String getMain(){
-        return "main";
+        return "viewer/main";
     }
 
     /**
@@ -43,7 +47,7 @@ public class MemberController {
      */
     @GetMapping("/login")
     public String getLogin(){
-        return "login";
+        return "pre-login/login";
     }
 
     /**
@@ -85,13 +89,13 @@ public class MemberController {
 
 //                cookie.setHttpOnly(true); // sonaqube에서 쿠키 저장할때 중요 정보가 들어간 쿠키는 httpOnly,Secure을 true로 설정해서 보호하라고 가이드 해줌
                 model.addAttribute("message", "로그인 성공");
-                model.addAttribute("searchUrl","/");
+                model.addAttribute("searchUrl","page/main");
                 return "alert";
             }
             throw new Exception();
         } catch(Exception e){
             model.addAttribute("message", "로그인 실패");
-            model.addAttribute("searchUrl","login");
+            model.addAttribute("searchUrl","pre-login/login");
             return "alert";
         }
     }
@@ -105,14 +109,22 @@ public class MemberController {
      */
     @GetMapping("/logout")
     public String getLogout(HttpServletRequest request, HttpServletResponse response) {
-        Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies) {
-            if(cookie.getName().equals("token")) {
-                cookie.setValue("");
-                cookie.setMaxAge(0);
-                response.addCookie(cookie);
-            }
+        Cookie accessTokenCookie = CookieUtil.findCookie(request, "access_token");
+        Cookie refreshTokenCookie = CookieUtil.findCookie(request, "refresh_token");
+        if (Objects.isNull(accessTokenCookie)) {
+            log.error("no access_token cookie found");
+            return "pre-login/login";
         }
+        if (Objects.isNull(refreshTokenCookie)) {
+            log.error("no refresh_token cookie found");
+            return "pre-login/login";
+        }
+        accessTokenCookie.setValue("");
+        accessTokenCookie.setMaxAge(0);
+        response.addCookie(accessTokenCookie);
+        refreshTokenCookie.setValue("");
+        refreshTokenCookie.setMaxAge(0);
+        response.addCookie(refreshTokenCookie);
         return "redirect:/";
     }
 
@@ -123,7 +135,7 @@ public class MemberController {
      */
     @GetMapping("/register")
     public String getRegister(){
-        return "register";
+        return "pre-login/register";
     }
 
     /**
@@ -135,7 +147,7 @@ public class MemberController {
     @PostMapping("/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest) {
         service.doRegister(memberRegisterRequest);
-        return "login";
+        return "pre-login/login";
     }
 
     /**
@@ -148,6 +160,32 @@ public class MemberController {
         return "outstanding";
     }
 
+    /**
+     * 비밀번호 찾기(변경) 페이지로 이동
+     * @return searchPassword 이동
+     * @since 1.0.0
+     */
+    @GetMapping("/searchPassword")
+    public String getSearchPassword(){
+        return "pre-login/searchPassword";
+    }
+
+    /**
+     * 비밀번호를 잊어버렸을때 email을 통해 새 비밀번호로 바꿔 준다
+     * 작성한 이메일에 임시 비밀번호를 보내준다
+     * @return check를 실패하면 alert로 이동, 비밀번호 맞을 시 mypage로 이동
+     * @since 1.0.0
+     * 아직 구현 다 못함
+     */
+    @PostMapping("/searchPassword")
+    public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
+        if(!nowPassword.equals(passwordCheck)){
+            model.addAttribute("message", "비밀번호를 잘못 입력하었습니다");
+            model.addAttribute("searchUrl","pre-login/searchPassword");
+            return "alert";
+        }
+        return "pre-login/changePassword";
+    }
     /**
      * 비밀번호 변경 페이지로 이동
      * @return changePassword로 이동
@@ -168,7 +206,7 @@ public class MemberController {
     public String postChangePassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
             model.addAttribute("message", "비밀번호를 잘못 입력하었습니다");
-            model.addAttribute("searchUrl","changePassword");
+            model.addAttribute("searchUrl","/page/changePassword");
             return "alert";
         }
         // TODO 비밀번호 확인하는 api 만들기
