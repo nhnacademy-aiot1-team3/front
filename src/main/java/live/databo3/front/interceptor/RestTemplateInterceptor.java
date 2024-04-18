@@ -1,5 +1,7 @@
 package live.databo3.front.interceptor;
 
+import live.databo3.front.util.CookieUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -9,7 +11,9 @@ import org.springframework.http.client.ClientHttpResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Objects;
 
+@Slf4j
 public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
     private final HttpServletRequest httpServletRequest;
 
@@ -30,14 +34,20 @@ public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
     }
 
     private String extractAccessTokenFromCookie(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("access_token".equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
+        Cookie accessTokenCookie = CookieUtil.findCookie(request, "access_token");
+        if (Objects.isNull(accessTokenCookie)) {
+            log.error("no access_token cookie found");
+            return null;
         }
-        return null;
+        return accessTokenCookie.getValue();
+//        Cookie[] cookies = request.getCookies();
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                if ("access_token".equals(cookie.getName())) {
+//                    return cookie.getValue();
+//                }
+//            }
+//        }
+//        return null;
     }
 }
