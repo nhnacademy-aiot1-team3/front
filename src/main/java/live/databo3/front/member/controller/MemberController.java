@@ -37,7 +37,12 @@ public class MemberController {
      */
     @GetMapping("/")
     public String getMain(){
-        return "admin/main";
+        return "viewer/main";
+    }
+
+    @GetMapping("/viewer/myPage")
+    public String getMypage(){
+        return "viewer/myPage";
     }
 
     /**
