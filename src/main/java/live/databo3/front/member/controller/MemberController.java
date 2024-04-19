@@ -113,11 +113,11 @@ public class MemberController {
         Cookie refreshTokenCookie = CookieUtil.findCookie(request, "refresh_token");
         if (Objects.isNull(accessTokenCookie)) {
             log.error("no access_token cookie found");
-            return "pre-login/login";
+            return "login";
         }
         if (Objects.isNull(refreshTokenCookie)) {
             log.error("no refresh_token cookie found");
-            return "pre-login/login";
+            return "login";
         }
         accessTokenCookie.setValue("");
         accessTokenCookie.setMaxAge(0);
@@ -133,7 +133,7 @@ public class MemberController {
      * @return register로 이동
      * @since 1.0.0
      */
-    @GetMapping("/register")
+    @GetMapping("/pre_login/register")
     public String getRegister(){
         return "pre-login/register";
     }
@@ -144,10 +144,10 @@ public class MemberController {
      * @return login으로 이동
      * @since 1.0.0
      */
-    @PostMapping("/register")
+    @PostMapping("/pre_login/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest) {
         service.doRegister(memberRegisterRequest);
-        return "pre-login/login";
+        return "login";
     }
 
     /**
@@ -155,7 +155,7 @@ public class MemberController {
      * @return outstanding으로 이동
      * @since 1.0.0
      */
-    @GetMapping("/outstanding")
+    @GetMapping("/pre_login/outstanding")
     public String outstanding(){
         return "outstanding";
     }
@@ -165,7 +165,7 @@ public class MemberController {
      * @return searchPassword 이동
      * @since 1.0.0
      */
-    @GetMapping("/searchPassword")
+    @GetMapping("/pre_login/searchPassword")
     public String getSearchPassword(){
         return "pre-login/searchPassword";
     }
@@ -177,7 +177,7 @@ public class MemberController {
      * @since 1.0.0
      * 아직 구현 다 못함
      */
-    @PostMapping("/searchPassword")
+    @PostMapping("/pre_login/searchPassword")
     public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
             model.addAttribute("message", "비밀번호를 잘못 입력하었습니다");
@@ -210,15 +210,15 @@ public class MemberController {
             return "alert";
         }
         // TODO 비밀번호 확인하는 api 만들기
-        return "changePassword";
+        return "";
     }
 
-    @PostMapping("/idCheck")
-    public String idCheck(@RequestParam String id, Model model){
-        if(service.doIdCheck(id)){
-            model.addAttribute("message","이미 있는 아이디 입니다");
-            model.addAttribute("searchUrl","register");
-        }
-        return "alert";
-    }
+//    @PostMapping("/pre_login/idCheck")
+//    public String idCheck(@RequestParam String id, Model model){
+//        if(service.doIdCheck(id)){
+//            model.addAttribute("message","이미 있는 아이디 입니다");
+//            model.addAttribute("searchUrl","register");
+//        }
+//        return "alert";
+//    }
 }

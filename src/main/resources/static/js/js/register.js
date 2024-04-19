@@ -9,7 +9,7 @@ function checkOnlyOne(element) {
     associatedLabel.click();
 }
 async function idCheck(){
-    let url = "http://localhost:8080/idCheck";
+    let url = "http://localhost:8080/pre_login/idCheck";
     let queryParam ="?id="+id.value;
     url += queryParam;
     const res = await fetch(url);
@@ -29,8 +29,6 @@ document.getElementById("id_check").addEventListener('click', async event=> {
         alert("아이디를 입력하세요");
         return;
     }
-
-    // const a = idCheck();
 
     const result = await idCheck();
 
