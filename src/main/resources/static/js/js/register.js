@@ -21,7 +21,7 @@ async function idCheck(){
 }
 
 
-document.getElementById("id_check").addEventListener('click', async event=> {
+document.getElementById("id").addEventListener('blur', async event=> {
     event.preventDefault();
     const id = document.getElementById("id");
     const id_languages = document.getElementById("id_languages");
@@ -35,7 +35,6 @@ document.getElementById("id_check").addEventListener('click', async event=> {
     console.log("result: idcheck 밑")
     console.log(result);
     if(result) {
-        id_languages.innerText="";
         id_languages.innerText="사용 가능한 아이디입니다";
     } else {
         id_languages.innerText="이미 사용 중인 아이디입니다";
