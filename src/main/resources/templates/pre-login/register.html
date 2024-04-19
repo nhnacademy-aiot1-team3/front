@@ -18,32 +18,7 @@
 <link rel="stylesheet" href="/assets/css/styles.css" />
 
   <title>Modernize Bootstrap Admin</title>
-  <script th:inline="javascript">
-    function checkOnlyOne(element) {
-      const checkboxes = document.getElementsByName("role");
-      checkboxes.forEach((cb) => {
-        cb.checked = false;
-      });
-      element.checked = true;
-      var labelId = checkbox.getAttribute('id');
-      var associatedLabel = document.querySelector('label[for="' + labelId + '"]');
-      associatedLabel.click();
-    }
-
-    function go() {
-      document.form.target = "/idcheck";
-      document.form.submit();
-    }
-
-    function validateForm() {
-      var checkboxes = document.querySelectorAll('input[name="role"]:checked');
-      if (checkboxes.length === 0) {
-        alert("OWNER ViEWER 중 선택 해야합니다");
-        return false;
-      }
-      return true;
-    }
-  </script>
+  <script src="js/js/register.js"></script>
 </head>
 
 <body>
@@ -78,7 +53,7 @@
                   <p class="mb-0 fs-4 px-3 d-inline-block bg-white z-index-5 position-relative">or sign Up with</p>
                   <span class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
                 </div>
-                <form th:action="@{/register}" method="post">
+                <form th:action="@{/pre_login/register}" method="post">
                   <div class="mb-3">
                     <label for="id" class="form-label">Id</label>
                     <input type="text" class="form-control" id="id" name="id" aria-describedby="textHelp">
