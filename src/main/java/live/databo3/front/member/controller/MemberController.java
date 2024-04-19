@@ -5,6 +5,8 @@ import live.databo3.front.member.service.MemberService;
 import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -113,11 +115,11 @@ public class MemberController {
         Cookie refreshTokenCookie = CookieUtil.findCookie(request, "refresh_token");
         if (Objects.isNull(accessTokenCookie)) {
             log.error("no access_token cookie found");
-            return "login";
+            return "pre-login/login";
         }
         if (Objects.isNull(refreshTokenCookie)) {
             log.error("no refresh_token cookie found");
-            return "login";
+            return "pre-login/login";
         }
         accessTokenCookie.setValue("");
         accessTokenCookie.setMaxAge(0);
@@ -147,7 +149,7 @@ public class MemberController {
     @PostMapping("/pre_login/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest) {
         service.doRegister(memberRegisterRequest);
-        return "login";
+        return "pre-login/login";
     }
 
     /**
@@ -157,7 +159,7 @@ public class MemberController {
      */
     @GetMapping("/pre_login/outstanding")
     public String outstanding(){
-        return "outstanding";
+        return "pre-login/outstanding";
     }
 
     /**
@@ -213,12 +215,9 @@ public class MemberController {
         return "";
     }
 
-//    @PostMapping("/pre_login/idCheck")
-//    public String idCheck(@RequestParam String id, Model model){
-//        if(service.doIdCheck(id)){
-//            model.addAttribute("message","이미 있는 아이디 입니다");
-//            model.addAttribute("searchUrl","register");
-//        }
-//        return "alert";
-//    }
+    @GetMapping("/pre_login/idCheck")
+    public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
+    }
+
 }
