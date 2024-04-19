@@ -89,13 +89,13 @@ public class MemberController {
 
 //                cookie.setHttpOnly(true); // sonaqube에서 쿠키 저장할때 중요 정보가 들어간 쿠키는 httpOnly,Secure을 true로 설정해서 보호하라고 가이드 해줌
                 model.addAttribute("message", "로그인 성공");
-                model.addAttribute("searchUrl","page/main");
+                model.addAttribute("searchUrl","/");
                 return "alert";
             }
             throw new Exception();
         } catch(Exception e){
             model.addAttribute("message", "로그인 실패");
-            model.addAttribute("searchUrl","pre-login/login");
+            model.addAttribute("searchUrl","/login");
             return "alert";
         }
     }
@@ -181,7 +181,7 @@ public class MemberController {
     public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
             model.addAttribute("message", "비밀번호를 잘못 입력하었습니다");
-            model.addAttribute("searchUrl","pre-login/searchPassword");
+            model.addAttribute("searchUrl","/searchPassword");
             return "alert";
         }
         return "pre-login/changePassword";
