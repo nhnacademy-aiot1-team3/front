@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="/assets/css/styles.css" />
 
   <title>Modernize Bootstrap Admin</title>
-  <script src="js/js/register.js"></script>
+  <script src="/js/js/register.js" defer></script>
 </head>
 
 <body>
@@ -54,9 +54,10 @@
                   <span class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
                 </div>
                 <form th:action="@{/pre_login/register}" method="post">
-                  <div class="mb-3">
+                  <div class="mb-3" id="id_check">
                     <label for="id" class="form-label">Id</label>
                     <input type="text" class="form-control" id="id" name="id" aria-describedby="textHelp">
+                    <span id="id_languages"></span>
                   </div>
                   <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
