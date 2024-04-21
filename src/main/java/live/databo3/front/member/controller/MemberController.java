@@ -37,7 +37,17 @@ public class MemberController {
      */
     @GetMapping("/")
     public String getMain(){
-        return "admin/main";
+        return "owner/main";
+    }
+
+    @GetMapping("/owner/sensor-list")
+    public String getSensorList(){
+        return "owner/sensor-list";
+    }
+
+    @GetMapping("/owner/battery-level")
+    public String getBatteryLevel(){
+        return "owner/battery-level";
     }
 
     /**
