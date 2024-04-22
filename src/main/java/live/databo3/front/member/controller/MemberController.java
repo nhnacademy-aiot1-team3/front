@@ -5,6 +5,8 @@ import live.databo3.front.member.service.MemberService;
 import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -138,7 +140,7 @@ public class MemberController {
      * @return register로 이동
      * @since 1.0.0
      */
-    @GetMapping("/register")
+    @GetMapping("/pre_login/register")
     public String getRegister(){
         return "pre-login/register";
     }
@@ -149,7 +151,7 @@ public class MemberController {
      * @return login으로 이동
      * @since 1.0.0
      */
-    @PostMapping("/register")
+    @PostMapping("/pre_login/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest) {
         service.doRegister(memberRegisterRequest);
         return "pre-login/login";
@@ -160,9 +162,9 @@ public class MemberController {
      * @return outstanding으로 이동
      * @since 1.0.0
      */
-    @GetMapping("/outstanding")
+    @GetMapping("/pre_login/outstanding")
     public String outstanding(){
-        return "outstanding";
+        return "pre-login/outstanding";
     }
 
     /**
@@ -170,7 +172,7 @@ public class MemberController {
      * @return searchPassword 이동
      * @since 1.0.0
      */
-    @GetMapping("/searchPassword")
+    @GetMapping("/pre_login/searchPassword")
     public String getSearchPassword(){
         return "pre-login/searchPassword";
     }
@@ -182,7 +184,7 @@ public class MemberController {
      * @since 1.0.0
      * 아직 구현 다 못함
      */
-    @PostMapping("/searchPassword")
+    @PostMapping("/pre_login/searchPassword")
     public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
             model.addAttribute("message", "비밀번호를 잘못 입력하었습니다");
@@ -215,15 +217,12 @@ public class MemberController {
             return "alert";
         }
         // TODO 비밀번호 확인하는 api 만들기
-        return "changePassword";
+        return "";
     }
 
-    @PostMapping("/idCheck")
-    public String idCheck(@RequestParam String id, Model model){
-        if(service.doIdCheck(id)){
-            model.addAttribute("message","이미 있는 아이디 입니다");
-            model.addAttribute("searchUrl","register");
-        }
-        return "alert";
+    @GetMapping("/pre_login/idCheck")
+    public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
     }
+
 }
