@@ -18,32 +18,7 @@
 <link rel="stylesheet" href="/assets/css/styles.css" />
 
   <title>Modernize Bootstrap Admin</title>
-  <script th:inline="javascript">
-    function checkOnlyOne(element) {
-      const checkboxes = document.getElementsByName("role");
-      checkboxes.forEach((cb) => {
-        cb.checked = false;
-      });
-      element.checked = true;
-      var labelId = checkbox.getAttribute('id');
-      var associatedLabel = document.querySelector('label[for="' + labelId + '"]');
-      associatedLabel.click();
-    }
-
-    function go() {
-      document.form.target = "/idcheck";
-      document.form.submit();
-    }
-
-    function validateForm() {
-      var checkboxes = document.querySelectorAll('input[name="role"]:checked');
-      if (checkboxes.length === 0) {
-        alert("OWNER ViEWER 중 선택 해야합니다");
-        return false;
-      }
-      return true;
-    }
-  </script>
+  <script src="/js/js/register.js" defer></script>
 </head>
 
 <body>
@@ -78,10 +53,11 @@
                   <p class="mb-0 fs-4 px-3 d-inline-block bg-white z-index-5 position-relative">or sign Up with</p>
                   <span class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
                 </div>
-                <form th:action="@{/register}" method="post">
-                  <div class="mb-3">
+                <form th:action="@{/pre_login/register}" method="post">
+                  <div class="mb-3" id="id_check">
                     <label for="id" class="form-label">Id</label>
                     <input type="text" class="form-control" id="id" name="id" aria-describedby="textHelp">
+                    <span id="id_languages"></span>
                   </div>
                   <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
@@ -98,7 +74,7 @@
                     <input type="checkbox" id="viewerCheckbox" name="role" value=3 onclick="checkOnlyOne(this)"/>
                     <label for="viewerCheckbox">VIEWER</label><br/>
                   </div>
-                  <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" href="/register" type="submit">회원가입</button>
+                  <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" href="/pre_login/register" type="submit">회원가입</button>
 <!--                  <a href="./authentication-login.html" class="btn btn-primary w-100 py-8 mb-4 rounded-2">회원가입</a>-->
                   <div class="d-flex align-items-center">
                     <p class="fs-4 mb-0 text-dark">Already have an Account?</p>
