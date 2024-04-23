@@ -24,7 +24,7 @@ import java.util.Optional;
  * 회원 관련 작업을 처리하는 컨트롤러
  *
  * @author 이지현
- * @version 1.0.1
+ * @version 1.0.2
  */
 @Slf4j
 @Controller
@@ -220,22 +220,44 @@ public class MemberController {
         return "";
     }
 
+    /**
+     * id 중복 체크
+     * parameter로 받은 id가 이미 누군가 사용하고 있는지를 확인한다
+     * @param id 회원 가입으로 사용하려는 id
+     * @return 만일 누군가 사용 중이라면 true, 누군가 사용하지 않는다면 false
+     */
     @GetMapping("/pre_login/idCheck")
     public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
         return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
     }
 
+    /**
+     * 공지사항 작성란 페이지로 이동하는 method
+     * @param noticeNum 공지사항 번호
+     * @param model 공지사항 객체를 담을 공간
+     * @return 공지사항 작성란 페이지로 이동
+     */
     @GetMapping("/noticeWriter")
-    public String getNoticeWriter(){
+    public String getNoticeWriter(@RequestParam(value = "number", required = false) String noticeNum, Model model){
         return "/admin/noticeWriter";
     }
 
-    @GetMapping("/announcement")
-    public String announcement(@RequestParam(value = "number", required = false) String noticeNum, Model model){
-        return "/admin/announcement";
+    /**
+     * 공지사항으로 이동하는 method
+     * @return 공지사항 페이지로 이동
+     */
+    @GetMapping("/notification")
+    public String getNotification(){
+        return "/viewer/notification";
     }
+
+    /**
+     * 승인대기목록, viewer혹은 owner 목록을 띄워준다
+     * @param model 목록들을 저장하는 공간
+     * @return 목록 띄워주는 페이지로 이동
+     */
     @GetMapping("/list")
-    public String listss(Model model) {
+    public String listManagement(Model model) {
         // TODO 승인 대기란(approveList), viewer list(viewerList) model에 넣기
 //        model.addAttribute("ser", List.of(1,2));
         return "/owner/userList";
