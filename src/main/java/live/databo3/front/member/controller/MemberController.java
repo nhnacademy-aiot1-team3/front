@@ -225,4 +225,20 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
     }
 
+    @GetMapping("/noticeWriter")
+    public String getNoticeWriter(){
+        return "/admin/noticeWriter";
+    }
+
+    @GetMapping("/announcement")
+    public String announcement(@RequestParam(value = "number", required = false) String noticeNum, Model model){
+        return "/admin/announcement";
+    }
+    @GetMapping("/list")
+    public String listss(Model model) {
+        // TODO 승인 대기란(approveList), viewer list(viewerList) model에 넣기
+//        model.addAttribute("ser", List.of(1,2));
+        return "/owner/userList";
+    }
+
 }
