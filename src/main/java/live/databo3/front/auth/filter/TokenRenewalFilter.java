@@ -77,10 +77,9 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
         String[] excludePath = {
                 "/login",
                 "/oauth/.*",
-                "/css/.*",
-                "/js/.*",
-                "/static/.*",
-                "/favicon.ico"
+                "/register",
+                "/searchPassword",
+                "/static/.*"
         };
         Set<Pattern> excludePattern = Arrays.stream(excludePath)
                 .map(path -> Pattern.compile(path))

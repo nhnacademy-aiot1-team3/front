@@ -1,10 +1,11 @@
 package live.databo3.front.interceptor;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,8 +14,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author 나채현
  * @version 1.0.0
  */
+@Slf4j
 @Component
-public class Interceptor implements HandlerInterceptor {
+@RequiredArgsConstructor
+public class RoleMainInterceptor implements HandlerInterceptor {
       /**
      * 요청이 controller 진입 전에 호출되는 메소드
      * @param request 요청 객체
@@ -24,18 +27,14 @@ public class Interceptor implements HandlerInterceptor {
      * @throws Exception 예외 처리를 위한 선언
      * @since 1.0.0
      */
-//    @Override
-//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        Cookie[] cookies = request.getCookies();
-//        if (cookies != null) {
-//            for (Cookie cookie : cookies) {
-//                if (cookie.getName().equals("token")) {
-//                    String token = cookie.getName();
-//                    request.setAttribute("token", token);
-//                    break;
-//                }
-//            }
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        String a= "!23";
+    }
 }

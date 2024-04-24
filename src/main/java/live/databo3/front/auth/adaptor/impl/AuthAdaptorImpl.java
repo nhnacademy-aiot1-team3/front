@@ -28,7 +28,7 @@ public class AuthAdaptorImpl implements AuthAdaptor {
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + refreshToken);
 
         return restTemplate.exchange(
-                "http://localhost:9090/auth/token/reissue",
+                gatewayDomain+"/auth/token/reissue",
                 HttpMethod.POST,
                 new HttpEntity<>(headers),
                 new ParameterizedTypeReference<>() {
