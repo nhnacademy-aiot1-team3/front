@@ -5,6 +5,8 @@ import live.databo3.front.member.service.MemberService;
 import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +24,7 @@ import java.util.Optional;
  * 회원 관련 작업을 처리하는 컨트롤러
  *
  * @author 이지현
- * @version 1.0.1
+ * @version 1.0.2
  */
 @Slf4j
 @Controller
@@ -37,7 +39,17 @@ public class MemberController {
      */
     @GetMapping("/")
     public String getMain(){
-        return "admin/main";
+        return "owner/main";
+    }
+
+    @GetMapping("/owner/sensor-list")
+    public String getSensorList(){
+        return "owner/sensor-list";
+    }
+
+    @GetMapping("/owner/battery-level")
+    public String getBatteryLevel(){
+        return "owner/battery-level";
     }
 
     @GetMapping("/admin/myPage")
@@ -141,7 +153,7 @@ public class MemberController {
      * @return register로 이동
      * @since 1.0.0
      */
-    @GetMapping("/register")
+    @GetMapping("/pre_login/register")
     public String getRegister(){
         return "pre-login/register";
     }
@@ -152,7 +164,7 @@ public class MemberController {
      * @return login으로 이동
      * @since 1.0.0
      */
-    @PostMapping("/register")
+    @PostMapping("/pre_login/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest) {
         service.doRegister(memberRegisterRequest);
         return "pre-login/login";
@@ -163,9 +175,9 @@ public class MemberController {
      * @return outstanding으로 이동
      * @since 1.0.0
      */
-    @GetMapping("/outstanding")
+    @GetMapping("/pre_login/outstanding")
     public String outstanding(){
-        return "outstanding";
+        return "pre-login/outstanding";
     }
 
     /**
@@ -173,7 +185,7 @@ public class MemberController {
      * @return searchPassword 이동
      * @since 1.0.0
      */
-    @GetMapping("/searchPassword")
+    @GetMapping("/pre_login/searchPassword")
     public String getSearchPassword(){
         return "pre-login/searchPassword";
     }
@@ -185,7 +197,7 @@ public class MemberController {
      * @since 1.0.0
      * 아직 구현 다 못함
      */
-    @PostMapping("/searchPassword")
+    @PostMapping("/pre_login/searchPassword")
     public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
             model.addAttribute("message", "비밀번호를 잘못 입력하었습니다");
@@ -218,15 +230,50 @@ public class MemberController {
             return "alert";
         }
         // TODO 비밀번호 확인하는 api 만들기
-        return "changePassword";
+        return "";
     }
 
-    @PostMapping("/idCheck")
-    public String idCheck(@RequestParam String id, Model model){
-        if(service.doIdCheck(id)){
-            model.addAttribute("message","이미 있는 아이디 입니다");
-            model.addAttribute("searchUrl","register");
-        }
-        return "alert";
+    /**
+     * id 중복 체크
+     * parameter로 받은 id가 이미 누군가 사용하고 있는지를 확인한다
+     * @param id 회원 가입으로 사용하려는 id
+     * @return 만일 누군가 사용 중이라면 true, 누군가 사용하지 않는다면 false
+     */
+    @GetMapping("/pre_login/idCheck")
+    public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
     }
+
+    /**
+     * 공지사항 작성란 페이지로 이동하는 method
+     * @param noticeNum 공지사항 번호
+     * @param model 공지사항 객체를 담을 공간
+     * @return 공지사항 작성란 페이지로 이동
+     */
+    @GetMapping("/noticeWriter")
+    public String getNoticeWriter(@RequestParam(value = "number", required = false) String noticeNum, Model model){
+        return "/admin/noticeWriter";
+    }
+
+    /**
+     * 공지사항으로 이동하는 method
+     * @return 공지사항 페이지로 이동
+     */
+    @GetMapping("/notification")
+    public String getNotification(){
+        return "/viewer/notification";
+    }
+
+    /**
+     * 승인대기목록, viewer혹은 owner 목록을 띄워준다
+     * @param model 목록들을 저장하는 공간
+     * @return 목록 띄워주는 페이지로 이동
+     */
+    @GetMapping("/list")
+    public String listManagement(Model model) {
+        // TODO 승인 대기란(approveList), viewer list(viewerList) model에 넣기
+//        model.addAttribute("ser", List.of(1,2));
+        return "/owner/userList";
+    }
+
 }

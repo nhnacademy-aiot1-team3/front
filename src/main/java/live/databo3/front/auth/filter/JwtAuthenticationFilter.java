@@ -70,6 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String[] excludePath = {
                 "/login",
+                "/pre_login/.*",
                 "/oauth/.*",
                 "/register",
                 "/searchPassword",

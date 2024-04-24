@@ -76,6 +76,7 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String[] excludePath = {
                 "/login",
+                "/pre_login/.*",
                 "/oauth/.*",
                 "/register",
                 "/searchPassword",
