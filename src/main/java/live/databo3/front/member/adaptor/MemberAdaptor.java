@@ -21,6 +21,8 @@ public interface MemberAdaptor {
      */
     ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> doLogin(MemberRequestDto memberRequestDto);
 
+
+
     /**
      * 회원가입 요청을 id, password, email를 담아서 게이트웨이에 회원가입 요청을 보냅니다.
      *

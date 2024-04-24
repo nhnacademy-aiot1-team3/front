@@ -52,8 +52,16 @@ public class MemberController {
         return "owner/battery-level";
     }
 
+    @GetMapping("/admin/myPage")
+    public String getAdminMyPage(){
+        return "admin/myPage";
+    }
+    @GetMapping("/owner/myPage")
+    public String getOwnerMyPage(){
+        return "owner/myPage";
+    }
     @GetMapping("/viewer/myPage")
-    public String getMypage(){
+    public String getViewerMyPage(){
         return "viewer/myPage";
     }
 
@@ -78,19 +86,15 @@ public class MemberController {
      * @since 1.0.0
      */
     @PostMapping("/login")
-    public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
+    public String postLogin(HttpServletResponse response, HttpServletRequest request, MemberRequestDto memberRequestDto, Model model) {
         try {
             Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = service.doLogin(memberRequestDto);
 
             if(result.isPresent()) {
                 TokenResponseDto token = result.get().getBody();
 
-
                 String accesesToken = token.getAccessToken();
                 String refreshToken = token.getRefreshToken();
-                Long accessTokenExpireTime = token.getAccessTokenExpireTime();
-                Long refreshTokenExpireTime = token.getRefreshTokenExpireTime();
-
 
                 Cookie accesesCookie = new Cookie("access_token", accesesToken);
                 Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
@@ -104,7 +108,6 @@ public class MemberController {
                 response.addCookie(accesesCookie);
                 response.addCookie(refreshCookie);
 
-//                cookie.setHttpOnly(true); // sonaqube에서 쿠키 저장할때 중요 정보가 들어간 쿠키는 httpOnly,Secure을 true로 설정해서 보호하라고 가이드 해줌
                 model.addAttribute("message", "로그인 성공");
                 model.addAttribute("searchUrl","/");
                 return "alert";
@@ -201,7 +204,7 @@ public class MemberController {
             model.addAttribute("searchUrl","/searchPassword");
             return "alert";
         }
-        return "pre-login/changePassword";
+        return "pre-login/searchPassword";
     }
     /**
      * 비밀번호 변경 페이지로 이동
