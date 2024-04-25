@@ -1,5 +1,6 @@
 package live.databo3.front.config;
 
+import live.databo3.front.handler.RestTemplateErrorHandler;
 import live.databo3.front.interceptor.RestTemplateInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -28,6 +29,7 @@ public class RestTemplateConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         RestTemplate restTemplate = builder
+                .errorHandler(new RestTemplateErrorHandler())
                 .setReadTimeout(Duration.ofSeconds(10L))
                 .setConnectTimeout(Duration.ofSeconds(10L))
                 .build();

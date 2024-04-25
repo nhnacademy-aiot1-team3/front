@@ -7,11 +7,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -31,38 +34,27 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService service;
+    private static final String LOGIN_PAGE = "pre_login/login";
+    private static final String ALERT="alert";
+    private static final String ALERT_MESSAGE="message";
+    private static final String ALERT_URL="searchUrl";
 
     /**
      * main 페이지로 이동
-     * @return main으로 이동
-     * @since 1.0.0
+     * SecurityContext에 ContextHolder에 role을 확인하여 role에 따른 main page 이동
+     * @return role에 따른 main으로 이동
+     * @since 1.0.2
      */
     @GetMapping("/")
-    public String getMain(){
-        return "owner/main";
-    }
-
-    @GetMapping("/owner/sensor-list")
-    public String getSensorList(){
-        return "owner/sensor-list";
-    }
-
-    @GetMapping("/owner/battery-level")
-    public String getBatteryLevel(){
-        return "owner/battery-level";
-    }
-
-    @GetMapping("/admin/myPage")
-    public String getAdminMyPage(){
-        return "admin/myPage";
-    }
-    @GetMapping("/owner/myPage")
-    public String getOwnerMyPage(){
-        return "owner/myPage";
-    }
-    @GetMapping("/viewer/myPage")
-    public String getViewerMyPage(){
-        return "viewer/myPage";
+    public String getMain(Authentication authentication){
+        if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
+            return "admin/main";
+        }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))){
+            return "owner/main";
+        }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_VIEWER"))){
+            return "viewer/main";
+        }
+        return LOGIN_PAGE;
     }
 
     /**
@@ -72,7 +64,7 @@ public class MemberController {
      */
     @GetMapping("/login")
     public String getLogin(){
-        return "pre-login/login";
+        return LOGIN_PAGE;
     }
 
     /**
@@ -83,10 +75,10 @@ public class MemberController {
      * @param memberRequestDto 사용자 가입 정보 (id, pw)
      * @param model key에 따라 객체 저장
      * @return alert로 이동
-     * @since 1.0.0
+     * @since 1.0.1
      */
     @PostMapping("/login")
-    public String postLogin(HttpServletResponse response, HttpServletRequest request, MemberRequestDto memberRequestDto, Model model) {
+    public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
         try {
             Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = service.doLogin(memberRequestDto);
 
@@ -108,16 +100,17 @@ public class MemberController {
                 response.addCookie(accesesCookie);
                 response.addCookie(refreshCookie);
 
-                model.addAttribute("message", "로그인 성공");
-                model.addAttribute("searchUrl","/");
-                return "alert";
+                model.addAttribute(ALERT_MESSAGE, "로그인 성공");
+                model.addAttribute(ALERT_URL,"/");
             }
-            throw new Exception();
-        } catch(Exception e){
-            model.addAttribute("message", "로그인 실패");
-            model.addAttribute("searchUrl","/login");
-            return "alert";
+        } catch(HttpClientErrorException e){
+            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+            model.addAttribute(ALERT_URL,"/login");
+        } catch (Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "로그인에 실패하였습니다");
+            model.addAttribute(ALERT_URL,"/login");
         }
+        return ALERT;
     }
 
     /**
@@ -125,7 +118,7 @@ public class MemberController {
      * @param request 요청 객체
      * @param response 응답 객체
      * @return /로 redirect
-     * @since 1.0.0
+     * @since 1.0.1
      */
     @GetMapping("/logout")
     public String getLogout(HttpServletRequest request, HttpServletResponse response) {
@@ -133,11 +126,11 @@ public class MemberController {
         Cookie refreshTokenCookie = CookieUtil.findCookie(request, "refresh_token");
         if (Objects.isNull(accessTokenCookie)) {
             log.error("no access_token cookie found");
-            return "pre-login/login";
+            return LOGIN_PAGE;
         }
         if (Objects.isNull(refreshTokenCookie)) {
             log.error("no refresh_token cookie found");
-            return "pre-login/login";
+            return LOGIN_PAGE;
         }
         accessTokenCookie.setValue("");
         accessTokenCookie.setMaxAge(0);
@@ -155,7 +148,7 @@ public class MemberController {
      */
     @GetMapping("/pre_login/register")
     public String getRegister(){
-        return "pre-login/register";
+        return "pre_login/register";
     }
 
     /**
@@ -167,17 +160,7 @@ public class MemberController {
     @PostMapping("/pre_login/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest) {
         service.doRegister(memberRegisterRequest);
-        return "pre-login/login";
-    }
-
-    /**
-     * 승인 대기화면 페이지로 이동
-     * @return outstanding으로 이동
-     * @since 1.0.0
-     */
-    @GetMapping("/pre_login/outstanding")
-    public String outstanding(){
-        return "pre-login/outstanding";
+        return LOGIN_PAGE;
     }
 
     /**
@@ -187,7 +170,7 @@ public class MemberController {
      */
     @GetMapping("/pre_login/searchPassword")
     public String getSearchPassword(){
-        return "pre-login/searchPassword";
+        return "pre_login/searchPassword";
     }
 
     /**
@@ -200,11 +183,11 @@ public class MemberController {
     @PostMapping("/pre_login/searchPassword")
     public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
-            model.addAttribute("message", "비밀번호를 잘못 입력하었습니다");
-            model.addAttribute("searchUrl","/searchPassword");
-            return "alert";
+            model.addAttribute(ALERT_MESSAGE, "비밀번호를 잘못 입력하었습니다");
+            model.addAttribute(ALERT_URL,"/searchPassword");
+            return ALERT;
         }
-        return "pre-login/searchPassword";
+        return "pre_login/searchPassword";
     }
     /**
      * 비밀번호 변경 페이지로 이동
@@ -225,12 +208,11 @@ public class MemberController {
     @PostMapping("/changePassword")
     public String postChangePassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
-            model.addAttribute("message", "비밀번호를 잘못 입력하었습니다");
-            model.addAttribute("searchUrl","/page/changePassword");
-            return "alert";
+            model.addAttribute(ALERT_MESSAGE, "비밀번호를 잘못 입력하었습니다");
+            model.addAttribute(ALERT_URL,"/page/changePassword");
         }
         // TODO 비밀번호 확인하는 api 만들기
-        return "";
+        return ALERT;
     }
 
     /**
@@ -242,38 +224,6 @@ public class MemberController {
     @GetMapping("/pre_login/idCheck")
     public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
         return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
-    }
-
-    /**
-     * 공지사항 작성란 페이지로 이동하는 method
-     * @param noticeNum 공지사항 번호
-     * @param model 공지사항 객체를 담을 공간
-     * @return 공지사항 작성란 페이지로 이동
-     */
-    @GetMapping("/noticeWriter")
-    public String getNoticeWriter(@RequestParam(value = "number", required = false) String noticeNum, Model model){
-        return "/admin/noticeWriter";
-    }
-
-    /**
-     * 공지사항으로 이동하는 method
-     * @return 공지사항 페이지로 이동
-     */
-    @GetMapping("/notification")
-    public String getNotification(){
-        return "/viewer/notification";
-    }
-
-    /**
-     * 승인대기목록, viewer혹은 owner 목록을 띄워준다
-     * @param model 목록들을 저장하는 공간
-     * @return 목록 띄워주는 페이지로 이동
-     */
-    @GetMapping("/list")
-    public String listManagement(Model model) {
-        // TODO 승인 대기란(approveList), viewer list(viewerList) model에 넣기
-//        model.addAttribute("ser", List.of(1,2));
-        return "/owner/userList";
     }
 
 }

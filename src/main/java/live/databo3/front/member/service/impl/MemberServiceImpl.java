@@ -28,8 +28,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> doLogin(MemberRequestDto memberRequestDto) {
         ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> answer = memberAdaptor.doLogin(memberRequestDto);
-//        HttpHeaders header = answer.getHeaders();
-//        header.get("Authorization").stream().findFirst();
         return Optional.ofNullable(answer.getBody());
     }
 
