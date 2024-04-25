@@ -69,10 +69,19 @@
             <li class="nav-item" role="presentation">
               <button
                       class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
-                      id="pills-gallery-tab" data-bs-toggle="pill" data-bs-target="#pills-gallery" type="button"
-                      role="tab" aria-controls="pills-gallery" aria-selected="false">
+                      id="pills-document-list-tab" data-bs-toggle="pill" data-bs-target="#pills-document-list" type="button"
+                      role="tab" aria-controls="pills-document-list" aria-selected="false">
                 <i class="ti ti-list me-2 fs-6"></i>
                 <span class="d-none d-md-block">조직 목록</span>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                      class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
+                      id="pills-register-tab" data-bs-toggle="pill" data-bs-target="#pills-register" type="button"
+                      role="tab" aria-controls="pills-register" aria-selected="false">
+                <i class="ti ti-user-plus me-2 fs-6"></i>
+                <span class="d-none d-md-block">VIEWER 회원가입 요청</span>
               </button>
             </li>
           </ul>
@@ -133,7 +142,7 @@
           </div>
         </div>
 
-      <div class="tab-pane fade" id="pills-gallery" role="tabpanel" aria-labelledby="pills-gallery-tab"
+      <div class="tab-pane fade" id="pills-document-list" role="tabpanel" aria-labelledby="pills-document-list-tab"
            tabindex="0">
         <div class="widget-content searchable-container list">
           <div class="card card-body">
@@ -194,10 +203,137 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+
+        <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab"
+             tabindex="0">
+          <div class="widget-content searchable-container list">
+            <div class="card card-body">
+              <div class="table-responsive">
+                <table class="table search-table align-middle text-nowrap">
+                  <thead class="header-item">
+                  <th></th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Document</th>
+                  <th>Action</th>
+                  </thead>
+                  <tbody>
+                  <tr class="search-items">
+                    <td>
+
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <img src="../assets/images/profile/user-2.jpg" alt="avatar" class="rounded-circle"
+                             width="35" />
+                        <div class="ms-3">
+                          <div class="user-meta-info">
+                            <h6 class="user-name mb-0" data-name="Emma Adams">Emma Adams</h6>
+                            <span class="user-work fs-3" data-occupation="Web Developer">Web Developer</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="usr-email-addr" data-email="adams@mail.com">adams@mail.com</span>
+                    </td>
+                    <td>
+                      <span class="usr-location" data-location="Boston, USA">viewer</span>
+                    </td>
+                    <td>
+                      <span class="usr-ph-no" data-phone="+1 (070) 123-4567">+91 (070) 123-4567</span>
+                    </td>
+                    <td>
+                      <div class="action-btn">
+                        <a href="javascript:void(0)" class="text-primary edit">
+                          <i class="ti ti-check fs-5"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-dark delete ms-2">
+                          <i class="ti ti-x fs-5"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="search-items">
+                    <td>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <img src="../assets/images/profile/user-3.jpg" alt="avatar" class="rounded-circle"
+                             width="35" />
+                        <div class="ms-3">
+                          <div class="user-meta-info">
+                            <h6 class="user-name mb-0" data-name="Olivia Allen">Olivia Allen</h6>
+                            <span class="user-work fs-3" data-occupation="Web Designer">Web Designer</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="usr-email-addr" data-email="allen@mail.com">allen@mail.com</span>
+                    </td>
+                    <td>
+                      <span class="usr-location" data-location="Sydney, Australia">viewer</span>
+                    </td>
+                    <td>
+                      <span class="usr-ph-no" data-phone="+91 (125) 450-1500">+91 (125) 450-1500</span>
+                    </td>
+                    <td>
+                      <div class="action-btn">
+                        <a href="javascript:void(0)" class="text-primary edit">
+                          <i class="ti ti-check fs-5"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-dark delete ms-2">
+                          <i class="ti ti-x fs-5"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="search-items">
+                    <td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <img src="../assets/images/profile/user-4.jpg" alt="avatar" class="rounded-circle"
+                             width="35" />
+                        <div class="ms-3">
+                          <div class="user-meta-info">
+                            <h6 class="user-name mb-0" data-name="Isabella Anderson"> Isabella Anderson </h6>
+                            <span class="user-work fs-3" data-occupation="UX/UI Designer">UX/UI Designer</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="usr-email-addr" data-email="anderson@mail.com">anderson@mail.com</span>
+                    </td>
+                    <td>
+                      <span class="usr-location" data-location="Miami, USA">viewer</span>
+                    </td>
+                    <td>
+                      <span class="usr-ph-no" data-phone="+91 (100) 154-1254">+91 (100) 154-1254</span>
+                    </td>
+                    <td>
+                      <div class="action-btn">
+                        <a href="javascript:void(0)" class="text-primary edit">
+                          <i class="ti ti-check fs-5"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-dark delete ms-2">
+                          <i class="ti ti-x fs-5"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
       </div>
     </div>

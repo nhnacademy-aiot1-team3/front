@@ -60,17 +60,17 @@
             <li class="nav-item" role="presentation">
               <button
                       class="nav-link position-relative rounded-0 active d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
-                      id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button"
-                      role="tab" aria-controls="pills-profile" aria-selected="true">
+                      id="pills-register-tab" data-bs-toggle="pill" data-bs-target="#pills-register" type="button"
+                      role="tab" aria-controls="pills-register" aria-selected="true">
                 <i class="ti ti-user-plus me-2 fs-6"></i>
-                <span class="d-none d-md-block">회원가입 요청</span>
+                <span class="d-none d-md-block">OWNER 회원가입 요청</span>
               </button>
             </li>
             <li class="nav-item" role="presentation">
               <button
                       class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
-                      id="pills-followers-tab" data-bs-toggle="pill" data-bs-target="#pills-followers" type="button"
-                      role="tab" aria-controls="pills-followers" aria-selected="false">
+                      id="pills-documents-plus-tab" data-bs-toggle="pill" data-bs-target="#pills-documents-plus" type="button"
+                      role="tab" aria-controls="pills-documents-plus" aria-selected="false">
                 <i class="ti ti-home-plus me-2 fs-6"></i>
                 <span class="d-none d-md-block">조직 추가 요청</span>
               </button>
@@ -78,8 +78,8 @@
             <li class="nav-item" role="presentation">
               <button
                       class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
-                      id="pills-friends-tab" data-bs-toggle="pill" data-bs-target="#pills-friends" type="button"
-                      role="tab" aria-controls="pills-friends" aria-selected="false">
+                      id="pills-documents-minus-tab" data-bs-toggle="pill" data-bs-target="#pills-documents-minus" type="button"
+                      role="tab" aria-controls="pills-documents-minus" aria-selected="false">
                 <i class="ti ti-home-minus me-2 fs-6"></i>
                 <span class="d-none d-md-block">조직 삭제 요청</span>
               </button>
@@ -87,10 +87,19 @@
             <li class="nav-item" role="presentation">
               <button
                       class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
-                      id="pills-gallery-tab" data-bs-toggle="pill" data-bs-target="#pills-gallery" type="button"
-                      role="tab" aria-controls="pills-gallery" aria-selected="false">
+                      id="pills-member-tab" data-bs-toggle="pill" data-bs-target="#pills-member" type="button"
+                      role="tab" aria-controls="pills-member" aria-selected="false">
                 <i class="ti ti-list me-2 fs-6"></i>
                 <span class="d-none d-md-block">회원 목록</span>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                      class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
+                      id="pills-sensor-tab" data-bs-toggle="pill" data-bs-target="#pills-sensor" type="button"
+                      role="tab" aria-controls="pills-sensor" aria-selected="false">
+                <i class="ti ti-arrows-sort me-2 fs-6"></i>
+                <span class="d-none d-md-block">센서 추가</span>
               </button>
             </li>
           </ul>
@@ -98,9 +107,8 @@
       </div>
 
       <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
-             aria-labelledby="pills-profile-tab" tabindex="0">
-
+        <div class="tab-pane fade show active" id="pills-register" role="tabpanel"
+             aria-labelledby="pills-register-tab" tabindex="0">
           <div class="widget-content searchable-container list">
             <div class="card card-body">
               <div class="table-responsive">
@@ -109,7 +117,7 @@
                   <th></th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th>role</th>
+                  <th>Role</th>
                   <th>Phone</th>
                   <th>Action</th>
                   </thead>
@@ -227,7 +235,7 @@
           </div>
         </div>
 
-      <div class="tab-pane fade" id="pills-followers" role="tabpanel" aria-labelledby="pills-followers-tab"
+      <div class="tab-pane fade" id="pills-documents-plus" role="tabpanel" aria-labelledby="pills-documents-plus-tab"
            tabindex="0">
           <div class="widget-content searchable-container list">
             <div class="card card-body">
@@ -284,7 +292,7 @@
           </div>
         </div>
 
-      <div class="tab-pane fade" id="pills-friends" role="tabpanel" aria-labelledby="pills-friends-tab"
+      <div class="tab-pane fade" id="pills-documents-minus" role="tabpanel" aria-labelledby="pills-documents-minus-tab"
            tabindex="0">
         <div class="widget-content searchable-container list">
           <div class="card card-body">
@@ -321,7 +329,7 @@
                     <span class="usr-location" data-location="Boston, USA">owner</span>
                   </td>
                   <td>
-                    <span class="usr-dc-name" data-phone="NHNACADEMY 경남">NHNACADEMY 경남</span>
+                    <span class="usr-dc-name" data-phone="NHNACADEMY 경남">NHNACADEMY 뉴욕</span>
                   </td>
                   <td>
                     <div class="action-btn">
@@ -341,7 +349,7 @@
         </div>
       </div>
 
-      <div class="tab-pane fade" id="pills-gallery" role="tabpanel" aria-labelledby="pills-gallery-tab"
+      <div class="tab-pane fade" id="pills-member" role="tabpanel" aria-labelledby="pills-member-tab"
            tabindex="0">
         <div class="widget-content searchable-container list">
           <div class="card card-body">
@@ -426,6 +434,64 @@
           </div>
         </div>
       </div>
+
+
+        <div class="tab-pane fade" id="pills-sensor" role="tabpanel" aria-labelledby="pills-sensor-tab"
+             tabindex="0">
+          <div class="widget-content searchable-container list">
+            <div class="card card-body">
+              <div class="table-responsive">
+                <table class="table search-table align-middle text-nowrap">
+                  <thead class="header-item">
+                  <th></th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Document</th>
+                  <th>Action</th>
+                  </thead>
+                  <tbody>
+                  <tr class="search-items">
+                    <td>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <img src="../assets/images/profile/user-2.jpg" alt="avatar" class="rounded-circle"
+                             width="35" />
+                        <div class="ms-3">
+                          <div class="user-meta-info">
+                            <h6 class="user-name mb-0" data-name="Emma Adams">Emma Adams</h6>
+                            <span class="user-work fs-3" data-occupation="Web Developer">Web Developer</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="usr-email-addr" data-email="adams@mail.com">adams@mail.com</span>
+                    </td>
+                    <td>
+                      <span class="usr-location" data-location="Boston, USA">owner</span>
+                    </td>
+                    <td>
+                      <span class="usr-dc-name" data-phone="NHNACADEMY 경남">NHNACADEMY 경남</span>
+                    </td>
+                    <td>
+                      <div class="action-btn">
+                        <a href="javascript:void(0)" class="text-primary edit">
+                          <i class="ti ti-check fs-5"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-dark delete ms-2">
+                          <i class="ti ti-x fs-5"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
