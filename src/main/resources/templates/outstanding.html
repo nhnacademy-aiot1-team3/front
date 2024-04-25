@@ -1,29 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/blue_layout}" lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="vertical">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Outstanding</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+            rel="shortcut icon"
+            type="image/png"
+            href="/assets/images/logos/databo3-load.jpg"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <title>databo3 outstanding</title>
 </head>
-<th:block layout:fragment="content">
-    <body class="bg-primary">
-        <div id="layoutAuthentication">
-            <div id="layoutAuthentication_content">
-                <main>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">승인 대기 중</h3></div>
-                                <div class="card-body">
-                                    <h5 class="text-center font-weight-light my-4">현재 회원님은 승인 대기 상태 입니다</h5>
-                                </div>
-                            </div>
+<body class="bg-primary">
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card-header"><h3 class="text-center font-weight-light my-4">승인 대기 중</h3></div>
+                        <div class="card-body">
+                            <h5 class="text-center font-weight-light my-4">현재 회원님은 승인 대기 상태 입니다</h5>
                         </div>
                     </div>
-                </main>
+                </div>
             </div>
-        </div>
-    </body>
-</th:block>
+        </main>
+    </div>
+</div>
+
+<div class="dark-transparent sidebartoggler"></div>
+<!-- Import Js Files -->
+<script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="/assets/js/theme/app.init.js"></script>
+<script src="/assets/js/theme/theme.js"></script>
+<script src="/assets/js/theme/app.min.js"></script>
+<script src="/assets/js/theme/sidebarmenu.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
 </html>

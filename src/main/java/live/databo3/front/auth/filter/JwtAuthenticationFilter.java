@@ -48,7 +48,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .map(index -> new SimpleGrantedAuthority(index.get("authority")))
                     .collect(Collectors.toList());
 
-
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(
                     new UsernamePasswordAuthenticationToken(
@@ -57,6 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             authorities
                     )
             );
+
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,11 +70,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String[] excludePath = {
                 "/login",
+                "/pre_login/.*",
                 "/oauth/.*",
-                "/css/.*",
-                "/js/.*",
-                "/static/.*",
-                "/favicon.ico"
+                "/register",
+                "/searchPassword",
+                "/static/.*"
         };
         Set<Pattern> excludePattern = Arrays.stream(excludePath)
                 .map(path -> Pattern.compile(path))

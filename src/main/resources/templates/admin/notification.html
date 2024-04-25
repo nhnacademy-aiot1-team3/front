@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme"
+      data-layout="vertical" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_layout}">
+
+<th:block layout:fragment="content">
+    <body>
+        <div class="page-wrapper">
+            <div class="body-wrapper">
+                <div class="container-fluid">
+                    <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                        <div class="card-body px-4 py-3">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <h4 class="fw-semibold mb-8">Notification</h4>
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a class="text-muted text-decoration-none" href="/"
+                                                >Home</a
+                                                >
+                                            </li>
+                                            <li class="breadcrumb-item" aria-current="page">Notification</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                                <div class="col-3">
+                                    <div class="text-center mb-n5">
+                                        <img
+                                                src="../assets/images/breadcrumb/ChatBc.png"
+                                                alt=""
+                                                class="img-fluid mb-n4"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-list">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="d-flex justify-content-between align-items-center gap-6 mb-9">
+                                    <form class="position-relative"></form>
+                                    <a href="/admin/notice_writer" class="btn btn-primary d-flex align-items-center px-3 gap-6" id="add-notes">
+                                        <i class="ti ti-file fs-4"></i>
+                                        <span class="d-none d-md-block font-weight-medium fs-3">Add Notes</span>
+                                    </a>
+                                </div>
+                                <div class="table-responsive border rounded">
+                                    <table class="table align-middle text-nowrap mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">제목</th>
+                                            <th scope="col">글쓴이</th>
+                                            <th scope="col">날짜</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody><!-- th:each="notice : ${noteList}"-->
+<!--                                        실제로 만들고 나선 주석 처리 풀고 밑의 tr 부분 삭제-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <div class="d-flex align-items-center">-->
+<!--                                                    <h6 class="fw-semibold mb-0 fs-4" th:text="${notice.title}" th:onclick="'location.href=\'/admin/noticeWriter/?number='+${notice.number}+'\''">title</h6>-->
+<!--                                                </div>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <h6 class="mb-0 fs-4" th:text="${notice.author}">author</h6>-->
+<!--                                            </td>-->
+<!--                                            <td class="mb-0" th:text="${notice.date}">0</td>-->
+<!--                                        </tr>-->
+<!--                                        예시로 보여주기-->
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="ms-3" onclick="location.href='/admin/notice_writer'">
+                                                        <h6 class="fw-semibold mb-0 fs-4">How Innovation Works</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <h6 class="mb-0 fs-4">$275</h6>
+                                            </td>
+                                            <td>
+                                                <p class="mb-0">Thu, Jan 12 2023</p>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="d-flex align-items-center justify-content-end py-1">
+                                        <p class="mb-0 fs-2">1–5 of 12</p>
+                                        <nav aria-label="...">
+                                            <ul class="pagination justify-content-center mb-0 ms-8 ms-sm-9">
+                                                <li class="page-item p-1">
+                                                    <a class="page-link border-0 rounded-circle text-dark fs-6 round-32 d-flex align-items-center justify-content-center"
+                                                       href="#"><i class="ti ti-chevron-left"></i></a>
+                                                </li>
+                                                <li class="page-item p-1">
+                                                    <a class="page-link border-0 rounded-circle text-dark fs-6 round-32 d-flex align-items-center justify-content-center"
+                                                       href="#"><i class="ti ti-chevron-right"></i></a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</th:block>
+
+</html>

@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
+
 /**
  * Jwt 관련된 유틸 클래스
  *
@@ -29,7 +32,8 @@ public class JwtUtil {
 
     public Claims parseClaims(String token) {
         try {
-            Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token);
+            Key key = new SecretKeySpec(secret.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+            Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return claimsJws.getBody();
 
         } catch (SignatureException | MalformedJwtException e) {

@@ -76,11 +76,11 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String[] excludePath = {
                 "/login",
+                "/pre_login/.*",
                 "/oauth/.*",
-                "/css/.*",
-                "/js/.*",
-                "/static/.*",
-                "/favicon.ico"
+                "/register",
+                "/searchPassword",
+                "/static/.*"
         };
         Set<Pattern> excludePattern = Arrays.stream(excludePath)
                 .map(path -> Pattern.compile(path))

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme"
+      data-layout="vertical" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/admin_layout}">
+
+<th:block layout:fragment="content">
+  <body>
+
+  <th:block sec:authorize="isAuthenticated()">
+    <li class="nav-item active">아이디: <span th:text="${#authentication.principal}"></span></li>
+    <li class="nav-item active">직급: <span th:text="${#authentication.authorities}"></span></li>
+    <!-- admin인 경우에 보여지도록 설정, spring el-->
+    <th:block sec:authorize="hasAuthority('ROLE_ADMIN')">
+      <li class="nav-item"><a th:href="@{/admin/myPage}" class="nav-link">관리자 페이지</a></li>
+    </th:block>
+
+
+    <!-- emp인 경우에 보여지도록 설정, spring el -->
+    <th:block sec:authorize="hasAuthority('ROLE_OWNER')">
+      <li class="nav-item"><a th:href="@{/owner/myPage}" class="nav-link">직원 페이지</a></li>
+    </th:block>
+
+
+    <!-- user인 경우에 보여지도록 설정, spring el -->
+    <th:block sec:authorize="hasAuthority('ROLE_VIEWER')">
+      <li class="nav-item"><a th:href="@{/viewer/myPage}" class="nav-link">마이 페이지</a></li>
+    </th:block>
+  </th:block>
+
+  </body>
+</th:block>
+
+</html>

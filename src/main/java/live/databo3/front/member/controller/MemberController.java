@@ -2,38 +2,59 @@ package live.databo3.front.member.controller;
 
 import live.databo3.front.member.dto.*;
 import live.databo3.front.member.service.MemberService;
+import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
  * 회원 관련 작업을 처리하는 컨트롤러
  *
  * @author 이지현
- * @version 1.0.1
+ * @version 1.0.2
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService service;
+    private static final String LOGIN_PAGE = "pre_login/login";
+    private static final String ALERT="alert";
+    private static final String ALERT_MESSAGE="message";
+    private static final String ALERT_URL="searchUrl";
 
     /**
      * main 페이지로 이동
-     * @return main으로 이동
-     * @since 1.0.0
+     * SecurityContext에 ContextHolder에 role을 확인하여 role에 따른 main page 이동
+     * @return role에 따른 main으로 이동
+     * @since 1.0.2
      */
     @GetMapping("/")
-    public String getMain(){
-        return "main";
+    public String getMain(Authentication authentication){
+        if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
+            return "admin/main";
+        }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))){
+            return "owner/main";
+        }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_VIEWER"))){
+            return "viewer/main";
+        }
+        return LOGIN_PAGE;
     }
 
     /**
@@ -43,7 +64,7 @@ public class MemberController {
      */
     @GetMapping("/login")
     public String getLogin(){
-        return "login";
+        return LOGIN_PAGE;
     }
 
     /**
@@ -54,7 +75,7 @@ public class MemberController {
      * @param memberRequestDto 사용자 가입 정보 (id, pw)
      * @param model key에 따라 객체 저장
      * @return alert로 이동
-     * @since 1.0.0
+     * @since 1.0.1
      */
     @PostMapping("/login")
     public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
@@ -64,12 +85,8 @@ public class MemberController {
             if(result.isPresent()) {
                 TokenResponseDto token = result.get().getBody();
 
-
                 String accesesToken = token.getAccessToken();
                 String refreshToken = token.getRefreshToken();
-                Long accessTokenExpireTime = token.getAccessTokenExpireTime();
-                Long refreshTokenExpireTime = token.getRefreshTokenExpireTime();
-
 
                 Cookie accesesCookie = new Cookie("access_token", accesesToken);
                 Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
@@ -83,17 +100,17 @@ public class MemberController {
                 response.addCookie(accesesCookie);
                 response.addCookie(refreshCookie);
 
-//                cookie.setHttpOnly(true); // sonaqube에서 쿠키 저장할때 중요 정보가 들어간 쿠키는 httpOnly,Secure을 true로 설정해서 보호하라고 가이드 해줌
-                model.addAttribute("message", "로그인 성공");
-                model.addAttribute("searchUrl","/");
-                return "alert";
+                model.addAttribute(ALERT_MESSAGE, "로그인 성공");
+                model.addAttribute(ALERT_URL,"/");
             }
-            throw new Exception();
-        } catch(Exception e){
-            model.addAttribute("message", "로그인 실패");
-            model.addAttribute("searchUrl","login");
-            return "alert";
+        } catch(HttpClientErrorException e){
+            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+            model.addAttribute(ALERT_URL,"/login");
+        } catch (Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "로그인에 실패하였습니다");
+            model.addAttribute(ALERT_URL,"/login");
         }
+        return ALERT;
     }
 
     /**
@@ -101,18 +118,26 @@ public class MemberController {
      * @param request 요청 객체
      * @param response 응답 객체
      * @return /로 redirect
-     * @since 1.0.0
+     * @since 1.0.1
      */
     @GetMapping("/logout")
     public String getLogout(HttpServletRequest request, HttpServletResponse response) {
-        Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies) {
-            if(cookie.getName().equals("token")) {
-                cookie.setValue("");
-                cookie.setMaxAge(0);
-                response.addCookie(cookie);
-            }
+        Cookie accessTokenCookie = CookieUtil.findCookie(request, "access_token");
+        Cookie refreshTokenCookie = CookieUtil.findCookie(request, "refresh_token");
+        if (Objects.isNull(accessTokenCookie)) {
+            log.error("no access_token cookie found");
+            return LOGIN_PAGE;
         }
+        if (Objects.isNull(refreshTokenCookie)) {
+            log.error("no refresh_token cookie found");
+            return LOGIN_PAGE;
+        }
+        accessTokenCookie.setValue("");
+        accessTokenCookie.setMaxAge(0);
+        response.addCookie(accessTokenCookie);
+        refreshTokenCookie.setValue("");
+        refreshTokenCookie.setMaxAge(0);
+        response.addCookie(refreshTokenCookie);
         return "redirect:/";
     }
 
@@ -121,9 +146,9 @@ public class MemberController {
      * @return register로 이동
      * @since 1.0.0
      */
-    @GetMapping("/register")
+    @GetMapping("/pre_login/register")
     public String getRegister(){
-        return "register";
+        return "pre_login/register";
     }
 
     /**
@@ -132,22 +157,38 @@ public class MemberController {
      * @return login으로 이동
      * @since 1.0.0
      */
-    @PostMapping("/register")
+    @PostMapping("/pre_login/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest) {
         service.doRegister(memberRegisterRequest);
-        return "login";
+        return LOGIN_PAGE;
     }
 
     /**
-     * 승인 대기화면 페이지로 이동
-     * @return outstanding으로 이동
+     * 비밀번호 찾기(변경) 페이지로 이동
+     * @return searchPassword 이동
      * @since 1.0.0
      */
-    @GetMapping("/outstanding")
-    public String outstanding(){
-        return "outstanding";
+    @GetMapping("/pre_login/searchPassword")
+    public String getSearchPassword(){
+        return "pre_login/searchPassword";
     }
 
+    /**
+     * 비밀번호를 잊어버렸을때 email을 통해 새 비밀번호로 바꿔 준다
+     * 작성한 이메일에 임시 비밀번호를 보내준다
+     * @return check를 실패하면 alert로 이동, 비밀번호 맞을 시 mypage로 이동
+     * @since 1.0.0
+     * 아직 구현 다 못함
+     */
+    @PostMapping("/pre_login/searchPassword")
+    public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
+        if(!nowPassword.equals(passwordCheck)){
+            model.addAttribute(ALERT_MESSAGE, "비밀번호를 잘못 입력하었습니다");
+            model.addAttribute(ALERT_URL,"/searchPassword");
+            return ALERT;
+        }
+        return "pre_login/searchPassword";
+    }
     /**
      * 비밀번호 변경 페이지로 이동
      * @return changePassword로 이동
@@ -167,40 +208,22 @@ public class MemberController {
     @PostMapping("/changePassword")
     public String postChangePassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
-            model.addAttribute("message", "비밀번호를 잘못 입력하었습니다");
-            model.addAttribute("searchUrl","changePassword");
-            return "alert";
+            model.addAttribute(ALERT_MESSAGE, "비밀번호를 잘못 입력하었습니다");
+            model.addAttribute(ALERT_URL,"/page/changePassword");
         }
         // TODO 비밀번호 확인하는 api 만들기
-        return "changePassword";
+        return ALERT;
     }
 
     /**
-     * profile 페이지로 이동
-     * @return profile으로 이동
-     * @since 1.0.0
+     * id 중복 체크
+     * parameter로 받은 id가 이미 누군가 사용하고 있는지를 확인한다
+     * @param id 회원 가입으로 사용하려는 id
+     * @return 만일 누군가 사용 중이라면 true, 누군가 사용하지 않는다면 false
      */
-    @GetMapping("/profile")
-    public String getProfile(){
-        return "profile";
+    @GetMapping("/pre_login/idCheck")
+    public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
     }
 
-    @PostMapping("/idCheck")
-    public String idCheck(@RequestParam String id, Model model){
-        if(service.doIdCheck(id)){
-            model.addAttribute("message","이미 있는 아이디 입니다");
-            model.addAttribute("searchUrl","register");
-        }
-        return "alert";
-    }
-
-    /**
-     * 비밀번호 찾기 페이지로 이동
-     * @return password로 이동
-     * @since 1.0.0
-     */
-    @GetMapping("/passwordSearch")
-    public String getFindPassword(){
-        return "passwordSearch";
-    }
 }

@@ -31,13 +31,14 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
                 .antMatchers(
                         "/login",
-                        "/register",
-                        "/passwordSearch",
+                        "/logout",
+                        "/pre_login/**",
                         "/oauth/**",
-                        "/css/**",
-                        "/js/**",
-                        "/static/**",
-                        "/favicon.ico").permitAll()
+                        "/assets/**"
+                ).permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/owner/**").hasRole("OWNER")
+                .antMatchers("/viewer/**").hasRole("VIEWER")
                 .anyRequest().authenticated()
                 .and();
         http
