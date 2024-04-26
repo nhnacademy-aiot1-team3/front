@@ -35,9 +35,9 @@ document.getElementById("id").addEventListener('blur', async event=> {
     console.log("result: idcheck 밑")
     console.log(result);
     if(result) {
-        id_languages.innerText="사용 가능한 아이디입니다";
-    } else {
         id_languages.innerText="이미 사용 중인 아이디입니다";
+    } else {
+        id_languages.innerText="사용 가능한 아이디입니다";
     }
 })
 
