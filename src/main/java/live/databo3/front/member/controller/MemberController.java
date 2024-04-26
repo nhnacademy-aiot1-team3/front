@@ -35,6 +35,8 @@ import java.util.Optional;
 public class MemberController {
     private final MemberService service;
     private static final String LOGIN_PAGE = "pre_login/login";
+    private static final String LOGIN_URL = "/login";
+    private static final String REGISTER_PAGE = "pre_login/register";
     private static final String ALERT="alert";
     private static final String ALERT_MESSAGE="message";
     private static final String ALERT_URL="searchUrl";
@@ -69,8 +71,9 @@ public class MemberController {
 
     /**
      * 로그인 요청이 들어오면 gateway에 확인을 요청한다
-     * 만일 성공시 token을 cookie로 저장, 로그인 성공이라는 message 저장, 이동할 위치 : main
-     * 만일 실패시 로그인 실패라는 message 저장, 이동할 위치 login
+     * 만일 성공시 accesesToken,refreshToken cookie로 저장, 로그인 성공이라는 message 저장, 이동할 위치 : main
+     * 만일 실패시 로그인 실패라는 message, 이동할 위치 login
+     * 실패 message는 아이디틀림,비밀번호틀림,상태코드 WAIT 등이 있음
      * @param response 응답 객체
      * @param memberRequestDto 사용자 가입 정보 (id, pw)
      * @param model key에 따라 객체 저장
@@ -105,10 +108,10 @@ public class MemberController {
             }
         } catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/login");
+            model.addAttribute(ALERT_URL,LOGIN_URL);
         } catch (Exception e) {
             model.addAttribute(ALERT_MESSAGE, "로그인에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/login");
+            model.addAttribute(ALERT_URL,LOGIN_URL);
         }
         return ALERT;
     }
@@ -124,21 +127,17 @@ public class MemberController {
     public String getLogout(HttpServletRequest request, HttpServletResponse response) {
         Cookie accessTokenCookie = CookieUtil.findCookie(request, "access_token");
         Cookie refreshTokenCookie = CookieUtil.findCookie(request, "refresh_token");
-        if (Objects.isNull(accessTokenCookie)) {
-            log.error("no access_token cookie found");
-            return LOGIN_PAGE;
+        if (Objects.nonNull(accessTokenCookie) && Objects.nonNull(refreshTokenCookie)) {
+            accessTokenCookie.setValue("");
+            accessTokenCookie.setMaxAge(0);
+            response.addCookie(accessTokenCookie);
+            refreshTokenCookie.setValue("");
+            refreshTokenCookie.setMaxAge(0);
+            response.addCookie(refreshTokenCookie);
+        } else{
+            log.error("no access_token or refresh_token cookie");
         }
-        if (Objects.isNull(refreshTokenCookie)) {
-            log.error("no refresh_token cookie found");
-            return LOGIN_PAGE;
-        }
-        accessTokenCookie.setValue("");
-        accessTokenCookie.setMaxAge(0);
-        response.addCookie(accessTokenCookie);
-        refreshTokenCookie.setValue("");
-        refreshTokenCookie.setMaxAge(0);
-        response.addCookie(refreshTokenCookie);
-        return "redirect:/";
+        return LOGIN_PAGE;
     }
 
     /**
@@ -148,7 +147,7 @@ public class MemberController {
      */
     @GetMapping("/pre_login/register")
     public String getRegister(){
-        return "pre_login/register";
+        return REGISTER_PAGE;
     }
 
     /**
@@ -158,9 +157,16 @@ public class MemberController {
      * @since 1.0.0
      */
     @PostMapping("/pre_login/register")
-    public String postRegister(MemberRegisterRequest memberRegisterRequest) {
-        service.doRegister(memberRegisterRequest);
-        return LOGIN_PAGE;
+    public String postRegister(MemberRegisterRequest memberRegisterRequest, Model model) {
+        try{
+            service.doRegister(memberRegisterRequest);
+            model.addAttribute(ALERT_MESSAGE, "회원가입 성공");
+            model.addAttribute(ALERT_URL,LOGIN_URL);
+        }catch (Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "회원가입 실패");
+            model.addAttribute(ALERT_URL,REGISTER_PAGE);
+        }
+        return ALERT;
     }
 
     /**

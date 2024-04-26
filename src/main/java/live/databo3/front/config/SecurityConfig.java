@@ -34,7 +34,9 @@ public class SecurityConfig {
                         "/logout",
                         "/pre_login/**",
                         "/oauth/**",
-                        "/assets/**"
+                        "/assets/**",
+                        "/error",
+                        "/errors/*"
                 ).permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/owner/**").hasRole("OWNER")

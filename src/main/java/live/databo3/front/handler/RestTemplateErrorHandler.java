@@ -24,7 +24,6 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
 
     /**
      * RestTeamplte에서 Server Exception(5xx), Client Exception(4xx)이 발생하는지 확인한다
-     * @param response
      * @return Exception 발생시 true, Exception 발생 안하면 false
      */
     @Override
@@ -36,7 +35,6 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
     /**
      * Exception 발생시 Client Exception인지 확인 후 status code가 BAD_REQUEST일때
      * body안에 header에 result message를 다시 HttpClientErrorException에 담음
-     * @param response
      */
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {

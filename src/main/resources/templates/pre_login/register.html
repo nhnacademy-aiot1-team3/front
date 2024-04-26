@@ -56,16 +56,16 @@
                 <form th:action="@{/pre_login/register}" method="post">
                   <div class="mb-3" id="id_check">
                     <label for="id" class="form-label">Id</label>
-                    <input type="text" class="form-control" id="id" name="id" aria-describedby="textHelp">
+                    <input type="text" class="form-control" id="id" name="id" aria-describedby="textHelp" required>
                     <span id="id_languages"></span>
                   </div>
                   <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name ="email" aria-describedby="emailHelp">
+                    <input type="email" class="form-control" id="email" name ="email" aria-describedby="emailHelp" required>
                   </div>
                   <div class="mb-4">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password">
+                    <input type="password" class="form-control" id="password" name="password" required>
                   </div>
                   <div class="mb-5">
                     <input type="checkbox" id="ownerCheckbox" name="role" value=2 onclick="checkOnlyOne(this)"/>
@@ -74,7 +74,7 @@
                     <input type="checkbox" id="viewerCheckbox" name="role" value=3 onclick="checkOnlyOne(this)"/>
                     <label for="viewerCheckbox">VIEWER</label><br/>
                   </div>
-                  <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" href="/pre_login/register" type="submit">회원가입</button>
+                  <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" type="submit">회원가입</button>
 <!--                  <a href="./authentication-login.html" class="btn btn-primary w-100 py-8 mb-4 rounded-2">회원가입</a>-->
                   <div class="d-flex align-items-center">
                     <p class="fs-4 mb-0 text-dark">Already have an Account?</p>
