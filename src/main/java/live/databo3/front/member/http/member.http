@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
   "id": "admin",
-  "password": "12345"
+  "password": "1234"
 }
 
 ###
@@ -21,8 +21,18 @@ POST http://133.186.209.25:8888/api/account/member/register
 Content-Type: application/json
 
 {
-  "id": "admin1",
+  "id": "viewer1",
   "password": "123",
   "email": "admin@test.com",
   "roles": 1
+}
+
+###
+###
+GET http://133.186.209.25:8888/api/account/mail
+Content-Type: application/json
+
+{
+  "email": "insub2004@naver.com",
+  "certificationNumber": "249907"
 }

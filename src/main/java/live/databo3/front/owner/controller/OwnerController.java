@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @RequiredArgsConstructor
 public class OwnerController {
-    @GetMapping("/owner/my_page")
+    @GetMapping("/owner/my-page")
     public String getOwnerMyPage(){
         return "owner/my_page";
     }
 
-    @GetMapping("/owner/sensor_list")
+    @GetMapping("/owner/sensor-list")
     public String getSensorList(){
         return "owner/sensor_list";
     }
 
-    @GetMapping("/owner/battery_level")
+    @GetMapping("/owner/battery-level")
     public String getBatteryLevel(){
         return "owner/battery_level";
     }

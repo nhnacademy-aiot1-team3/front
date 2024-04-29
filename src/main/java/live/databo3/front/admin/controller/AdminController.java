@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequiredArgsConstructor
 public class AdminController {
-    @GetMapping("/admin/my_page")
+    @GetMapping("/admin/my-page")
     public String getAdminMyPage(){
         return "admin/my_page";
     }
@@ -32,7 +32,7 @@ public class AdminController {
      * @param model 공지사항 객체를 담을 공간
      * @return 공지사항 작성란 페이지로 이동
      */
-    @GetMapping("/admin/notice_writer")
+    @GetMapping("/admin/notice-writer")
     public String getNoticeWriter(@RequestParam(value = "number", required = false) String noticeNum, Model model){
         return "/admin/notice_writer";
     }

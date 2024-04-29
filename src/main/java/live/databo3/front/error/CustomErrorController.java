@@ -19,15 +19,15 @@ public class CustomErrorController implements ErrorController {
         if (statusCode != null) {
             int status = (int) statusCode;
             if (status == HttpStatus.FORBIDDEN.value()) {
-                codeNumber = "403";
+                codeNumber = "/403";
             }
             else if (status == HttpStatus.NOT_FOUND.value()) {
-                codeNumber = "404";
+                codeNumber = "/404";
 
             } else if (status == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                codeNumber = "500";
+                codeNumber = "/500";
             }
         }
-        return "/error/"+codeNumber;
+        return "/errors"+codeNumber;
     }
 }
