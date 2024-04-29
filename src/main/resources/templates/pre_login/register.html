@@ -3,93 +3,96 @@
 
 <head>
   <!-- Required meta tags -->
-<meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!-- Favicon icon-->
-<link
-  rel="shortcut icon"
-  type="image/png"
-  href="/assets/images/logos/databo3-load.jpg"
-/>
+  <!-- Favicon icon-->
+  <link
+          rel="shortcut icon"
+          type="image/png"
+          href="/assets/images/logos/databo3-load.jpg"
+  />
 
-<!-- Core Css -->
-<link rel="stylesheet" href="/assets/css/styles.css" />
+  <!-- Core Css -->
+  <link rel="stylesheet" href="/assets/css/styles.css" />
 
   <title>Modernize Bootstrap Admin</title>
   <script src="/assets/js/register.js" defer></script>
 </head>
 
 <body>
-  <div id="main-wrapper">
-    <div
-      class="position-relative overflow-hidden radial-gradient min-vh-100 w-100 d-flex align-items-center justify-content-center">
-      <div class="d-flex align-items-center justify-content-center w-100">
-        <div class="row justify-content-center w-100">
-          <div class="col-md-8 col-lg-6 col-xxl-3 auth-card">
-            <div class="card mb-0">
-              <div class="card-body">
-                <a href="../main/index.html" class="text-nowrap logo-img text-center d-block mb-5 w-100">
-                  <img src="../assets/images/logos/databo3-logo.jpg" class="dark-logo" alt="Logo-Dark" width="150px" height="auto"/>
-                </a>
-                <div class="row">
-                  <div class="col-6 mb-2 mb-sm-0">
-                    <a class="btn text-dark border fw-normal d-flex align-items-center justify-content-center rounded-2 py-8"
-                       href="javascript:void(0)" role="button">
-                      <img src="../assets/images/svgs/github-icon.svg" alt="" class="img-fluid me-2" width="18" height="18">
-                      <span class="flex-shrink-0">with GitHub</span>
-                    </a>
-                  </div>
-                  <div class="col-6">
-                    <a class="btn text-dark border fw-normal d-flex align-items-center justify-content-center rounded-2 py-8"
-                       href="javascript:void(0)" role="button">
-                      <img src="../assets/images/svgs/payco-icon.png" alt="" class="img-fluid me-2" width="18" height="18">
-                      <span class="flex-shrink-0">with PAYCO</span>
-                    </a>
-                  </div>
+<div id="main-wrapper">
+  <div
+          class="position-relative overflow-hidden radial-gradient min-vh-100 w-100 d-flex align-items-center justify-content-center">
+    <div class="d-flex align-items-center justify-content-center w-100">
+      <div class="row justify-content-center w-100">
+        <div class="col-md-8 col-lg-6 col-xxl-3 auth-card">
+          <div class="card mb-0">
+            <div class="card-body">
+              <a href="/" class="text-nowrap logo-img text-center d-block mb-5 w-100">
+                <img src="../assets/images/logos/databo3-logo.jpg" class="dark-logo" alt="Logo-Dark" width="150px" height="auto"/>
+              </a>
+              <div class="row">
+                <div class="col-6 mb-2 mb-sm-0">
+                  <a class="btn text-dark border fw-normal d-flex align-items-center justify-content-center rounded-2 py-8"
+                     href="javascript:void(0)" role="button">
+                    <img src="../assets/images/svgs/github-icon.svg" alt="" class="img-fluid me-2" width="18" height="18">
+                    <span class="flex-shrink-0">with GitHub</span>
+                  </a>
                 </div>
-                <div class="position-relative text-center my-4">
-                  <p class="mb-0 fs-4 px-3 d-inline-block bg-white z-index-5 position-relative">or sign Up with</p>
-                  <span class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
+                <div class="col-6">
+                  <a class="btn text-dark border fw-normal d-flex align-items-center justify-content-center rounded-2 py-8"
+                     href="javascript:void(0)" role="button">
+                    <img src="../assets/images/svgs/payco-icon.png" alt="" class="img-fluid me-2" width="18" height="18">
+                    <span class="flex-shrink-0">with PAYCO</span>
+                  </a>
                 </div>
-                <form th:action="@{/pre_login/register}" method="post">
-                  <div class="mb-3" id="id_check">
-                    <label for="id" class="form-label">Id</label>
-                    <input type="text" class="form-control" id="id" name="id" aria-describedby="textHelp" required>
-                    <span id="id_languages"></span>
-                  </div>
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name ="email" aria-describedby="emailHelp" required>
-                  </div>
-                  <div class="mb-4">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                  </div>
-                  <div class="mb-5">
-                    <input type="checkbox" id="ownerCheckbox" name="role" value=2 onclick="checkOnlyOne(this)"/>
-                    <label for="ownerCheckbox">OWNER</label><br/>
-
-                    <input type="checkbox" id="viewerCheckbox" name="role" value=3 onclick="checkOnlyOne(this)"/>
-                    <label for="viewerCheckbox">VIEWER</label><br/>
-                  </div>
-                  <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" type="submit">회원가입</button>
-<!--                  <a href="./authentication-login.html" class="btn btn-primary w-100 py-8 mb-4 rounded-2">회원가입</a>-->
-                  <div class="d-flex align-items-center">
-                    <p class="fs-4 mb-0 text-dark">Already have an Account?</p>
-                    <a class="text-primary fw-medium ms-2" href="/login">Sign In</a>
-                  </div>
-                </form>
               </div>
+              <div class="position-relative text-center my-4">
+                <p class="mb-0 fs-4 px-3 d-inline-block bg-white z-index-5 position-relative">or sign Up with</p>
+                <span class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
+              </div>
+              <form th:action="@{/pre_login/register}" method="post" id="form">
+                <div class="mb-3">
+                  <label for="id" class="form-label">Id</label>
+                  <input type="text" class="form-control" id="id" name="id" aria-describedby="textHelp" required>
+                  <span id="id-languages"></span>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="email" name ="email" aria-describedby="emailHelp" required>
+                  <span id="email-languages"></span>
+<!--                  email-languages에 시간 타이머 담기 시도 -->
+                </div>
+                <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" type="submit" id="email-button">Email 인증</button>
+                <div id="email-check-div" class="mb-4"></div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-4">
+                  <input type="checkbox" id="ownerCheckbox" name="role" value=2 onclick="checkOnlyOne(this)"/>
+                  <label for="ownerCheckbox">OWNER</label><br/>
+
+                  <input type="checkbox" id="viewerCheckbox" name="role" value=3 onclick="checkOnlyOne(this)"/>
+                  <label for="viewerCheckbox">VIEWER</label><br/>
+                </div>
+                <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" type="submit" data-submit-type="search" onclick="return validateForm();">회원가입</button>
+                <div class="d-flex align-items-center">
+                  <p class="fs-4 mb-0 text-dark">Already have an Account?</p>
+                  <a class="text-primary fw-medium ms-2" href="/login">Sign In</a>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="dark-transparent sidebartoggler"></div>
-  <!-- Import Js Files -->
+</div>
+<div class="dark-transparent sidebartoggler"></div>
+<!-- Import Js Files -->
 <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="/assets/js/theme/app.init.js"></script>
