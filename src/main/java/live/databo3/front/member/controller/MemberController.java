@@ -37,6 +37,7 @@ public class MemberController {
     private static final String LOGIN_PAGE = "pre_login/login";
     private static final String LOGIN_URL = "/login";
     private static final String REGISTER_PAGE = "pre_login/register";
+    private static final String REGISTER_URL = "pre-login/register";
     private static final String ALERT="alert";
     private static final String ALERT_MESSAGE="message";
     private static final String ALERT_URL="searchUrl";
@@ -145,7 +146,7 @@ public class MemberController {
      * @return register로 이동
      * @since 1.0.0
      */
-    @GetMapping("/pre_login/register")
+    @GetMapping("/pre-login/register")
     public String getRegister(){
         return REGISTER_PAGE;
     }
@@ -156,7 +157,7 @@ public class MemberController {
      * @return login으로 이동
      * @since 1.0.0
      */
-    @PostMapping("/pre_login/register")
+    @PostMapping("/pre-login/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest, Model model) {
         try{
             service.doRegister(memberRegisterRequest);
@@ -164,7 +165,7 @@ public class MemberController {
             model.addAttribute(ALERT_URL,LOGIN_URL);
         }catch (Exception e) {
             model.addAttribute(ALERT_MESSAGE, "회원가입 실패");
-            model.addAttribute(ALERT_URL,REGISTER_PAGE);
+            model.addAttribute(ALERT_URL,REGISTER_URL);
         }
         return ALERT;
     }
@@ -174,9 +175,9 @@ public class MemberController {
      * @return searchPassword 이동
      * @since 1.0.0
      */
-    @GetMapping("/pre_login/searchPassword")
+    @GetMapping("/pre-login/search-password")
     public String getSearchPassword(){
-        return "pre_login/searchPassword";
+        return "pre_login/search_password";
     }
 
     /**
@@ -186,14 +187,13 @@ public class MemberController {
      * @since 1.0.0
      * 아직 구현 다 못함
      */
-    @PostMapping("/pre_login/searchPassword")
+    @PostMapping("/pre-login/search-password")
     public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
             model.addAttribute(ALERT_MESSAGE, "비밀번호를 잘못 입력하었습니다");
-            model.addAttribute(ALERT_URL,"/searchPassword");
-            return ALERT;
+            model.addAttribute(ALERT_URL,"/search-password");
         }
-        return "pre_login/searchPassword";
+        return ALERT;
     }
     /**
      * 비밀번호 변경 페이지로 이동
@@ -227,7 +227,7 @@ public class MemberController {
      * @param id 회원 가입으로 사용하려는 id
      * @return 만일 누군가 사용 중이라면 true, 누군가 사용하지 않는다면 false
      */
-    @GetMapping("/pre_login/idCheck")
+    @GetMapping("/pre-login/id-check")
     public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
         return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
     }

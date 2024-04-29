@@ -68,19 +68,19 @@ public class MemberAdaptorImpl implements MemberAdaptor {
      */
     @Override
     public void doRegister(MemberRegisterRequest memberRegisterRequest) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpEntity<MemberRegisterRequest> request = new HttpEntity<>(memberRegisterRequest, headers);
+        HttpEntity<MemberRegisterRequest> request = new HttpEntity<>(memberRegisterRequest, httpHeaders);
         restTemplate.postForEntity(gatewayDomain+"/api/account/member/register", request, Void.class);
     }
 
     @Override
     public boolean doIdCheck(String id) {
-        HttpHeaders headers= new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpHeaders httpHeaders= new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         ResponseEntity<Boolean> result = restTemplate.getForEntity(gatewayDomain+"/api/account/member/duplicate/"+id, Boolean.class);
         return result.getBody();
