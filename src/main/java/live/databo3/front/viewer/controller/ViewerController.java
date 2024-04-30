@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @RequiredArgsConstructor
 public class ViewerController {
-    @GetMapping("/viewer/my_page")
+    @GetMapping("/viewer/my-page")
     public String getViewerMyPage(){
         return "viewer/my_page";
     }
 
-    @GetMapping("/viewer/sensor_list")
+    @GetMapping("/viewer/sensor-list")
     public String getSensorList(){
         return "viewer/sensor_list";
     }
 
-    @GetMapping("/viewer/battery_level")
+    @GetMapping("/viewer/battery-level")
     public String getBatteryLevel(){
         return "viewer/battery_level";
     }

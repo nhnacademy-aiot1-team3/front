@@ -32,9 +32,10 @@ public class SecurityConfig {
                 .antMatchers(
                         "/login",
                         "/logout",
-                        "/pre_login/**",
+                        "/pre-login/**",
                         "/oauth/**",
-                        "/assets/**"
+                        "/assets/**",
+                        "/error"
                 ).permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/owner/**").hasRole("OWNER")

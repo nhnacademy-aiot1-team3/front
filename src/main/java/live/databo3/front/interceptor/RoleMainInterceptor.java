@@ -27,14 +27,8 @@ public class RoleMainInterceptor implements HandlerInterceptor {
      * @throws Exception 예외 처리를 위한 선언
      * @since 1.0.0
      */
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        return true;
-    }
-
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        String a= "!23";
-    }
+//    @Override
+//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+//        return true;
+//    }
 }

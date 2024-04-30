@@ -1,5 +1,7 @@
 package live.databo3.front.member.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import live.databo3.front.member.dto.*;
 import live.databo3.front.member.service.MemberService;
 import live.databo3.front.util.CookieUtil;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -35,6 +38,9 @@ import java.util.Optional;
 public class MemberController {
     private final MemberService service;
     private static final String LOGIN_PAGE = "pre_login/login";
+    private static final String LOGIN_URL = "/login";
+    private static final String REGISTER_PAGE = "pre_login/register";
+    private static final String REGISTER_URL = "pre-login/register";
     private static final String ALERT="alert";
     private static final String ALERT_MESSAGE="message";
     private static final String ALERT_URL="searchUrl";
@@ -69,8 +75,9 @@ public class MemberController {
 
     /**
      * 로그인 요청이 들어오면 gateway에 확인을 요청한다
-     * 만일 성공시 token을 cookie로 저장, 로그인 성공이라는 message 저장, 이동할 위치 : main
-     * 만일 실패시 로그인 실패라는 message 저장, 이동할 위치 login
+     * 만일 성공시 accesesToken,refreshToken cookie로 저장, 로그인 성공이라는 message 저장, 이동할 위치 : main
+     * 만일 실패시 로그인 실패라는 message, 이동할 위치 login
+     * 실패 message는 아이디틀림,비밀번호틀림,상태코드 WAIT 등이 있음
      * @param response 응답 객체
      * @param memberRequestDto 사용자 가입 정보 (id, pw)
      * @param model key에 따라 객체 저장
@@ -78,7 +85,7 @@ public class MemberController {
      * @since 1.0.1
      */
     @PostMapping("/login")
-    public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
+    public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) throws JsonProcessingException {
         try {
             Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = service.doLogin(memberRequestDto);
 
@@ -104,11 +111,13 @@ public class MemberController {
                 model.addAttribute(ALERT_URL,"/");
             }
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/login");
+            String errorText = e.getStatusText();
+            ResultMessageDto resultMessageDto = new ObjectMapper().readValue(errorText, ResultMessageDto.class);
+            model.addAttribute(ALERT_MESSAGE, resultMessageDto.getResultMessage());
+            model.addAttribute(ALERT_URL,LOGIN_URL);
         } catch (Exception e) {
             model.addAttribute(ALERT_MESSAGE, "로그인에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/login");
+            model.addAttribute(ALERT_URL,LOGIN_URL);
         }
         return ALERT;
     }
@@ -124,21 +133,17 @@ public class MemberController {
     public String getLogout(HttpServletRequest request, HttpServletResponse response) {
         Cookie accessTokenCookie = CookieUtil.findCookie(request, "access_token");
         Cookie refreshTokenCookie = CookieUtil.findCookie(request, "refresh_token");
-        if (Objects.isNull(accessTokenCookie)) {
-            log.error("no access_token cookie found");
-            return LOGIN_PAGE;
+        if (Objects.nonNull(accessTokenCookie) && Objects.nonNull(refreshTokenCookie)) {
+            accessTokenCookie.setValue("");
+            accessTokenCookie.setMaxAge(0);
+            response.addCookie(accessTokenCookie);
+            refreshTokenCookie.setValue("");
+            refreshTokenCookie.setMaxAge(0);
+            response.addCookie(refreshTokenCookie);
+        } else{
+            log.error("no access_token or refresh_token cookie");
         }
-        if (Objects.isNull(refreshTokenCookie)) {
-            log.error("no refresh_token cookie found");
-            return LOGIN_PAGE;
-        }
-        accessTokenCookie.setValue("");
-        accessTokenCookie.setMaxAge(0);
-        response.addCookie(accessTokenCookie);
-        refreshTokenCookie.setValue("");
-        refreshTokenCookie.setMaxAge(0);
-        response.addCookie(refreshTokenCookie);
-        return "redirect:/";
+        return LOGIN_PAGE;
     }
 
     /**
@@ -146,9 +151,9 @@ public class MemberController {
      * @return register로 이동
      * @since 1.0.0
      */
-    @GetMapping("/pre_login/register")
+    @GetMapping("/pre-login/register")
     public String getRegister(){
-        return "pre_login/register";
+        return REGISTER_PAGE;
     }
 
     /**
@@ -157,10 +162,17 @@ public class MemberController {
      * @return login으로 이동
      * @since 1.0.0
      */
-    @PostMapping("/pre_login/register")
-    public String postRegister(MemberRegisterRequest memberRegisterRequest) {
-        service.doRegister(memberRegisterRequest);
-        return LOGIN_PAGE;
+    @PostMapping("/pre-login/register")
+    public String postRegister(MemberRegisterRequest memberRegisterRequest, Model model) {
+        try{
+            service.doRegister(memberRegisterRequest);
+            model.addAttribute(ALERT_MESSAGE, "회원가입 성공");
+            model.addAttribute(ALERT_URL,LOGIN_URL);
+        }catch (Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "회원가입 실패");
+            model.addAttribute(ALERT_URL,REGISTER_URL);
+        }
+        return ALERT;
     }
 
     /**
@@ -168,9 +180,9 @@ public class MemberController {
      * @return searchPassword 이동
      * @since 1.0.0
      */
-    @GetMapping("/pre_login/searchPassword")
+    @GetMapping("/pre-login/search-password")
     public String getSearchPassword(){
-        return "pre_login/searchPassword";
+        return "pre_login/search_password";
     }
 
     /**
@@ -180,14 +192,13 @@ public class MemberController {
      * @since 1.0.0
      * 아직 구현 다 못함
      */
-    @PostMapping("/pre_login/searchPassword")
+    @PostMapping("/pre-login/search-password")
     public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
             model.addAttribute(ALERT_MESSAGE, "비밀번호를 잘못 입력하었습니다");
-            model.addAttribute(ALERT_URL,"/searchPassword");
-            return ALERT;
+            model.addAttribute(ALERT_URL,"/search-password");
         }
-        return "pre_login/searchPassword";
+        return ALERT;
     }
     /**
      * 비밀번호 변경 페이지로 이동
@@ -221,9 +232,41 @@ public class MemberController {
      * @param id 회원 가입으로 사용하려는 id
      * @return 만일 누군가 사용 중이라면 true, 누군가 사용하지 않는다면 false
      */
-    @GetMapping("/pre_login/idCheck")
+    @GetMapping("/pre-login/id-check")
     public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
         return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
+    }
+
+    @PostMapping("/pre-login/email/send")
+    public ResponseEntity<String> postEmailSend(@RequestBody EmailRequest emailRequest){
+        String message="";
+        try{
+            message = service.postEmailSend(emailRequest);
+            return ResponseEntity.ok(message);
+        }catch(HttpClientErrorException e){
+            message = e.getStatusText();
+            return ResponseEntity.ok(message);
+        }
+        catch (Exception e) {
+            message = "인증번호 발송 실패하였습니다";
+            return ResponseEntity.badRequest().body(message);
+        }
+    }
+
+    @PostMapping("/pre-login/email/verify")
+    public ResponseEntity<String> postEmailVerify(@RequestBody CodeEmailRequest codeEmailRequest){
+        String message="";
+        try{
+            message = service.postEmailVerify(codeEmailRequest);
+            return ResponseEntity.ok(message);
+        }catch(HttpClientErrorException e){
+            message = e.getStatusText();
+            return ResponseEntity.ok(message);
+        }
+        catch (Exception e) {
+            message = "인증에 실패하였습니다";
+            return ResponseEntity.badRequest().body(message);
+        }
     }
 
 }
