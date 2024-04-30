@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
   "id": "admin",
-  "password": "1234"
+  "password": "12345"
 }
 
 ###
@@ -28,11 +28,21 @@ Content-Type: application/json
 }
 
 ###
+GET http://133.186.209.25:8888/api/account/member/duplicate/testIOd
+
 ###
-GET http://133.186.209.25:8888/api/account/mail
+POST http://133.186.209.25:8888/api/account/member/email/send
 Content-Type: application/json
 
 {
-  "email": "insub2004@naver.com",
-  "certificationNumber": "249907"
+  "email": "skcogus12@nave"
+}
+
+###
+POST http://133.186.209.25:8888/api/account/member/email/verify
+Content-Type: application/json
+
+{
+  "email": "skcogus12@naver.com",
+  "certificationNumber": "538015"
 }

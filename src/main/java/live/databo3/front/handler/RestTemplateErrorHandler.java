@@ -48,7 +48,20 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
                 JsonNode headerNode = jsonNode.get("header");
                 if (headerNode != null) {
                     String resultMessage = headerNode.get("resultMessage").asText();
-                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, resultMessage);
+                    String mssage = "{\"resultMessage\": \""+ resultMessage+"\"}";
+                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, mssage);
+                }
+            }if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+                String responseBody = new BufferedReader(new InputStreamReader(response.getBody()))
+                        .lines()
+                        .collect(Collectors.joining("\n"));
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(responseBody);
+                JsonNode headerNode = jsonNode.get("header");
+                if (headerNode != null) {
+                    String resultMessage = headerNode.get("resultMessage").asText();
+                    String mssage = "{\"resultMessage\": \""+ resultMessage+"\"}";
+                    throw new HttpClientErrorException(HttpStatus.NOT_FOUND, mssage);
                 }
             }
         }

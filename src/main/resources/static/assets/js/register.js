@@ -1,3 +1,16 @@
+let idValid = 0;
+let emailValid = 0;
+
+function setIdValid(value,button_name) {
+    idValid = value;
+    checkBothConditions(button_name);
+}
+
+function setEmailValid(value,button_name) {
+    emailValid = value;
+    checkBothConditions(button_name);
+}
+
 function checkOnlyOne(element) {
     const checkboxes = document.getElementsByName("role");
     checkboxes.forEach((cb) => {
@@ -12,10 +25,15 @@ function checkOnlyOne(element) {
 async function check(url){
     const res = await fetch(url);
     console.log(res);
-    console.log("res after, data before")
     const data = await res.json();
     console.log(data);
     return data;
+}
+
+const signUpButton = document.getElementById("sign-up-button");
+
+function activateSignUpButton() {
+    signUpButton.disabled = false;
 }
 
 document.getElementById("id").addEventListener('blur', async event=> {
@@ -23,72 +41,136 @@ document.getElementById("id").addEventListener('blur', async event=> {
     const id = document.getElementById("id");
     const id_languages = document.getElementById("id-languages");
     if(id.value.length === 0) {
-        alert("아이디를 입력하세요");
+        id_languages.innerText=("아이디를 입력하세요");
         return;
     }
 
-    let url = "/pre_login/idCheck";
+    let url = "/pre-login/id-check";
     let queryParam ="?id="+id.value;
     url += queryParam;
-    console.log("url:" + url);
 
     const result = await check(url);
 
-    console.log("result: idcheck 밑")
-    console.log(result);
     if(result) {
         id_languages.innerText="이미 사용 중인 아이디입니다";
+        setIdValid(0,"sign-up-button");
     } else {
         id_languages.innerText="사용 가능한 아이디입니다";
+        setIdValid(1,"sign-up-button");
     }
 })
 // 승인할때 /pre-login/email-check
 
 document.getElementById("email-button").addEventListener('click', async event=> {
     event.preventDefault();
+    btnDeactive("email-button");
     const email = document.getElementById("email");
+    const email_languages = document.getElementById("email-languages");
 
-    let url = "/pre-login/email-code";
-    let queryParam ="?email="+email.value;
-    url += queryParam;
+    let url = "/pre-login/email/send";
 
-    const result = await check(url);
-
-    const email_div = document.getElementById("email-check-div");
-    const email_code = document.createElement("input");
-    const email_code_button = document.createElement("button");
-    const margin_div = document.createElement("div");
-    const code_check_text = document.createElement("span");
-    
-    email_code.id="email-code";
-    email_code.className="form-control";
-
-    margin_div.className="mb-3";
-
-    email_code_button.id="email-code-button";
-    email_code_button.className="btn btn-primary w-100 py-8 mb-4 rounded-2";
-    email_code_button.innerText="코드 확인";
-
-    email_div.appendChild(email_code);
-    email_div.appendChild(margin_div);
-    email_div.appendChild(email_code_button);
-    email_div.appendChild(code_check_text);
-
-    // TODO 3분 타이머 띄우기 시도
-
-    // TODO 입력 맞으면 인증 완료 문구 띄우기 아니면 잘못된 입력이라고 띄워라
-    document.getElementById("email-code-button").addEventListener('click', async event => {
-        event.preventDefault();
-
-        if(result){
-            console.log("인증 완");
-            code_check_text.innerText="인증 완료";
-        } else {
-            console.log("인증 실패");
-            code_check_text.innerText="잘못된 코드를 입력하였습니다";
-        }
+    fetch(url, {
+        method: "POST",
+        headers: {
+            'Accept':'application/json',
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email.value
+        }),
     })
+        .then((response) => response.json())
+        .then((result) => {
+            console.log(result)
+            const messageExist = result.hasOwnProperty('message');
+            if(messageExist) {
+                email_languages.innerText="인증 번호 발급 완료 3분 안에 인증을 완료하세요";
+
+                if(!document.getElementById("email-code")){
+                    const email_div = document.getElementById("email-check-div");
+                    const email_code = document.createElement("input");
+                    const email_code_button = document.createElement("button");
+                    const margin_div = document.createElement("div");
+                    const code_check_text = document.createElement("span");
+                    const code_check = document.createElement("span");
+
+                    email_code.id = "email-code";
+                    email_code.className = "form-control";
+                    margin_div.className = "mb-3";
+                    email_code_button.id = "email-code-button";
+                    email_code_button.className = "btn btn-primary w-100 py-8 mb-4 rounded-2";
+                    email_code_button.innerText = "인증 코드 확인";
+
+                    email_div.appendChild(email_code);
+                    email_div.appendChild(margin_div);
+                    email_div.appendChild(email_code_button);
+                    email_div.appendChild(code_check_text);
+                    email_div.appendChild(code_check);
+
+                    document.getElementById("email-code-button").addEventListener('click', async event => {
+                        event.preventDefault();
+                        btnDeactive("email-code-button");
+                        const email = document.getElementById("email");
+                        const certification_number = document.getElementById("email-code");
+
+                        let url = "/pre-login/email/verify";
+
+                        fetch(url, {
+                            method: "POST",
+                            headers: {
+                                'Accept':'application/json',
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                email: email.value,
+                                certificationNumber: certification_number.value
+                            }),
+                        })
+                            .then((response) => response.json())
+                            .then((result) => {
+                              console.log(result);
+
+                              const messageExist = result.hasOwnProperty('message');
+                                if(messageExist) {
+                                    setEmailValid(1,"sign-up-button");
+                                    code_check.innerText = "인증이 완료되었습니다.";
+                                    email_languages.innerText="";
+                                }
+
+                                const result_message_exist = result.hasOwnProperty('resultMessage');
+                                if(result_message_exist){
+                                    code_check.innerText= result.resultMessage;
+                                    btnActive("email-code-button");
+                                }
+                            })
+
+                    })
+                }
+            }
+            const result_message_exist = result.hasOwnProperty('resultMessage');
+            if(result_message_exist){
+                btnActive("email-button")
+                email_languages.innerText= result.resultMessage;
+            }
+        })
+
 })
+
+function btnActive(button_name)  {
+    const target = document.getElementById(button_name);
+    target.disabled = false;
+}
+function btnDeactive(button_name)  {
+    const target = document.getElementById(button_name);
+    target.disabled = true;
+}
+function checkBothConditions(button_name) {
+    if (idValid === 1 && emailValid === 1) {
+        btnActive(button_name);
+    }else{
+        btnDeactive(button_name);
+    }
+}
 
 
 function validateForm() {

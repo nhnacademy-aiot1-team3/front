@@ -22,8 +22,8 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 로그인 요청 정보 바탕으로 인증 절차 진행, 인증 결과에 따른 토큰 정보 반환
      * @param memberRequestDto 사용자 가입 정보 (id, pw)
-     * @return 로그인 성공시 토큰 정보를 Optional에 담아서 return, 로그인 실패시 빈 객체를 Optional에 담아서 return
      * @since 1.0.0
+     * @return 로그인 성공시 토큰 정보를 Optional에 담아서 return, 로그인 실패시 빈 객체를 Optional에 담아서 return
      */
     @Override
     public Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> doLogin(MemberRequestDto memberRequestDto) {
@@ -44,5 +44,15 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean doIdCheck(String id) {
         return memberAdaptor.doIdCheck(id);
+    }
+
+    @Override
+    public String postEmailSend(EmailRequest emailRequest) {
+        return memberAdaptor.postEmailSend(emailRequest);
+    }
+
+    @Override
+    public String postEmailVerify(CodeEmailRequest codeEmailRequest) {
+        return memberAdaptor.postEmailVerify(codeEmailRequest);
     }
 }
