@@ -1,6 +1,7 @@
 package live.databo3.front.member.service;
 
 import live.databo3.front.member.dto.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -26,4 +27,8 @@ public interface MemberService {
     void doRegister(MemberRegisterRequest memberRegisterRequest);
 
     boolean doIdCheck(String id);
+
+    String postEmailSend(EmailRequest emailRequest);
+
+    String postEmailVerify(CodeEmailRequest codeEmailRequest);
 }

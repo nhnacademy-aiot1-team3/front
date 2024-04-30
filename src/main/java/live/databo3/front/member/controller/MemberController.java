@@ -1,5 +1,7 @@
 package live.databo3.front.member.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import live.databo3.front.member.dto.*;
 import live.databo3.front.member.service.MemberService;
 import live.databo3.front.util.CookieUtil;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -82,7 +85,7 @@ public class MemberController {
      * @since 1.0.1
      */
     @PostMapping("/login")
-    public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
+    public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) throws JsonProcessingException {
         try {
             Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = service.doLogin(memberRequestDto);
 
@@ -108,7 +111,9 @@ public class MemberController {
                 model.addAttribute(ALERT_URL,"/");
             }
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+            String errorText = e.getStatusText();
+            ResultMessageDto resultMessageDto = new ObjectMapper().readValue(errorText, ResultMessageDto.class);
+            model.addAttribute(ALERT_MESSAGE, resultMessageDto.getResultMessage());
             model.addAttribute(ALERT_URL,LOGIN_URL);
         } catch (Exception e) {
             model.addAttribute(ALERT_MESSAGE, "로그인에 실패하였습니다");
@@ -230,6 +235,38 @@ public class MemberController {
     @GetMapping("/pre-login/id-check")
     public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
         return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
+    }
+
+    @PostMapping("/pre-login/email/send")
+    public ResponseEntity<String> postEmailSend(@RequestBody EmailRequest emailRequest){
+        String message="";
+        try{
+            message = service.postEmailSend(emailRequest);
+            return ResponseEntity.ok(message);
+        }catch(HttpClientErrorException e){
+            message = e.getStatusText();
+            return ResponseEntity.ok(message);
+        }
+        catch (Exception e) {
+            message = "인증번호 발송 실패하였습니다";
+            return ResponseEntity.badRequest().body(message);
+        }
+    }
+
+    @PostMapping("/pre-login/email/verify")
+    public ResponseEntity<String> postEmailVerify(@RequestBody CodeEmailRequest codeEmailRequest){
+        String message="";
+        try{
+            message = service.postEmailVerify(codeEmailRequest);
+            return ResponseEntity.ok(message);
+        }catch(HttpClientErrorException e){
+            message = e.getStatusText();
+            return ResponseEntity.ok(message);
+        }
+        catch (Exception e) {
+            message = "인증에 실패하였습니다";
+            return ResponseEntity.badRequest().body(message);
+        }
     }
 
 }

@@ -32,4 +32,8 @@ public interface MemberAdaptor {
     void doRegister(MemberRegisterRequest memberRegisterRequest);
 
     boolean doIdCheck(String id);
+
+    String postEmailSend(EmailRequest emailRequest);
+
+    String postEmailVerify(CodeEmailRequest codeEmailRequest);
 }
