@@ -151,7 +151,7 @@ public class MemberController {
      * @return register로 이동
      * @since 1.0.0
      */
-    @GetMapping("/pre-login/register")
+    @GetMapping("/register")
     public String getRegister(){
         return REGISTER_PAGE;
     }
@@ -162,7 +162,7 @@ public class MemberController {
      * @return login으로 이동
      * @since 1.0.0
      */
-    @PostMapping("/pre-login/register")
+    @PostMapping("/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest, Model model) {
         try{
             service.doRegister(memberRegisterRequest);
@@ -180,7 +180,7 @@ public class MemberController {
      * @return searchPassword 이동
      * @since 1.0.0
      */
-    @GetMapping("/pre-login/search-password")
+    @GetMapping("/search-password")
     public String getSearchPassword(){
         return "pre_login/search_password";
     }
@@ -192,7 +192,7 @@ public class MemberController {
      * @since 1.0.0
      * 아직 구현 다 못함
      */
-    @PostMapping("/pre-login/search-password")
+    @PostMapping("/search-password")
     public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
             model.addAttribute(ALERT_MESSAGE, "비밀번호를 잘못 입력하었습니다");
@@ -231,42 +231,54 @@ public class MemberController {
      * parameter로 받은 id가 이미 누군가 사용하고 있는지를 확인한다
      * @param id 회원 가입으로 사용하려는 id
      * @return 만일 누군가 사용 중이라면 true, 누군가 사용하지 않는다면 false
+     * @since 1.0.3
      */
-    @GetMapping("/pre-login/id-check")
+    @GetMapping("/id-check")
     public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
         return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
     }
 
-    @PostMapping("/pre-login/email/send")
+    /***
+     * email에 인증코드 전송을 보내는 메서드
+     * message에 성공, 실패, 오류에 대한 것을 담아서 js로 보냄
+     * @param emailRequest
+     * @return message가 담긴 ResponseEntity status 200
+     * @since 1.0.3
+     */
+    @PostMapping("/email/send")
     public ResponseEntity<String> postEmailSend(@RequestBody EmailRequest emailRequest){
         String message="";
         try{
             message = service.postEmailSend(emailRequest);
-            return ResponseEntity.ok(message);
         }catch(HttpClientErrorException e){
             message = e.getStatusText();
-            return ResponseEntity.ok(message);
         }
         catch (Exception e) {
-            message = "인증번호 발송 실패하였습니다";
-            return ResponseEntity.badRequest().body(message);
+            message = "{\"resultMessage\": \"전송에 실패하였습니다\"}";
         }
+        return ResponseEntity.ok(message);
+
     }
 
-    @PostMapping("/pre-login/email/verify")
+    /***
+     * 인증코드와 이메을을 확인하는 메서드
+     * message에 성공, 실패, 오류에 대한 것을 담아서 js로 보냄
+     * @param codeEmailRequest
+     * @return message가 담긴 ResponseEntity status200
+     * @since 1.0.3
+     */
+    @PostMapping("/email/verify")
     public ResponseEntity<String> postEmailVerify(@RequestBody CodeEmailRequest codeEmailRequest){
         String message="";
         try{
             message = service.postEmailVerify(codeEmailRequest);
-            return ResponseEntity.ok(message);
         }catch(HttpClientErrorException e){
             message = e.getStatusText();
-            return ResponseEntity.ok(message);
         }
         catch (Exception e) {
-            message = "인증에 실패하였습니다";
-            return ResponseEntity.badRequest().body(message);
+            message = "{\"resultMessage\": \"인증에 실패하였습니다\"}";
         }
+        return ResponseEntity.ok(message);
     }
 
 }
