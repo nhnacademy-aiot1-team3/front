@@ -25,7 +25,7 @@
           <div class="col-md-8 col-lg-6 col-xxl-3 auth-card">
             <div class="card mb-0">
               <div class="card-body">
-                <a class="text-nowrap logo-img text-center d-block mb-5 w-100">
+                <a href="login" class="text-nowrap logo-img text-center d-block mb-5 w-100">
                     <img src="../assets/images/logos/databo3-logo.jpg" class="dark-logo" alt="Logo-Dark" width="150px" height="auto"/>
                 </a>
                 <div class="row">
@@ -51,19 +51,19 @@
                 <form th:action="@{/login}" method="post">
                   <div class="mb-3">
                     <label for="id" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="id" name="id" aria-describedby="emailHelp">
+                    <input type="text" class="form-control" id="id" name="id" aria-describedby="emailHelp" required>
                   </div>
                   <div class="mb-4">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password" id="password">
+                    <input type="password" class="form-control" name="password" id="password" required>
                   </div>
                   <div class="d-flex align-items-center justify-content-between mb-4">
-                    <a class="text-primary fw-medium" href="/pre-login/search-password">Forgot Password?</a>
+                    <a class="text-primary fw-medium" href="/search-password">Forgot Password?</a>
                   </div>
                   <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" type="submit">로그인</button>
                   <div class="d-flex align-items-center justify-content-center">
                     <p class="fs-4 mb-0 fw-medium">New to databo3?</p>
-                    <a class="text-primary fw-medium ms-2" href="/pre-login/register">Create an account</a>
+                    <a class="text-primary fw-medium ms-2" href="/register">Create an account</a>
                   </div>
                 </form>
               </div>

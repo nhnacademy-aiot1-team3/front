@@ -30,13 +30,18 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests()
                 .antMatchers(
-                        "/login",
                         "/logout",
-                        "/pre-login/**",
-                        "/oauth/**",
                         "/assets/**",
                         "/error"
                 ).permitAll()
+                .antMatchers(
+                        "/login",
+                        "/oauth/**",
+                        "/register",
+                        "/search-password",
+                        "/id-check",
+                        "/email/**"
+                ).hasRole("ANONYMOUS")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/owner/**").hasRole("OWNER")
                 .antMatchers("/viewer/**").hasRole("VIEWER")

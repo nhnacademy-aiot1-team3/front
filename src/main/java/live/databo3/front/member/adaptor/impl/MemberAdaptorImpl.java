@@ -46,18 +46,13 @@ public class MemberAdaptorImpl implements MemberAdaptor {
 
         HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto, httpHeaders);
 
-        ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> exchange = restTemplate.exchange(
+        return restTemplate.exchange(
                 gatewayDomain+"/auth/login",
                 HttpMethod.POST,
                 request,
                 new ParameterizedTypeReference<>() {
                 }
         );
-        log.info("{}",exchange.getBody());
-        log.info("{}",exchange.getBody().getBody());
-        log.info("{}",exchange.getBody().getHeader());
-
-        return exchange;
     }
 
     /**
@@ -78,11 +73,10 @@ public class MemberAdaptorImpl implements MemberAdaptor {
 
     @Override
     public boolean doIdCheck(String id) {
-        HttpHeaders httpHeaders= new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-        ResponseEntity<Boolean> result = restTemplate.getForEntity(gatewayDomain+"/api/account/member/duplicate/"+id, Boolean.class);
+        ResponseEntity<Boolean> result = restTemplate.getForEntity(
+                gatewayDomain+"/api/account/member/duplicate/"+id,
+                Boolean.class
+        );
         return result.getBody();
     }
 

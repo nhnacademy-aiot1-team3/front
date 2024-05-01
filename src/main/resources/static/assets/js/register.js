@@ -45,7 +45,7 @@ document.getElementById("id").addEventListener('blur', async event=> {
         return;
     }
 
-    let url = "/pre-login/id-check";
+    let url = "/id-check";
     let queryParam ="?id="+id.value;
     url += queryParam;
 
@@ -59,15 +59,14 @@ document.getElementById("id").addEventListener('blur', async event=> {
         setIdValid(1,"sign-up-button");
     }
 })
-// 승인할때 /pre-login/email-check
 
 document.getElementById("email-button").addEventListener('click', async event=> {
     event.preventDefault();
-    btnDeactive("email-button");
+    btnDeactivate("email-button");
     const email = document.getElementById("email");
     const email_languages = document.getElementById("email-languages");
 
-    let url = "/pre-login/email/send";
+    let url = "/email/send";
 
     fetch(url, {
         method: "POST",
@@ -109,11 +108,11 @@ document.getElementById("email-button").addEventListener('click', async event=> 
 
                     document.getElementById("email-code-button").addEventListener('click', async event => {
                         event.preventDefault();
-                        btnDeactive("email-code-button");
+                        btnDeactivate("email-code-button");
                         const email = document.getElementById("email");
                         const certification_number = document.getElementById("email-code");
 
-                        let url = "/pre-login/email/verify";
+                        let url = "/email/verify";
 
                         fetch(url, {
                             method: "POST",
@@ -160,7 +159,7 @@ function btnActive(button_name)  {
     const target = document.getElementById(button_name);
     target.disabled = false;
 }
-function btnDeactive(button_name)  {
+function btnDeactivate(button_name)  {
     const target = document.getElementById(button_name);
     target.disabled = true;
 }
@@ -168,7 +167,7 @@ function checkBothConditions(button_name) {
     if (idValid === 1 && emailValid === 1) {
         btnActive(button_name);
     }else{
-        btnDeactive(button_name);
+        btnDeactivate(button_name);
     }
 }
 
