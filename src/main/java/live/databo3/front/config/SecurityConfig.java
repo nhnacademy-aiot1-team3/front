@@ -1,10 +1,12 @@
 package live.databo3.front.config;
 
 
-import live.databo3.front.util.JwtUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import live.databo3.front.auth.adaptor.AuthAdaptor;
+import live.databo3.front.auth.filter.ExceptionHandlingFilter;
 import live.databo3.front.auth.filter.JwtAuthenticationFilter;
 import live.databo3.front.auth.filter.TokenRenewalFilter;
+import live.databo3.front.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,9 +27,10 @@ import org.springframework.security.web.context.SecurityContextPersistenceFilter
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtUtil jwtUtil;
+    private final ObjectMapper objectMapper;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .antMatchers(
                         "/login",
@@ -53,6 +56,7 @@ public class SecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterAfter(jwtAuthenticationFilter(), SecurityContextPersistenceFilter.class);
         http.addFilterBefore(tokenRenewalFilter(null), JwtAuthenticationFilter.class);
+        http.addFilterBefore(exceptionHandlingFilter(), TokenRenewalFilter.class);
         return http.build();
     }
 
@@ -68,12 +72,31 @@ public class SecurityConfig {
     }
 
     @Bean
+    public ExceptionHandlingFilter exceptionHandlingFilter() {
+        return new ExceptionHandlingFilter(excludePath());
+    }
+
+    @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtUtil);
+        return new JwtAuthenticationFilter(jwtUtil, objectMapper,excludePath());
     }
 
     @Bean
     public TokenRenewalFilter tokenRenewalFilter(AuthAdaptor authAdaptor) {
-        return new TokenRenewalFilter(authAdaptor,jwtUtil);
+        return new TokenRenewalFilter(authAdaptor, jwtUtil, objectMapper,excludePath());
+    }
+
+    @Bean
+    public String[] excludePath() {
+        return new String[]{
+                "/login",
+                "/logout",
+                "/pre-login/.*",
+                "/oauth/.*",
+                "/static/.*",
+                "/error",
+                "/assets/.*",
+                "/favicon.ico/*"
+        };
     }
 }
