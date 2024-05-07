@@ -14,5 +14,5 @@ public class MemberRegisterRequest {
     private String id;
     private String password;
     private String email;
-    private int role;
+    private int roles;
 }

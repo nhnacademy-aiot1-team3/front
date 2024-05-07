@@ -12,7 +12,7 @@ function setEmailValid(value,button_name) {
 }
 
 function checkOnlyOne(element) {
-    const checkboxes = document.getElementsByName("role");
+    const checkboxes = document.getElementsByName("roles");
     checkboxes.forEach((cb) => {
         cb.checked = false;
     });
@@ -173,7 +173,7 @@ function checkBothConditions(button_name) {
 
 
 function validateForm() {
-    const checkboxes = document.querySelectorAll('input[name="role"]:checked');
+    const checkboxes = document.querySelectorAll('input[name="roles"]:checked');
     if (checkboxes.length === 0) {
         alert("OWNER ViEWER 중 선택 해야합니다");
         return false;

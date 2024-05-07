@@ -19,9 +19,7 @@ public interface MemberAdaptor {
      *         body는 accessToken과 refreshToken과 accessToken의 유효기간 refreshToken의 유효기간이 담겨있는 TokenResponseDto.
      * @since 1.0.0
      */
-    ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> doLogin(MemberRequestDto memberRequestDto);
-
-
+    ResponseDto<ResponseHeaderDto, TokenResponseDto> doLogin(MemberRequestDto memberRequestDto);
 
     /**
      * 회원가입 요청을 id, password, email를 담아서 게이트웨이에 회원가입 요청을 보냅니다.
@@ -29,7 +27,7 @@ public interface MemberAdaptor {
      * @param memberRegisterRequest 회원가입에 필요에 필요한 정보를(id, password, email) 받는 request
      * @since 1.0.0
      */
-    void doRegister(MemberRegisterRequest memberRegisterRequest);
+    String doRegister(MemberRegisterRequest memberRegisterRequest);
 
     boolean doIdCheck(String id);
 
