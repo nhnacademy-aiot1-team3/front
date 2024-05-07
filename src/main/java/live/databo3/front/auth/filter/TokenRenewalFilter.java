@@ -67,6 +67,7 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
             }
             ResponseDto<ResponseHeaderDto, TokenResponseDto> responseDto = authAdaptor.tokenReIssue(refreshTokenCookie.getValue()).getBody();
 
+
             String accessToken = responseDto.getBody().getAccessToken();
             String refreshToken = responseDto.getBody().getRefreshToken();
 
