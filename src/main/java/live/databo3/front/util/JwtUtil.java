@@ -1,6 +1,6 @@
 package live.databo3.front.util;
 
-import live.databo3.front.auth.excepiton.InvalidTokenException;
+import live.databo3.front.auth.exception.InvalidTokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;

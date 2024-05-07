@@ -1,10 +1,13 @@
 package live.databo3.front.auth.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import live.databo3.front.auth.dto.JwtPayloadDto;
 import live.databo3.front.util.CookieUtil;
 import live.databo3.front.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -25,29 +28,33 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
+    private final ObjectMapper objectMapper;
+    private final String[] excludePath;
+
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain){
         log.info("jwtAuthenticationFilter {}", request.getRequestURI());
-
         try {
-            Cookie accessTokenCookie = CookieUtil.findCookie(request, "access_token");
-            if (Objects.isNull(accessTokenCookie)) {
-                log.error("no access_token cookie found");
+            Object attribute = request.getAttribute(HttpHeaders.AUTHORIZATION);
+            if (Objects.isNull(attribute)) {
+                log.error("no authorization header found in request");
                 filterChain.doFilter(request, response);
                 return;
             }
 
-            Claims claims = jwtUtil.parseClaims(accessTokenCookie.getValue());
+            String accessToken = attribute.toString();
 
-            String memberId = claims.get("memberId", String.class);
-            String memberEmail = claims.get("memberEmail", String.class);
-            List<Map<String, String>> roles = claims.get("roles", List.class);
+            JwtPayloadDto jwtPayloadDto = objectMapper.readValue(new String(Base64.getDecoder().decode(accessToken.split("\\.")[1])), JwtPayloadDto.class);
 
-            List<SimpleGrantedAuthority> authorities = roles.stream()
-                    .map(index -> new SimpleGrantedAuthority(index.get("authority")))
+            String memberId = jwtPayloadDto.getMemberId();
+            String memberEmail = jwtPayloadDto.getMemberEmail();
+
+            List<SimpleGrantedAuthority> authorities = jwtPayloadDto.getRoles().stream()
+                    .map(authenticationRoleDto -> new SimpleGrantedAuthority(authenticationRoleDto.getAuthority()))
                     .collect(Collectors.toList());
 
+            log.info("memberId: {}, memberEmail: {}, authorities: {}", memberId, memberEmail, authorities);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(
                     new UsernamePasswordAuthenticationToken(
