@@ -70,6 +70,7 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
             String accessToken = responseDto.getBody().getAccessToken();
             String refreshToken = responseDto.getBody().getRefreshToken();
 
+
             accessTokenCookie.setValue(accessToken);
             refreshTokenCookie.setValue(refreshToken);
 
@@ -84,6 +85,13 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+
+        String[] excludePath = {
+                "/logout",
+                "/assets/.*",
+                "/error"
+        };
+
         Set<Pattern> excludePattern = Arrays.stream(excludePath)
                 .map(path -> Pattern.compile(path))
                 .collect(Collectors.toSet());

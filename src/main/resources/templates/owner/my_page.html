@@ -54,43 +54,8 @@
             <div class="col-lg-4 order-last">
             </div>
           </div>
-          <ul
-                  class="nav nav-pills user-profile-tab justify-content-end mt-2 bg-primary-subtle rounded-2 rounded-top-0"
-                  id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button
-                      class="nav-link position-relative rounded-0 active d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
-                      id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button"
-                      role="tab" aria-controls="pills-profile" aria-selected="true">
-                <i class="ti ti-user-plus me-2 fs-6"></i>
-                <span class="d-none d-md-block">유저 정보</span>
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button
-                      class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
-                      id="pills-document-list-tab" data-bs-toggle="pill" data-bs-target="#pills-document-list" type="button"
-                      role="tab" aria-controls="pills-document-list" aria-selected="false">
-                <i class="ti ti-list me-2 fs-6"></i>
-                <span class="d-none d-md-block">조직 목록</span>
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button
-                      class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6"
-                      id="pills-register-tab" data-bs-toggle="pill" data-bs-target="#pills-register" type="button"
-                      role="tab" aria-controls="pills-register" aria-selected="false">
-                <i class="ti ti-user-plus me-2 fs-6"></i>
-                <span class="d-none d-md-block">VIEWER 회원가입 요청</span>
-              </button>
-            </li>
-          </ul>
         </div>
       </div>
-
-      <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
-             aria-labelledby="pills-profile-tab" tabindex="0">
 
           <div class="row">
             <div class="col-lg-6 d-flex align-items-stretch">
@@ -105,7 +70,6 @@
                       <button class="btn btn-primary">Upload</button>
                       <button class="btn bg-danger-subtle text-danger">Reset</button>
                     </div>
-                    <p class="mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
                   </div>
                 </div>
               </div>
@@ -119,17 +83,17 @@
                     <div class="mb-3">
                       <label for="exampleInputPassword1" class="form-label">Current Password</label>
                       <input type="password" class="form-control" id="exampleInputPassword1"
-                             value="12345678910">
+                             value="">
                     </div>
                     <div class="mb-3">
                       <label for="exampleInputPassword2" class="form-label">New Password</label>
                       <input type="password" class="form-control" id="exampleInputPassword2"
-                             value="12345678910">
+                             value="">
                     </div>
                     <div>
                       <label for="exampleInputPassword3" class="form-label">Confirm Password</label>
                       <input type="password" class="form-control" id="exampleInputPassword3"
-                             value="12345678910">
+                             value="">
                     </div>
                     <div class="d-flex align-items-center justify-content-center my-4 gap-6">
                       <button class="btn btn-primary">Save</button>
@@ -139,201 +103,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-      <div class="tab-pane fade" id="pills-document-list" role="tabpanel" aria-labelledby="pills-document-list-tab"
-           tabindex="0">
-        <div class="widget-content searchable-container list">
-          <div class="card card-body">
-            <div class="table-responsive">
-              <table class="table search-table align-middle text-nowrap">
-                <thead class="header-item">
-                <th></th>
-                <th>Document</th>
-                <th>Role</th>
-                </thead>
-                <tbody>
-                <tr class="search-items">
-                  <td>
-                  </td>
-                  <td>
-                    <span>NHNACADEMY 서울</span>
-                  </td>
-                  <td>
-                    <span>OWNER</span>
-                  </td>
-                </tr>
-
-                <tr class="search-items">
-                  <td>
-                  </td>
-                  <td>
-                    <span>NHNACADEMY 뉴욕</span>
-                  </td>
-                  <td>
-                    <span>OWNER</span>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-              <button href="/owner/sensor-list" class="btn btn-primary rounded-pill px-4 me-6">
-                Sensor 목록으로 가기
-              </button>
-
-              <div class="card-body p-4">
-                <h5 class="card-title fw-semibold">조직 추가 삭제</h5>
-                <p class="card-subtitle mb-4">추가하거나 삭제하고 싶은 조직명을 적고 추가나 삭제 요청을 보내세요.</p>
-                <form>
-                  <div class="row">
-                    <div class="col-12">
-                      <div>
-                        <input type="text" class="form-control" id="document"
-                               placeholder="조직명">
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                        <button class="btn btn-primary">추가</button>
-                        <button class="btn bg-danger-subtle text-danger">삭제</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-        <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab"
-             tabindex="0">
-          <div class="widget-content searchable-container list">
-            <div class="card card-body">
-              <div class="table-responsive">
-                <table class="table search-table align-middle text-nowrap">
-                  <thead class="header-item">
-                  <th></th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Document</th>
-                  <th>Action</th>
-                  </thead>
-                  <tbody>
-                  <tr class="search-items">
-                    <td>
-
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <img src="../assets/images/profile/user-2.jpg" alt="avatar" class="rounded-circle"
-                             width="35" />
-                        <div class="ms-3">
-                          <div class="user-meta-info">
-                            <h6 class="user-name mb-0" data-name="Emma Adams">Emma Adams</h6>
-                            <span class="user-work fs-3" data-occupation="Web Developer">Web Developer</span>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span class="usr-email-addr" data-email="adams@mail.com">adams@mail.com</span>
-                    </td>
-                    <td>
-                      <span class="usr-location" data-location="Boston, USA">viewer</span>
-                    </td>
-                    <td>
-                      <span class="usr-ph-no" data-phone="+1 (070) 123-4567">+91 (070) 123-4567</span>
-                    </td>
-                    <td>
-                      <div class="action-btn">
-                        <a href="javascript:void(0)" class="text-primary edit">
-                          <i class="ti ti-check fs-5"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="text-dark delete ms-2">
-                          <i class="ti ti-x fs-5"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="search-items">
-                    <td>
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <img src="../assets/images/profile/user-3.jpg" alt="avatar" class="rounded-circle"
-                             width="35" />
-                        <div class="ms-3">
-                          <div class="user-meta-info">
-                            <h6 class="user-name mb-0" data-name="Olivia Allen">Olivia Allen</h6>
-                            <span class="user-work fs-3" data-occupation="Web Designer">Web Designer</span>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span class="usr-email-addr" data-email="allen@mail.com">allen@mail.com</span>
-                    </td>
-                    <td>
-                      <span class="usr-location" data-location="Sydney, Australia">viewer</span>
-                    </td>
-                    <td>
-                      <span class="usr-ph-no" data-phone="+91 (125) 450-1500">+91 (125) 450-1500</span>
-                    </td>
-                    <td>
-                      <div class="action-btn">
-                        <a href="javascript:void(0)" class="text-primary edit">
-                          <i class="ti ti-check fs-5"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="text-dark delete ms-2">
-                          <i class="ti ti-x fs-5"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="search-items">
-                    <td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <img src="../assets/images/profile/user-4.jpg" alt="avatar" class="rounded-circle"
-                             width="35" />
-                        <div class="ms-3">
-                          <div class="user-meta-info">
-                            <h6 class="user-name mb-0" data-name="Isabella Anderson"> Isabella Anderson </h6>
-                            <span class="user-work fs-3" data-occupation="UX/UI Designer">UX/UI Designer</span>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span class="usr-email-addr" data-email="anderson@mail.com">anderson@mail.com</span>
-                    </td>
-                    <td>
-                      <span class="usr-location" data-location="Miami, USA">viewer</span>
-                    </td>
-                    <td>
-                      <span class="usr-ph-no" data-phone="+91 (100) 154-1254">+91 (100) 154-1254</span>
-                    </td>
-                    <td>
-                      <div class="action-btn">
-                        <a href="javascript:void(0)" class="text-primary edit">
-                          <i class="ti ti-check fs-5"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="text-dark delete ms-2">
-                          <i class="ti ti-x fs-5"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </div>
     </div>
