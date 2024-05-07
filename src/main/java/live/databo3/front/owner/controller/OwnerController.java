@@ -3,6 +3,7 @@ package live.databo3.front.owner.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -38,5 +39,16 @@ public class OwnerController {
     @GetMapping("/owner/notification")
     public String getNotification(){
         return "/owner/notification";
+    }
+
+    @GetMapping("/owner/organization-list")
+    public String getOrganizationList(Model model){
+
+        return "/owner/organization_list";
+    }
+
+    @GetMapping("/owner/organization-management")
+    public String getOrganization(){
+        return "/owner/organization_management";
     }
 }

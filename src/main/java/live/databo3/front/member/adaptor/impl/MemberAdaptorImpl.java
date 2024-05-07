@@ -33,26 +33,27 @@ public class MemberAdaptorImpl implements MemberAdaptor {
      *
      * @param memberRequestDto 로그인에 필요한 id, password가 담긴 dto
      * @return header과 body로 구성되어있는 ResponseDto입니다
-     *         header은 resultCode,resultMessage로 구성되어있는 ResponseHeaderDto이고
-     *         body는 accessToken과 refreshToken과 accessToken의 유효기간 refreshToken의 유효기간이 담겨있는 TokenResponseDto.
+     * header은 resultCode,resultMessage로 구성되어있는 ResponseHeaderDto이고
+     * body는 accessToken과 refreshToken과 accessToken의 유효기간 refreshToken의 유효기간이 담겨있는 TokenResponseDto.
      * @since 1.0.0
      */
     @Override
-    public ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> doLogin(MemberRequestDto memberRequestDto) {
+    public ResponseDto<ResponseHeaderDto, TokenResponseDto> doLogin(MemberRequestDto memberRequestDto) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<MemberRequestDto> request = new HttpEntity<>(memberRequestDto, httpHeaders);
-
-        return restTemplate.exchange(
+        ResponseEntity<ResponseDto<ResponseHeaderDto,TokenResponseDto>> exchange = restTemplate.exchange(
                 gatewayDomain+"/auth/login",
                 HttpMethod.POST,
                 request,
                 new ParameterizedTypeReference<>() {
                 }
         );
+
+        return exchange.getBody();
     }
 
     /**
@@ -62,13 +63,19 @@ public class MemberAdaptorImpl implements MemberAdaptor {
      * @since 1.0.0
      */
     @Override
-    public void doRegister(MemberRegisterRequest memberRegisterRequest) {
+    public String doRegister(MemberRegisterRequest memberRegisterRequest) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<MemberRegisterRequest> request = new HttpEntity<>(memberRegisterRequest, httpHeaders);
-        restTemplate.postForEntity(gatewayDomain+"/api/account/member/register", request, Void.class);
+
+        return restTemplate.exchange(
+                gatewayDomain+"/api/account/member/register",
+                HttpMethod.POST,
+                request,
+                String.class
+        ).getBody();
     }
 
     @Override
