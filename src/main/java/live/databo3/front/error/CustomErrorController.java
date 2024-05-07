@@ -28,6 +28,6 @@ public class CustomErrorController implements ErrorController {
                 codeNumber = "/500";
             }
         }
-        return "/errors"+codeNumber;
+        return "errors"+codeNumber;
     }
 }

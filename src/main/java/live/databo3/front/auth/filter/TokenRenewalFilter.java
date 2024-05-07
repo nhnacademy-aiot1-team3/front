@@ -86,7 +86,6 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-
         Set<Pattern> excludePattern = Arrays.stream(excludePath)
                 .map(path -> Pattern.compile(path))
                 .collect(Collectors.toSet());
