@@ -2,8 +2,8 @@ package live.databo3.front.member.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import live.databo3.front.member.adaptor.MemberAdaptor;
 import live.databo3.front.member.dto.*;
-import live.databo3.front.member.service.MemberService;
 import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * 회원 관련 작업을 처리하는 컨트롤러
@@ -36,7 +35,6 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
-    private final MemberService service;
     private static final String LOGIN_PAGE = "pre_login/login";
     private static final String LOGIN_URL = "/login";
     private static final String REGISTER_PAGE = "pre_login/register";
@@ -44,6 +42,8 @@ public class MemberController {
     private static final String ALERT="alert";
     private static final String ALERT_MESSAGE="message";
     private static final String ALERT_URL="searchUrl";
+
+    private final MemberAdaptor memberAdaptor;
 
     /**
      * main 페이지로 이동
@@ -87,10 +87,9 @@ public class MemberController {
     @PostMapping("/login")
     public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) throws JsonProcessingException {
         try {
-            Optional<ResponseDto<ResponseHeaderDto, TokenResponseDto>> result = service.doLogin(memberRequestDto);
-
-            if(result.isPresent()) {
-                TokenResponseDto token = result.get().getBody();
+            ResponseDto<ResponseHeaderDto, TokenResponseDto> result = memberAdaptor.doLogin(memberRequestDto);
+            if(result.getHeader().getResultMessage().equals("로그인 성공")) {
+                TokenResponseDto token = result.getBody();
 
                 String accesesToken = token.getAccessToken();
                 String refreshToken = token.getRefreshToken();
@@ -100,15 +99,13 @@ public class MemberController {
 
                 accesesCookie.setMaxAge((int) Duration.ofHours(1).toSeconds());
                 accesesCookie.setPath("/");
-
                 refreshCookie.setMaxAge((int) Duration.ofHours(1).toSeconds());
                 refreshCookie.setPath("/");
 
                 response.addCookie(accesesCookie);
                 response.addCookie(refreshCookie);
 
-                model.addAttribute(ALERT_MESSAGE, "로그인 성공");
-                model.addAttribute(ALERT_URL,"/");
+                return "redirect:/";
             }
         } catch(HttpClientErrorException e){
             String errorText = e.getStatusText();
@@ -151,7 +148,7 @@ public class MemberController {
      * @return register로 이동
      * @since 1.0.0
      */
-    @GetMapping("/pre-login/register")
+    @GetMapping("/register")
     public String getRegister(){
         return REGISTER_PAGE;
     }
@@ -162,10 +159,10 @@ public class MemberController {
      * @return login으로 이동
      * @since 1.0.0
      */
-    @PostMapping("/pre-login/register")
+    @PostMapping("/register")
     public String postRegister(MemberRegisterRequest memberRegisterRequest, Model model) {
         try{
-            service.doRegister(memberRegisterRequest);
+            memberAdaptor.doRegister(memberRegisterRequest);
             model.addAttribute(ALERT_MESSAGE, "회원가입 성공");
             model.addAttribute(ALERT_URL,LOGIN_URL);
         }catch (Exception e) {
@@ -180,7 +177,7 @@ public class MemberController {
      * @return searchPassword 이동
      * @since 1.0.0
      */
-    @GetMapping("/pre-login/search-password")
+    @GetMapping("/search-password")
     public String getSearchPassword(){
         return "pre_login/search_password";
     }
@@ -192,7 +189,7 @@ public class MemberController {
      * @since 1.0.0
      * 아직 구현 다 못함
      */
-    @PostMapping("/pre-login/search-password")
+    @PostMapping("/search-password")
     public String postSearchPassword(@RequestParam String nowPassword, @RequestParam String passwordCheck, @RequestParam String newPassword, Model model){
         if(!nowPassword.equals(passwordCheck)){
             model.addAttribute(ALERT_MESSAGE, "비밀번호를 잘못 입력하었습니다");
@@ -231,42 +228,54 @@ public class MemberController {
      * parameter로 받은 id가 이미 누군가 사용하고 있는지를 확인한다
      * @param id 회원 가입으로 사용하려는 id
      * @return 만일 누군가 사용 중이라면 true, 누군가 사용하지 않는다면 false
+     * @since 1.0.3
      */
-    @GetMapping("/pre-login/id-check")
+    @GetMapping("/id-check")
     public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
-        return ResponseEntity.status(HttpStatus.OK).body(service.doIdCheck(id));
+        return ResponseEntity.status(HttpStatus.OK).body(memberAdaptor.doIdCheck(id));
     }
 
-    @PostMapping("/pre-login/email/send")
+    /***
+     * email에 인증코드 전송을 보내는 메서드
+     * message에 성공, 실패, 오류에 대한 것을 담아서 js로 보냄
+     * @param emailRequest
+     * @return message가 담긴 ResponseEntity status 200
+     * @since 1.0.3
+     */
+    @PostMapping("/email/send")
     public ResponseEntity<String> postEmailSend(@RequestBody EmailRequest emailRequest){
         String message="";
         try{
-            message = service.postEmailSend(emailRequest);
-            return ResponseEntity.ok(message);
+            message = memberAdaptor.postEmailSend(emailRequest);
         }catch(HttpClientErrorException e){
             message = e.getStatusText();
-            return ResponseEntity.ok(message);
         }
         catch (Exception e) {
-            message = "인증번호 발송 실패하였습니다";
-            return ResponseEntity.badRequest().body(message);
+            message = "{\"resultMessage\": \"전송에 실패하였습니다\"}";
         }
+        return ResponseEntity.ok(message);
+
     }
 
-    @PostMapping("/pre-login/email/verify")
+    /***
+     * 인증코드와 이메을을 확인하는 메서드
+     * message에 성공, 실패, 오류에 대한 것을 담아서 js로 보냄
+     * @param codeEmailRequest
+     * @return message가 담긴 ResponseEntity status200
+     * @since 1.0.3
+     */
+    @PostMapping("/email/verify")
     public ResponseEntity<String> postEmailVerify(@RequestBody CodeEmailRequest codeEmailRequest){
         String message="";
         try{
-            message = service.postEmailVerify(codeEmailRequest);
-            return ResponseEntity.ok(message);
+            message = memberAdaptor.postEmailVerify(codeEmailRequest);
         }catch(HttpClientErrorException e){
             message = e.getStatusText();
-            return ResponseEntity.ok(message);
         }
         catch (Exception e) {
-            message = "인증에 실패하였습니다";
-            return ResponseEntity.badRequest().body(message);
+            message = "{\"resultMessage\": \"인증에 실패하였습니다\"}";
         }
+        return ResponseEntity.ok(message);
     }
 
 }

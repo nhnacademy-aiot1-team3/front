@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme"
+      data-layout="vertical" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/viewer_layout}">
+
+<th:block layout:fragment="content">
+    <body>
+
+    <div class="body-wrapper">
+        <div class="container-fluid">
+            <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                <div class="card-body px-4 py-3">
+                    <div class="row align-items-center">
+                        <div class="col-9">
+                            <h4 class="fw-semibold mb-8">조직 목록 Page</h4>
+                        </div>
+                        <div class="col-3">
+                            <div class="text-center mb-n5">
+                                <img
+                                        src="../assets/images/breadcrumb/ChatBc.png"
+                                        alt=""
+                                        class="img-fluid mb-n4"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card card-body">
+                <div class="table-responsive">
+                    <h5 class="card-title fw-semibold">나의 부서 목록</h5>
+                    <table class="table search-table align-middle text-nowrap">
+                        <thead class="header-item">
+                        <th></th>
+                        <th>Organization</th>
+                        <th>role</th>
+                        </thead>
+                        <tbody>
+                        <tr class="search-items">
+                            <td>
+                            </td>
+                            <td>
+                                <span class="usr-dc-name" data-phone="NHNACADEMY 경남">NHNACADEMY 경남</span>
+                            </td>
+                            <td>
+                                <span class="usr-role">viewer</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card card-body">
+                <div class="table-responsive">
+                    <h5 class="card-title fw-semibold">신청 가능한 부서 목록</h5>
+                    <table class="table search-table align-middle text-nowrap">
+                        <thead class="header-item">
+                        <th></th>
+                        <th>Organization</th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                        <tr class="search-items">
+                            <td>
+                            </td>
+                            <td>
+                                <span class="usr-dc-name" data-phone="NHNACADEMY 경남">NHNACADEMY 뉴욕</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary w-60 py-8 mb-0 rounded-2">조직 신청</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </body>
+</th:block>
+
+</html>

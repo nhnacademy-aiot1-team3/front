@@ -30,7 +30,7 @@
         <div class="col-md-8 col-lg-6 col-xxl-3 auth-card">
           <div class="card mb-0">
             <div class="card-body">
-              <a href="/" class="text-nowrap logo-img text-center d-block mb-5 w-100">
+              <a href="login" class="text-nowrap logo-img text-center d-block mb-5 w-100">
                 <img src="../assets/images/logos/databo3-logo.jpg" class="dark-logo" alt="Logo-Dark" width="150px" height="auto"/>
               </a>
               <div class="row">
@@ -53,7 +53,7 @@
                 <p class="mb-0 fs-4 px-3 d-inline-block bg-white z-index-5 position-relative">or sign Up with</p>
                 <span class="border-top w-100 position-absolute top-50 start-50 translate-middle"></span>
               </div>
-              <form th:action="@{/pre-login/register}" method="post" id="form">
+              <form th:action="@{/register}" method="post" id="form">
                 <div class="mb-3">
                   <label for="id" class="form-label">Id</label>
                   <input type="text" class="form-control" id="id" name="id" aria-describedby="textHelp" required>
@@ -63,7 +63,6 @@
                   <label for="email" class="form-label">Email address</label>
                   <input type="email" class="form-control" id="email" name ="email" aria-describedby="emailHelp" required>
                   <span id="email-languages"></span>
-<!--                  email-languages에 시간 타이머 담기 시도 -->
                 </div>
                 <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" type="submit" id="email-button">Email 인증</button>
                 <div id="email-check-div" class="mb-4"></div>
@@ -72,10 +71,10 @@
                   <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <div class="mb-4">
-                  <input type="checkbox" id="ownerCheckbox" name="role" value=2 onclick="checkOnlyOne(this)"/>
+                  <input type="checkbox" id="ownerCheckbox" name="roles" value=2 onclick="checkOnlyOne(this)"/>
                   <label for="ownerCheckbox">OWNER</label><br/>
 
-                  <input type="checkbox" id="viewerCheckbox" name="role" value=3 onclick="checkOnlyOne(this)"/>
+                  <input type="checkbox" id="viewerCheckbox" name="roles" value=3 onclick="checkOnlyOne(this)"/>
                   <label for="viewerCheckbox">VIEWER</label><br/>
                 </div>
                 <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" disabled='disabled' id= "sign-up-button" type="submit" data-submit-type="search" onclick="return validateForm();">회원가입</button>

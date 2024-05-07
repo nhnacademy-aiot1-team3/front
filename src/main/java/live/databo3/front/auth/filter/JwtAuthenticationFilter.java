@@ -60,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(e.getMessage());
+//            log.error(e.getMessage());
         } finally {
             SecurityContextHolder.clearContext();
         }
@@ -69,11 +69,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String[] excludePath = {
-                "/login",
                 "/logout",
-                "/pre-login/.*",
-                "/oauth/.*",
-                "/static/.*",
+                "/assets/.*",
                 "/error"
         };
         Set<Pattern> excludePattern = Arrays.stream(excludePath)

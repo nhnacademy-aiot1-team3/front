@@ -68,18 +68,15 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
             //TODO 에러 구분 세세하게 나눠서 각 에러마다 처리하는 로직
             log.error("tokenRenewalFilter error", e);
         } finally {
-            log.info("end");
+//            log.info("end");
         }
     }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String[] excludePath = {
-                "/login",
                 "/logout",
-                "/pre-login/.*",
-                "/oauth/.*",
-                "/static/.*",
+                "/assets/.*",
                 "/error"
         };
         Set<Pattern> excludePattern = Arrays.stream(excludePath)

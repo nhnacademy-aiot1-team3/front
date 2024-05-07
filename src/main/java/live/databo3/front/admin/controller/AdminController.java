@@ -1,11 +1,15 @@
 package live.databo3.front.admin.controller;
 
+import live.databo3.front.admin.adaptor.AdminAdaptor;
+import live.databo3.front.admin.dto.OrganizationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * admin 페이지 관련 controller
@@ -17,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequiredArgsConstructor
 public class AdminController {
+
+    private final AdminAdaptor adminAdaptor;
+
     @GetMapping("/admin/my-page")
     public String getAdminMyPage(){
         return "admin/my_page";
@@ -35,5 +42,27 @@ public class AdminController {
     @GetMapping("/admin/notice-writer")
     public String getNoticeWriter(@RequestParam(value = "number", required = false) String noticeNum, Model model){
         return "/admin/notice_writer";
+    }
+
+    @GetMapping("/admin/organization-management")
+    public String getOrganization(){
+        return "/admin/organization_management";
+    }
+
+    @GetMapping("/admin/owner-register-request")
+    public String getOwnerRegisterRequest(){
+        return "/admin/owner_register_request";
+    }
+
+    @GetMapping("/admin/organization-list")
+    public String getOrganizationList(Model model){
+//        List<OrganizationDto> organizationDtoList = adminAdaptor.getOrganizations();
+
+        return "/admin/organization_list";
+    }
+
+    @GetMapping("/admin/member-list")
+    public String getMemberList(){
+        return "/admin/member_list";
     }
 }
