@@ -28,10 +28,4 @@ public interface MemberAdaptor {
      * @since 1.0.0
      */
     String doRegister(MemberRegisterRequest memberRegisterRequest);
-
-    boolean doIdCheck(String id);
-
-    String postEmailSend(EmailRequest emailRequest);
-
-    String postEmailVerify(CodeEmailRequest codeEmailRequest);
 }

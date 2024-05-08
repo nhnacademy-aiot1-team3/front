@@ -77,48 +77,4 @@ public class MemberAdaptorImpl implements MemberAdaptor {
                 String.class
         ).getBody();
     }
-
-    @Override
-    public boolean doIdCheck(String id) {
-        ResponseEntity<Boolean> result = restTemplate.getForEntity(
-                gatewayDomain+"/api/account/member/duplicate/"+id,
-                Boolean.class
-        );
-        return result.getBody();
-    }
-
-    @Override
-    public String postEmailSend(EmailRequest emailRequest) {
-        HttpHeaders httpHeaders= new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-        HttpEntity<EmailRequest> request = new HttpEntity<>(emailRequest, httpHeaders);
-        ResponseEntity<String> exchange = restTemplate.exchange(
-                gatewayDomain+"/api/account/member/email/send",
-                HttpMethod.POST,
-                request,
-                new ParameterizedTypeReference<>() {
-                }
-        );
-        return exchange.getBody();
-    }
-
-    @Override
-    public String postEmailVerify(CodeEmailRequest codeEmailRequest) {
-        HttpHeaders httpHeaders= new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-        HttpEntity<CodeEmailRequest> request = new HttpEntity<>(codeEmailRequest, httpHeaders);
-        ResponseEntity<String> exchange = restTemplate.exchange(
-                gatewayDomain+"/api/account/member/email/verify",
-                HttpMethod.POST,
-                request,
-                new ParameterizedTypeReference<>() {
-                }
-        );
-        return exchange.getBody();
-    }
-
 }

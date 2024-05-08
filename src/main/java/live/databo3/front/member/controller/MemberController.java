@@ -108,9 +108,7 @@ public class MemberController {
                 return "redirect:/";
             }
         } catch(HttpClientErrorException e){
-            String errorText = e.getStatusText();
-            ResultMessageDto resultMessageDto = new ObjectMapper().readValue(errorText, ResultMessageDto.class);
-            model.addAttribute(ALERT_MESSAGE, resultMessageDto.getResultMessage());
+            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
             model.addAttribute(ALERT_URL,LOGIN_URL);
         } catch (Exception e) {
             model.addAttribute(ALERT_MESSAGE, "로그인에 실패하였습니다");
@@ -222,60 +220,4 @@ public class MemberController {
         // TODO 비밀번호 확인하는 api 만들기
         return ALERT;
     }
-
-    /**
-     * id 중복 체크
-     * parameter로 받은 id가 이미 누군가 사용하고 있는지를 확인한다
-     * @param id 회원 가입으로 사용하려는 id
-     * @return 만일 누군가 사용 중이라면 true, 누군가 사용하지 않는다면 false
-     * @since 1.0.3
-     */
-    @GetMapping("/id-check")
-    public ResponseEntity<Boolean> getIdCheck(@RequestParam String id){
-        return ResponseEntity.status(HttpStatus.OK).body(memberAdaptor.doIdCheck(id));
-    }
-
-    /***
-     * email에 인증코드 전송을 보내는 메서드
-     * message에 성공, 실패, 오류에 대한 것을 담아서 js로 보냄
-     * @param emailRequest
-     * @return message가 담긴 ResponseEntity status 200
-     * @since 1.0.3
-     */
-    @PostMapping("/email/send")
-    public ResponseEntity<String> postEmailSend(@RequestBody EmailRequest emailRequest){
-        String message="";
-        try{
-            message = memberAdaptor.postEmailSend(emailRequest);
-        }catch(HttpClientErrorException e){
-            message = e.getStatusText();
-        }
-        catch (Exception e) {
-            message = "{\"resultMessage\": \"전송에 실패하였습니다\"}";
-        }
-        return ResponseEntity.ok(message);
-
-    }
-
-    /***
-     * 인증코드와 이메을을 확인하는 메서드
-     * message에 성공, 실패, 오류에 대한 것을 담아서 js로 보냄
-     * @param codeEmailRequest
-     * @return message가 담긴 ResponseEntity status200
-     * @since 1.0.3
-     */
-    @PostMapping("/email/verify")
-    public ResponseEntity<String> postEmailVerify(@RequestBody CodeEmailRequest codeEmailRequest){
-        String message="";
-        try{
-            message = memberAdaptor.postEmailVerify(codeEmailRequest);
-        }catch(HttpClientErrorException e){
-            message = e.getStatusText();
-        }
-        catch (Exception e) {
-            message = "{\"resultMessage\": \"인증에 실패하였습니다\"}";
-        }
-        return ResponseEntity.ok(message);
-    }
-
 }

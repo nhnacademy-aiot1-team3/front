@@ -24,10 +24,7 @@ function checkOnlyOne(element) {
 
 async function check(url){
     const res = await fetch(url);
-    console.log(res);
-    const data = await res.json();
-    console.log(data);
-    return data;
+    return res.json();
 }
 
 const signUpButton = document.getElementById("sign-up-button");
@@ -45,11 +42,12 @@ document.getElementById("id").addEventListener('blur', async event=> {
         return;
     }
 
-    let url = "/id-check";
-    let queryParam ="?id="+id.value;
+    let url = "http://133.186.209.25:8888/api/account/member/duplicate/";
+    let queryParam = id.value;
     url += queryParam;
 
     const result = await check(url);
+    console.log(result);
 
     if(result) {
         id_languages.innerText="이미 사용 중인 아이디입니다";
@@ -66,7 +64,7 @@ document.getElementById("email-button").addEventListener('click', async event=> 
     const email = document.getElementById("email");
     const email_languages = document.getElementById("email-languages");
 
-    let url = "/email/send";
+    let url = "http://133.186.209.25:8888/api/account/member/email/send";
 
     fetch(url, {
         method: "POST",
@@ -78,13 +76,9 @@ document.getElementById("email-button").addEventListener('click', async event=> 
             email: email.value
         }),
     })
-        .then((response) => response.json())
-        .then((result) => {
-            console.log(result)
-            const messageExist = result.hasOwnProperty('message');
-            if(messageExist) {
+        .then((response) => {
+            if(response.status === 200) {
                 email_languages.innerText="인증 번호 발급 완료 3분 안에 인증을 완료하세요";
-
                 if(!document.getElementById("email-code")){
                     const email_div = document.getElementById("email-check-div");
                     const email_code = document.createElement("input");
@@ -112,7 +106,7 @@ document.getElementById("email-button").addEventListener('click', async event=> 
                         const email = document.getElementById("email");
                         const certification_number = document.getElementById("email-code");
 
-                        let url = "/email/verify";
+                        let url = "http://133.186.209.25:8888/api/account/member/email/verify";
 
                         fetch(url, {
                             method: "POST",
@@ -125,31 +119,32 @@ document.getElementById("email-button").addEventListener('click', async event=> 
                                 certificationNumber: certification_number.value
                             }),
                         })
-                            .then((response) => response.json())
-                            .then((result) => {
-                              console.log(result);
-
-                              const messageExist = result.hasOwnProperty('message');
-                                if(messageExist) {
+                            .then((response) => {
+                                if(response.status === 200) {
                                     setEmailValid(1,"sign-up-button");
                                     code_check.innerText = "인증이 완료되었습니다.";
                                     email_languages.innerText="";
-                                }
-
-                                const result_message_exist = result.hasOwnProperty('resultMessage');
-                                if(result_message_exist){
-                                    code_check.innerText= result.resultMessage;
+                                }else if(response.status === 400){
+                                    response.json().then((data) => {
+                                        code_check.innerText= data.header.resultMessage;
+                                        btnActive("email-code-button");
+                                    });
+                                }else {
+                                    code_check.innerText= "인증에 실패하였습니다";
                                     btnActive("email-code-button");
                                 }
                             })
 
                     })
                 }
-            }
-            const result_message_exist = result.hasOwnProperty('resultMessage');
-            if(result_message_exist){
+            }else if(response.status === 400){
+                response.json().then((data) => {
+                    btnActive("email-button")
+                    email_languages.innerText= data.header.resultMessage;
+                });
+            }else {
                 btnActive("email-button")
-                email_languages.innerText= result.resultMessage;
+                email_languages.innerText= "인증코드 생성에 실패하였습니다";
             }
         })
 
@@ -170,7 +165,6 @@ function checkBothConditions(button_name) {
         btnDeactivate(button_name);
     }
 }
-
 
 function validateForm() {
     const checkboxes = document.querySelectorAll('input[name="roles"]:checked');
