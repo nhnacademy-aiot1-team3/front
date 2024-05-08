@@ -29,10 +29,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class RestTemplateErrorHandler implements ResponseErrorHandler {
-
-    private static final Logger log = LoggerFactory.getLogger(RestTemplateErrorHandler.class);
     private final ObjectMapper objectMapper;
-
     /**
      * RestTeamplte에서 Server Exception(5xx), Client Exception(4xx)이 발생하는지 확인한다
      * @return Exception 발생시 true, Exception 발생 안하면 false
@@ -49,42 +46,17 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
      */
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
-
-        try {
-
-            ResponseDto<ResponseHeaderDto,Object> responseDto = objectMapper.readValue(response.getBody(), new TypeReference<>() {
-            });
-            ResponseHeaderDto header = responseDto.getHeader();
-            log.info("{}",header.getResultMessage());
-        } catch (Exception e) {
-            log.error(">>>>>{}",e);
-        }
-
+        ResponseDto<ResponseHeaderDto,Object> responseDto = objectMapper.readValue(
+                response.getBody(),
+                new TypeReference<>() {
+        });
+        String resultMessage = responseDto.getHeader().getResultMessage();
         if (response.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR) {
             if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
-                String responseBody = new BufferedReader(new InputStreamReader(response.getBody()))
-                        .lines()
-                        .collect(Collectors.joining("\n"));
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode jsonNode = objectMapper.readTree(responseBody);
-                JsonNode headerNode = jsonNode.get("header");
-                if (headerNode != null) {
-                    String resultMessage = headerNode.get("resultMessage").asText();
-                    String mssage = "{\"resultMessage\": \""+ resultMessage+"\"}";
-                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, mssage);
-                }
-            }if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-                String responseBody = new BufferedReader(new InputStreamReader(response.getBody()))
-                        .lines()
-                        .collect(Collectors.joining("\n"));
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode jsonNode = objectMapper.readTree(responseBody);
-                JsonNode headerNode = jsonNode.get("header");
-                if (headerNode != null) {
-                    String resultMessage = headerNode.get("resultMessage").asText();
-                    String mssage = "{\"resultMessage\": \""+ resultMessage+"\"}";
-                    throw new HttpClientErrorException(HttpStatus.NOT_FOUND, mssage);
-                }
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, resultMessage);
+            }
+            if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+                throw new HttpClientErrorException(HttpStatus.NOT_FOUND, resultMessage);
             }
         }
     }
