@@ -1,7 +1,9 @@
 package live.databo3.front.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import live.databo3.front.handler.RestTemplateErrorHandler;
 import live.databo3.front.interceptor.RestTemplateInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -20,16 +22,18 @@ import java.util.Collections;
 @Configuration
 public class RestTemplateConfig {
     private final HttpServletRequest httpServletRequest;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public RestTemplateConfig(HttpServletRequest httpServletRequest) {
+    public RestTemplateConfig(HttpServletRequest httpServletRequest,ObjectMapper objectMapper) {
         this.httpServletRequest = httpServletRequest;
+        this.objectMapper = objectMapper;
     }
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         RestTemplate restTemplate = builder
-                .errorHandler(new RestTemplateErrorHandler())
+                .errorHandler(new RestTemplateErrorHandler(objectMapper))
                 .setReadTimeout(Duration.ofSeconds(10L))
                 .setConnectTimeout(Duration.ofSeconds(10L))
                 .build();

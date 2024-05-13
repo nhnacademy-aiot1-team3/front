@@ -107,7 +107,7 @@
                                         <div class="col-lg-4 mt-n3 order-lg-2 order-1">
                                             <div class="mt-n5">
                                                 <div class="text-center">
-                                                    <h5 class="fs-10 mb-0 fw-semibold">NHNacademy 경남</h5>
+                                                    <h5 class="fs-10 mb-0 fw-semibold" th:text="${organization.getOrganizationName()}"></h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -125,134 +125,47 @@
                                 <div class="card w-100 position-relative overflow-hidden mb-0">
                                     <div class="card-body p-4">
                                         <h5 class="card-title fw-semibold">sensor 추가</h5>
-                                        <form>
+                                        <form action=/admin/createSensor method="post">
+                                            <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div>
-                                                        <label for="sensorId" class="form-label">Device Id</label>
-                                                        <input type="text" class="form-control" id="sensorId">
+                                                        <label for="sensorSn" class="form-label">Sensor Sn</label>
+                                                        <input type="text" class="form-control" id="sensorSn" name="sensorSn">
                                                     </div>
                                                     <div>
-                                                        <label for="sensorType" class="form-label">Device Type</label>
-                                                        <input type="text" class="form-control" id="sensorType">
+                                                        <label for="sensorName" class="form-label">Sensor Name</label>
+                                                        <input type="text" class="form-control" id="sensorName" name="sensorName">
                                                     </div>
                                                     <div>
-                                                        <label for="sensorType" class="form-label">Device Place</label>
-                                                        <input type="text" class="form-control" id="sensorPlace">
+                                                        <label for="sensorPlace" class="form-label">sensor Place</label>
+                                                        <input type="text" class="form-control" id="sensorPlace" name="sensorPlace">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                        <button class="btn btn-primary">create</button>
+                                                        <button class="btn btn-primary" type="submit">create</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="card-body p-4">
-                                        <div class="table-responsive">
-                                            <table class="table border text-nowrap mb-0 align-middle">
-                                                <thead class="text-dark fs-4">
-                                                <tr>
-                                                    <th>
-                                                        <h6 class="fs-4 fw-semibold mb-0">Device ID</h6>
-                                                    </th>
-                                                    <th>
-                                                        <h6 class="fs-4 fw-semibold mb-0">Device Type</h6>
-                                                    </th>
-                                                    <th>
-                                                        <h6 class="fs-4 fw-semibold mb-0">Device Place</h6>
-                                                    </th>
-                                                    <th></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="ms-3">
-                                                                <h6 class="fw-semibold mb-1">24e124785c389818</h6>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <p class="mb-0 fw-normal">온도, 습도</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 fw-normal">A 강의실</p>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown dropstart">
-                                                            <a href="#" class="text-muted" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                               aria-expanded="false">
-                                                                <i class="ti ti-dots fs-5"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                <li>
-                                                                    <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                                            class="fs-4 ti ti-edit"></i>Edit</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                                            class="fs-4 ti ti-trash"></i>Delete</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="ms-3">
-                                                                <h6 class="fw-semibold mb-1">24e124126d152969</h6>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <p class="mb-0 fw-normal">CO2</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 fw-normal">로비</p>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown dropstart">
-                                                            <a href="#" class="text-muted" id="dropdownMenuButton2" data-bs-toggle="dropdown"
-                                                               aria-expanded="false">
-                                                                <i class="ti ti-dots fs-5"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                                                <li>
-                                                                    <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                                            class="fs-4 ti ti-edit"></i>Edit</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                                            class="fs-4 ti ti-trash"></i>Delete</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="ms-3">
-                                                                <h6 class="fw-semibold mb-1">6757D16625110018</h6>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <p class="mb-0 fw-normal">출입 인원수</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 fw-normal">사무실</p>
-                                                    </td>
+                                        <h5 class="card-title fw-semibold">센서 목록</h5>
+                                        <table id="sensorTable" class="datatable">
+                                            <thead>
+                                            <tr>
+                                                <th>SensorSn</th>
+                                                <th>SensorName</th>
+                                                <th>SensorPlace</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="sensor: ${sensorList}">
+                                                    <td th:text="${sensor.getSensorSn()}">organizationName</td>
+                                                    <td th:text="${sensor.getSensorName()}">gatewaySn</td>
+                                                    <td th:text="${sensor.getSensorPlace()}">controllerSn</td>
                                                     <td>
                                                         <div class="dropdown dropstart">
                                                             <a href="#" class="text-muted" id="dropdownMenuButton3" data-bs-toggle="dropdown"
@@ -261,55 +174,25 @@
                                                             </a>
                                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
                                                                 <li>
-                                                                    <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                                            class="fs-4 ti ti-edit"></i>Edit</a>
+                                                                    <form action=/admin/createSensor method="post">
+                                                                        <i class="fs-4 ti ti-edit"></i>
+                                                                        <button class="btn btn-light" type="submit">Edit</button>
+                                                                    </form>
                                                                 </li>
                                                                 <li>
-                                                                    <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                                            class="fs-4 ti ti-trash"></i>Delete</a>
+                                                                    <form action=/admin/deleteSensor method="post">
+                                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                                        <input type="hidden" name="sensorSn" th:value="${sensor.getSensorSn()}"/>
+                                                                            <i class="fs-4 ti ti-trash"></i>
+                                                                            <button class="btn btn-light" type="submit">Delete</button>
+                                                                    </form>
                                                                 </li>
                                                             </ul>
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="ms-3">
-                                                                <h6 class="fw-semibold mb-1">6757D16625110018</h6>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <p class="mb-0 fw-normal">출입 인원수</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 fw-normal">B 강의실</p>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown dropstart">
-                                                            <a href="#" class="text-muted" id="dropdownMenuButton4" data-bs-toggle="dropdown"
-                                                               aria-expanded="false">
-                                                                <i class="ti ti-dots fs-5"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton4">
-                                                                <li>
-                                                                    <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                                            class="fs-4 ti ti-edit"></i>Edit</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item d-flex align-items-center gap-3" href="#"><i
-                                                                            class="fs-4 ti ti-trash"></i>Delete</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -328,12 +211,12 @@
                                                     <div>
                                                         <label for="gatewayInput" class="form-label">변경할 게이트웨이</label>
                                                         <input type="text" class="form-control" id="gatewayInput"
-                                                               placeholder="oqwnkx108dcd">
+                                                               th:placeholder="${organization.getGatewaySn()}">
                                                     </div>
                                                     <div>
                                                         <label for="controllerInput" class="form-label">변경할 컨트롤러</label>
                                                         <input type="text" class="form-control" id="controllerInput"
-                                                               placeholder="som120klcs">
+                                                               th:placeholder="${organization.getControllerSn()}">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
@@ -360,7 +243,7 @@
                                                         <div>
                                                             <label for="exampleInputtext1" class="form-label">변경할 부서명</label>
                                                             <input type="text" class="form-control" id="exampleInputtext1"
-                                                                   placeholder="NHN academy 경남">
+                                                                   th:placeholder="${organization.getOrganizationName()}">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -377,15 +260,16 @@
                                 <div class="card w-100 position-relative overflow-hidden mb-0">
                                     <div class="card-body p-4">
                                         <h5 class="card-title fw-semibold">부서 삭제</h5>
-                                        <form>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                        <button class="btn btn-danger">Delete</button>
-                                                    </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                    <form action=/admin/deleteOrganization method="post">
+                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                        <button class="btn btn-danger" type="submit">조직 삭제</button>
+                                                    </form>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

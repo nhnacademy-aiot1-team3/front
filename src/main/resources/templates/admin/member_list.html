@@ -35,77 +35,24 @@
                     <div class="widget-content searchable-container list">
                         <div class="card card-body">
                             <div class="table-responsive">
-                                <table class="table search-table align-middle text-nowrap">
-                                    <thead class="header-item">
-                                    <th></th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    <th>Document</th>
-                                    <th>State</th>
-                                    <th>Last Login</th>
+                                <h5 class="card-title fw-semibold">회원 목록</h5>
+                                <table id="organizationTable" class="datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>email</th>
+                                        <th>role</th>
+                                        <th>state</th>
+                                        <th>lastLoginDateTime</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="search-items">
-                                        <td>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/images/profile/user-2.jpg" alt="avatar" class="rounded-circle"
-                                                     width="35" />
-                                                <div class="ms-3">
-                                                    <div class="user-meta-info">
-                                                        <h6 class="user-name mb-0" data-name="Emma Adams">Emma Adams</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span>adams@mail.com</span>
-                                        </td>
-                                        <td>
-                                            <span>OWNER</span>
-                                        </td>
-                                        <td>
-                                            <span>NHNACADEMY 서울</span>
-                                        </td>
-                                        <td>
-                                            <span>ACTIVE</span>
-                                        </td>
-                                        <td>
-                                            <span>2024-04-18/19:02</span>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="search-items">
-                                        <td>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/images/profile/user-3.jpg" alt="avatar" class="rounded-circle"
-                                                     width="35" />
-                                                <div class="ms-3">
-                                                    <div class="user-meta-info">
-                                                        <h6 class="user-name mb-0" data-name="Emma Adams">Kim minjae</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span>adams@mail.com</span>
-                                        </td>
-                                        <td>
-                                            <span>VIEWER</span>
-                                        </td>
-                                        <td>
-                                            <span>NHNACADEMY 서울</span>
-                                        </td>
-                                        <td>
-                                            <span>QUIT</span>
-                                        </td>
-                                        <td>
-                                            <span>2024-04-18/19:02</span>
-                                        </td>
+                                    <tr th:each="member : ${memberList}">
+                                        <td th:text="${member.getId()}">Id</td>
+                                        <td th:text="${member.getEmail()}">email</td>
+                                        <td th:text="${member.getRole()}">role</td>
+                                        <td th:text="${member.getState()}">state</td>
+                                        <td th:text="${member.getLastLoginDateTime()}">lastLoginDateTime</td>
                                     </tr>
                                     </tbody>
                                 </table>

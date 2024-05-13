@@ -35,7 +35,7 @@ POST http://133.186.209.25:8888/api/account/member/email/send
 Content-Type: application/json
 
 {
-  "email": "skcogus12@naver.com"
+  "email": "skcogus12@n"
 }
 
 ###

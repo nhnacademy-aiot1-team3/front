@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="header">
     <div class="page-wrapper">
 
@@ -68,11 +69,18 @@
                                                     alt=""
                                             />
                                             <div class="ms-3">
-                                                <h5 class="mb-1 fs-3">Mathew Anderson</h5>
-                                                <span class="mb-1 d-block">Designer</span>
-                                                <p class="mb-0 d-flex align-items-center gap-2">
-                                                    <i class="ti ti-mail fs-4"></i> info@modernize.com
-                                                </p>
+                                                <h5 class="mb-1 fs-3"><span sec:authentication="name"></span> </h5>
+                                                <span class="mb-1 d-block">
+                                                    <span sec:authorize="hasAnyRole('ADMIN')">
+                                                        <span>ADMIN</span>
+                                                    </span>
+                                                    <span sec:authorize="hasAnyRole('OWNER')">
+                                                        <span>OWNER</span>
+                                                    </span>
+                                                    <span sec:authorize="hasAnyRole('VIEWER')">
+                                                        <span>VIEWER</span>
+                                                    </span>
+                                                </span>
                                             </div>
                                         </div>
                                         <div class="d-grid py-4 px-7 pt-8">
