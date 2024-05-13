@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="aside">
     <div class="preloader">
         <img src="/assets/images/logos/databo3-load.jpg" alt="loader" class="lds-ripple img-fluid" />
@@ -83,8 +84,10 @@
                         />
                     </div>
                     <div class="john-title">
-                        <h6 class="mb-0 fs-4 fw-semibold">Mathew</h6>
-                        <span class="fs-2">Designer</span>
+                        <h5 class="mb-1 fs-3"><span sec:authentication="name"></span> </h5>
+                        <span class="mb-1 d-block">
+                                <span>ADMIN</span>
+                        </span>
                     </div>
                     <a
                             class="border-0 bg-transparent text-primary ms-auto"
