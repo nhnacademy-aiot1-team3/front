@@ -85,7 +85,7 @@ public class MemberController {
      * @since 1.0.1
      */
     @PostMapping("/login")
-    public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) throws JsonProcessingException {
+    public String postLogin(HttpServletResponse response, MemberRequestDto memberRequestDto, Model model) {
         try {
             ResponseDto<ResponseHeaderDto, TokenResponseDto> result = memberAdaptor.doLogin(memberRequestDto);
             if(result.getHeader().getResultMessage().equals("로그인 성공")) {
@@ -138,7 +138,7 @@ public class MemberController {
         } else{
             log.error("no access_token or refresh_token cookie");
         }
-        return LOGIN_PAGE;
+        return "redirect:/login";
     }
 
     /**

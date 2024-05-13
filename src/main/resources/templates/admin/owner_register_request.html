@@ -36,40 +36,23 @@
                     <div class="widget-content searchable-container list">
                         <div class="card card-body">
                             <div class="table-responsive">
-                                <table class="table search-table align-middle text-nowrap">
-                                    <thead class="header-item">
-                                    <th></th>
-                                    <th>Id</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    <th>State</th>
-                                    <th>Action</th>
+                                <h5 class="card-title fw-semibold">Owner 회원가입 신청 목록</h5>
+                                <table id="organizationTable" class="datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>email</th>
+                                        <th>role</th>
+                                        <th>state</th>
+                                        <th></th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="search-items">
-                                        <td>
-
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/images/profile/user-2.jpg" alt="avatar" class="rounded-circle"
-                                                     width="35" />
-                                                <div class="ms-3">
-                                                    <div class="user-meta-info">
-                                                        <h6 class="user-name mb-0" data-name="Emma Adams">Emma Adams</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="usr-email-addr" data-email="adams@mail.com">adams@mail.com</span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-role" data-role="Boston, USA">owner</span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-state" data-state="+1 (070) 123-4567">wait</span>
-                                        </td>
+                                    <tr th:each="member : ${memberList}">
+                                        <td th:text="${member.getId()}">Id</td>
+                                        <td th:text="${member.getEmail()}">email</td>
+                                        <td th:text="${member.getRole()}">role</td>
+                                        <td th:text="${member.getState()}">state</td>
                                         <td>
                                             <div class="action-btn">
                                                 <a href="javascript:void(0)" class="text-primary edit">
@@ -81,74 +64,6 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr class="search-items">
-                                        <td>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/images/profile/user-3.jpg" alt="avatar" class="rounded-circle"
-                                                     width="35" />
-                                                <div class="ms-3">
-                                                    <div class="user-meta-info">
-                                                        <h6 class="user-name mb-0" data-name="Olivia Allen">Olivia Allen</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="usr-email-addr" data-email="allen@mail.com">allen@mail.com</span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-role" data-role="Sydney, Australia">owner</span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-state" data-state="+91 (125) 450-1500">wait</span>
-                                        </td>
-                                        <td>
-                                            <div class="action-btn">
-                                                <a href="javascript:void(0)" class="text-primary edit">
-                                                    <i class="ti ti-check fs-5"></i>
-                                                </a>
-                                                <a href="javascript:void(0)" class="text-dark delete ms-2">
-                                                    <i class="ti ti-x fs-5"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="search-items">
-                                        <td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/images/profile/user-4.jpg" alt="avatar" class="rounded-circle"
-                                                     width="35" />
-                                                <div class="ms-3">
-                                                    <div class="user-meta-info">
-                                                        <h6 class="user-name mb-0" data-name="Isabella Anderson"> Isabella Anderson </h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="usr-email-addr" data-email="anderson@mail.com">anderson@mail.com</span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-role" data-role="Miami, USA">owner</span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-state" data-state="+91 (100) 154-1254">wait</span>
-                                        </td>
-                                        <td>
-                                            <div class="action-btn">
-                                                <a href="javascript:void(0)" class="text-primary edit">
-                                                    <i class="ti ti-check fs-5"></i>
-                                                </a>
-                                                <a href="javascript:void(0)" class="text-dark delete ms-2">
-                                                    <i class="ti ti-x fs-5"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-
                                     </tbody>
                                 </table>
                             </div>

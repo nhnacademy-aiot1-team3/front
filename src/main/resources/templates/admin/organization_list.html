@@ -36,25 +36,25 @@
                         <div class="card card-body">
                             <div class="table-responsive">
                                 <h5 class="card-title fw-semibold">부서 목록</h5>
-                                <table class="table search-table align-middle text-nowrap">
-                                    <thead class="header-item">
-                                    <th></th>
-                                    <th>Document</th>
-                                    <th>Owner</th>
-                                    <th>Organization</th>
+                                <table id="organizationTable" class="datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>organizationName</th>
+                                            <th>gatewaySn</th>
+                                            <th>controllerSn</th>
+                                            <th>관리 페이지</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="search-items">
+                                    <tr th:each="organization : ${organizationDtoList}">
+                                        <td th:text="${organization.getOrganizationName()}">organizationName</td>
+                                        <td th:text="${organization.getGatewaySn()}">gatewaySn</td>
+                                        <td th:text="${organization.getControllerSn()}">controllerSn</td>
                                         <td>
-                                        </td>
-                                        <td>
-                                            <span class="usr-dc-name" data-phone="NHNACADEMY 경남">NHNACADEMY 경남</span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-role" data-role="Boston, USA">owner1</span>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary w-60 py-8 mb-0 rounded-2" onclick="location.href='/admin/organization-management' ">조직 관리창</button>
+                                            <form action=/admin/organization-management method="get">
+                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                <button class="btn btn-primary w-60 py-8 mb-0 rounded-2" type="submit">조직 관리창</button>
+                                            </form>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -66,32 +66,30 @@
                         <div class="card w-100 position-relative overflow-hidden mb-0">
                             <div class="card-body p-4">
                                 <h5 class="card-title fw-semibold">부서 추가</h5>
-                                <form>
                                     <div class="row">
                                         <div class="col-12">
-                                            <div>
-                                                <label for="exampleInputtext1" class="form-label">추가할 부서명</label>
-                                                <input type="text" class="form-control" id="exampleInputtext1"
-                                                       placeholder="ex)NHN academy 경남">
-                                            </div>
-                                            <div>
-                                                <label for="exampleInputtext2" class="form-label">게이트웨이 시리얼 넘버</label>
-                                                <input type="text" class="form-control" id="exampleInputtext2"
-                                                       placeholder="ex)1Qskxc1Yk779">
-                                            </div>
-                                            <div>
-                                                <label for="exampleInputtext3" class="form-label">컨트롤러 시리얼 넘버</label>
-                                                <input type="text" class="form-control" id="exampleInputtext3"
-                                                       placeholder="ex)jsas0Sxc098921">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                <button class="btn btn-primary">Creat</button>
-                                            </div>
+                                            <form action=/admin/organization method="post">
+                                                <div>
+                                                    <label for="organizationName" class="form-label">추가할 부서명</label>
+                                                    <input type="text" class="form-control" id="organizationName" name="organizationName"
+                                                           placeholder="ex)NHN academy 경남" required>
+                                                </div>
+                                                <div>
+                                                    <label for="gatewaySn" class="form-label">게이트웨이 시리얼 넘버</label>
+                                                    <input type="text" class="form-control" id="gatewaySn" name="gatewaySn"
+                                                           placeholder="ex)1Qskxc1Yk779">
+                                                </div>
+                                                <div>
+                                                    <label for="controllerSn" class="form-label">컨트롤러 시리얼 넘버</label>
+                                                    <input type="text" class="form-control" id="controllerSn" name="controllerSn"
+                                                           placeholder="ex)jsas0Sxc098921">
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                    <button class="btn btn-primary" type="submit">부서생성</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-                                </form>
                             </div>
                         </div>
                     </div>

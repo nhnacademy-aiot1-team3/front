@@ -25,14 +25,10 @@ public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         HttpHeaders headers = request.getHeaders();
 
-        log.debug(request.getURI().getPath());
-        if(request.getURI().getPath().contains("/duplicate")) {
-            return execution.execute(request, body);
-        }
         String accessToken = extractAccessTokenFromCookie(httpServletRequest);
 
         if (accessToken != null && !accessToken.isEmpty()) {
-            headers.add("Authorization", accessToken);
+            headers.add("Authorization", " "+accessToken);
         }
         return execution.execute(request, body);
     }

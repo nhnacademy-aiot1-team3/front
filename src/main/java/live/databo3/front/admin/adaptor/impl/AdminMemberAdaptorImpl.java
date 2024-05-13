@@ -1,8 +1,8 @@
 package live.databo3.front.admin.adaptor.impl;
 
-import live.databo3.front.admin.adaptor.AdminAdaptor;
-import live.databo3.front.admin.dto.OrganizationDto;
-import live.databo3.front.admin.dto.OrganizationRequest;
+import live.databo3.front.admin.adaptor.AdminMemberAdaptor;
+import live.databo3.front.admin.dto.MemberDto;
+import live.databo3.front.admin.dto.MemberModifyStateRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,10 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AdminAdaptorImpl implements AdminAdaptor {
+public class AdminMemberAdaptorImpl implements AdminMemberAdaptor {
+
+    private final String MEMBER_URL = "/api/account/member";
+
 
     private final RestTemplate restTemplate;
 
@@ -24,14 +27,14 @@ public class AdminAdaptorImpl implements AdminAdaptor {
     String gatewayDomain;
 
     @Override
-    public List<OrganizationDto> getOrganizations() {
+    public List<MemberDto> getMembers() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        ResponseEntity<List<OrganizationDto>> exchange = restTemplate.exchange(
-                gatewayDomain + "api/account/organizations",
+        ResponseEntity<List<MemberDto>> exchange = restTemplate.exchange(
+                gatewayDomain + MEMBER_URL,
                 HttpMethod.GET,
                 request,
                 new ParameterizedTypeReference<>() {
@@ -40,32 +43,31 @@ public class AdminAdaptorImpl implements AdminAdaptor {
     }
 
     @Override
-    public OrganizationDto getOrganization(String organizationId) {
+    public List<MemberDto> getMembersByRoleAndState(int roleId, int stateId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        return restTemplate.exchange(
-                gatewayDomain + "api/account/organizations/{organizationId}",
+        ResponseEntity<List<MemberDto>> exchange = restTemplate.exchange(
+                gatewayDomain + MEMBER_URL + "?roleId={roleId}&stateId={stateID}",
                 HttpMethod.GET,
                 request,
-                OrganizationDto.class
-                ,organizationId
-        ).getBody();
+                new ParameterizedTypeReference<>() {
+                }, roleId, stateId);
+        return exchange.getBody();
     }
 
-
     @Override
-    public String postOrganization(OrganizationRequest organizationRequest) {
+    public String modifyMember(MemberModifyStateRequest memberModifyStateRequest) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpEntity<OrganizationRequest> request = new HttpEntity<>(organizationRequest, httpHeaders);
+        HttpEntity<MemberModifyStateRequest> request = new HttpEntity<>(memberModifyStateRequest, httpHeaders);
         return restTemplate.exchange(
-                gatewayDomain + "api/account/organizations",
-                HttpMethod.POST,
+                gatewayDomain + MEMBER_URL + "/modify/state",
+                HttpMethod.PUT,
                 request,
                 String.class
         ).getBody();
