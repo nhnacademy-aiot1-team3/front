@@ -14,6 +14,7 @@ import live.databo3.front.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -60,7 +61,7 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
 
         Long remainMinutes = Duration.between(now, expireTime).toMinutes();
 
-        if (now.isBefore(expireTime) && remainMinutes <= 15) {
+        if (now.isBefore(expireTime) && remainMinutes <= 59) {
             Cookie refreshTokenCookie = CookieUtil.findCookie(request, "refresh_token");
             if (Objects.isNull(refreshTokenCookie)) {
                 throw new MissingRefreshTokenException();
@@ -71,9 +72,14 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
             String accessToken = responseDto.getBody().getAccessToken();
             String refreshToken = responseDto.getBody().getRefreshToken();
 
-
             accessTokenCookie.setValue(accessToken);
             refreshTokenCookie.setValue(refreshToken);
+
+            accessTokenCookie.setPath("/");
+            refreshTokenCookie.setPath("/");
+
+            accessTokenCookie.setHttpOnly(true);
+            refreshTokenCookie.setHttpOnly(true);
 
             response.addCookie(accessTokenCookie);
             response.addCookie(refreshTokenCookie);

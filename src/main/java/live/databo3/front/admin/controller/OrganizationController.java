@@ -66,23 +66,27 @@ public class OrganizationController {
         return ALERT;
     }
 
-    @GetMapping("/admin/organization-management")
-    public String getOrganization(Model model, int organizationId){
-        try{
-            OrganizationDto organization = organizationAdaptor.getOrganization(organizationId);
-            List<SensorDto> sensorList = organizationAdaptor.getSensorsByOrganization(organizationId);
-            model.addAttribute("organization",organization);
-            model.addAttribute("sensorList",sensorList);
-            return "/admin/organization_management";
-        } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/");
-        } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "조직 목록 페이지를 불러오지 못하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/");
-        }
-        return ALERT;
-    }
+//    @GetMapping("/admin/organization-management")
+//    public String getOrganization(Model model, int organizationId){
+//        try{
+//            OrganizationDto organization = organizationAdaptor.getOrganization(organizationId);
+//            List<SensorDto> sensorList = organizationAdaptor.getSensorsByOrganization(organizationId);
+//            int sensorAmount = sensorList.size();
+//            List<MemberDto> memberList =
+//
+//            model.addAttribute("organization",organization);
+//            model.addAttribute("sensorList",sensorList);
+//            model.addAttribute("sensorAmount",sensorAmount);
+//            return "/admin/organization_management";
+//        } catch(HttpClientErrorException e){
+//            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+//            model.addAttribute(ALERT_URL,"/admin/");
+//        } catch (Exception e) {
+//            model.addAttribute(ALERT_MESSAGE, "조직 목록 페이지를 불러오지 못하였습니다");
+//            model.addAttribute(ALERT_URL,"/admin/");
+//        }
+//        return ALERT;
+//    }
 
     @PostMapping("/admin/organization")
     public String createOrganization(OrganizationRequest request, Model model){

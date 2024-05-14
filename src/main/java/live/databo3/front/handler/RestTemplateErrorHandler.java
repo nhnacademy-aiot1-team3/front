@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import live.databo3.front.member.dto.ResponseDto;
 import live.databo3.front.member.dto.ResponseHeaderDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
  * @author 나채현
  * @version 1.0.2
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RestTemplateErrorHandler implements ResponseErrorHandler {
@@ -46,6 +48,7 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
      */
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
+        log.error("{}", response.getStatusCode());
         ResponseDto<ResponseHeaderDto,Object> responseDto = objectMapper.readValue(
                 response.getBody(),
                 new TypeReference<>() {
@@ -54,6 +57,9 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
         if (response.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR) {
             if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
                 throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, resultMessage);
+            }
+            if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, resultMessage);
             }
             if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
                 throw new HttpClientErrorException(HttpStatus.NOT_FOUND, resultMessage);
