@@ -75,6 +75,9 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
             accessTokenCookie.setValue(accessToken);
             refreshTokenCookie.setValue(refreshToken);
 
+            response.addCookie(accessTokenCookie);
+            response.addCookie(refreshTokenCookie);
+
             log.info("{}", responseDto);
         } else if (now.isAfter(expireTime)) {
             throw new TokenExpiredException();

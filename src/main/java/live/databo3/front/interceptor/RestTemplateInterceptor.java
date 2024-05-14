@@ -23,12 +23,16 @@ public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+        String requestUrl = request.getURI().toString();
+        if (requestUrl.contains("/auth/token/reissue")) {
+            return execution.execute(request, body);
+        }
         HttpHeaders headers = request.getHeaders();
 
         String accessToken = extractAccessTokenFromCookie(httpServletRequest);
 
         if (accessToken != null && !accessToken.isEmpty()) {
-            headers.add("Authorization", " "+accessToken);
+            headers.add("Authorization", accessToken);
         }
         return execution.execute(request, body);
     }
