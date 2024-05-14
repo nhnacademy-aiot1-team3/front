@@ -1,5 +1,6 @@
 package live.databo3.front.owner.controller;
 
+import live.databo3.front.admin.adaptor.OrganizationAdaptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @RequiredArgsConstructor
 public class OwnerController {
+    private final OrganizationAdaptor organizationAdaptor;
+
     @GetMapping("/owner/my-page")
     public String getOwnerMyPage(){
         return "owner/my_page";
@@ -25,6 +28,13 @@ public class OwnerController {
     @GetMapping("/owner/sensor-list")
     public String getSensorList(){
         return "owner/sensor_list";
+    }
+
+    @GetMapping("/owner/temperature")
+    public String getTemperature(Model model){
+//        organizationAdaptor.getOrganization();
+//        model.addAttribute("organization", );
+        return "owner/temperature";
     }
 
     @GetMapping("/owner/battery-level")
