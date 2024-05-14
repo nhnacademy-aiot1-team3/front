@@ -58,6 +58,23 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
         ).getBody();
     }
 
+//    @Override
+//    public OrganizationDto getMemberByState(int organizationId) {
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+//
+//        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+//        return restTemplate.exchange(
+//                gatewayDomain + ORGANIZATION_URL +"/{organizationId}",
+//                HttpMethod.GET,
+//                request,
+//                OrganizationDto.class
+//                ,organizationId
+//        ).getBody();
+//    }
+
+
 
     @Override
     public String createOrganization(OrganizationRequest organizationRequest) {

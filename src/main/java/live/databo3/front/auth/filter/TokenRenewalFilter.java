@@ -60,7 +60,7 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
 
         Long remainMinutes = Duration.between(now, expireTime).toMinutes();
 
-        if (now.isBefore(expireTime) && remainMinutes <= 15) {
+        if (now.isBefore(expireTime) && remainMinutes <= 59) {
             Cookie refreshTokenCookie = CookieUtil.findCookie(request, "refresh_token");
             if (Objects.isNull(refreshTokenCookie)) {
                 throw new MissingRefreshTokenException();
@@ -77,6 +77,12 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
 
             response.addCookie(accessTokenCookie);
             response.addCookie(refreshTokenCookie);
+
+            accessTokenCookie.setPath("/");
+            refreshTokenCookie.setPath("/");
+
+            accessTokenCookie.setHttpOnly(true);
+            refreshTokenCookie.setHttpOnly(true);
 
             log.info("{}", responseDto);
         } else if (now.isAfter(expireTime)) {
