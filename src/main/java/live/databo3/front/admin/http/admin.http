@@ -63,3 +63,17 @@ Accept: application/json
 ### 조직 삭제
 DELETE http://133.186.209.25:8888/api/account/organizations/3
 Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJtZW1iZXJJZCI6ImFkbWluIiwibWVtYmVyRW1haWwiOiJhMDEwNjI3MDQzMTJAZ21haWwuY29tIiwicm9sZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifV0sImlhdCI6MTcxNTMwMzIzOCwiZXhwIjoxNzE1MzA2ODM4fQ.MSjJgd5i1Ue8_JdoDDkc4OMvdYOW_AitifThjWbgqUSsKrcQEahthZaHyZVGx-cbKT8XQecTReZGxeLkyIyJoA
+
+### 오너 대기 상태 변경
+PUT http://localhost:8090/api/account/member/modify/state
+Content-Type: application/json
+Accept: application/json
+
+{
+  "memberId" : "owner1",
+  "stateId" : 1
+}
+
+###
+GET http://localhost:8099/api/sensor/org/1/sensor
+Content-Type: application/json

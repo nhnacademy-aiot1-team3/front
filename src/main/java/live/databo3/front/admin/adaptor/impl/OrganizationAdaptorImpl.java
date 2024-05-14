@@ -18,7 +18,7 @@ import java.util.List;
 public class OrganizationAdaptorImpl implements OrganizationAdaptor {
 
     private final String ORGANIZATION_URL = "/api/account/organizations";
-    private final String SENSRO_URL = "/api/sensor/org";
+    private final String SENSOR_URL = "/api/sensor/org";
 
 
     private final RestTemplate restTemplate;
@@ -95,7 +95,7 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
         ResponseEntity<List<SensorDto>> exchange = restTemplate.exchange(
-                gatewayDomain + SENSRO_URL + "/{organizationId}/sensor/all",
+                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor",
                 HttpMethod.GET,
                 request,
                 new ParameterizedTypeReference<>() {
@@ -111,7 +111,7 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
 
         HttpEntity<SensorRequest> request = new HttpEntity<>(sensorRequest, httpHeaders);
         ResponseEntity<SensorDto> exchange = restTemplate.exchange(
-                gatewayDomain + SENSRO_URL + "/{organizationId}/sensor",
+                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor",
                 HttpMethod.POST,
                 request,
                 new ParameterizedTypeReference<>() {
@@ -127,7 +127,7 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         restTemplate.delete(
-                gatewayDomain + SENSRO_URL + "/{organizationId}/sensor/{sensorSn}",
+                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor/{sensorSn}",
                 HttpMethod.DELETE,
                 new ParameterizedTypeReference<>() {
                 },organizationId, sensorSn

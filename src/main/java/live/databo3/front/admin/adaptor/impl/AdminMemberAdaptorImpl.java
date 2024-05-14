@@ -34,7 +34,7 @@ public class AdminMemberAdaptorImpl implements AdminMemberAdaptor {
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
         ResponseEntity<List<MemberDto>> exchange = restTemplate.exchange(
-                gatewayDomain + MEMBER_URL,
+                gatewayDomain + MEMBER_URL + "/list",
                 HttpMethod.GET,
                 request,
                 new ParameterizedTypeReference<>() {
@@ -50,7 +50,7 @@ public class AdminMemberAdaptorImpl implements AdminMemberAdaptor {
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
         ResponseEntity<List<MemberDto>> exchange = restTemplate.exchange(
-                gatewayDomain + MEMBER_URL + "?roleId={roleId}&stateId={stateID}",
+                gatewayDomain + MEMBER_URL + "/list?roleId={roleId}&stateId={stateID}",
                 HttpMethod.GET,
                 request,
                 new ParameterizedTypeReference<>() {
@@ -59,18 +59,20 @@ public class AdminMemberAdaptorImpl implements AdminMemberAdaptor {
     }
 
     @Override
-    public String modifyMember(MemberModifyStateRequest memberModifyStateRequest) {
+    public void modifyMember(MemberModifyStateRequest memberModifyStateRequest) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<MemberModifyStateRequest> request = new HttpEntity<>(memberModifyStateRequest, httpHeaders);
-        return restTemplate.exchange(
+        ResponseEntity<Object> exchange = restTemplate.exchange(
                 gatewayDomain + MEMBER_URL + "/modify/state",
                 HttpMethod.PUT,
                 request,
-                String.class
-        ).getBody();
+                new ParameterizedTypeReference<>() {
+                }
+        );
+        exchange.getBody();
     }
 
 }

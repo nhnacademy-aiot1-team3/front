@@ -7,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MemberModifyStateRequest {
     private String memberId;
-    private String stateId;
+    private int stateId;
 }
