@@ -44,7 +44,7 @@
                                         <th>email</th>
                                         <th>role</th>
                                         <th>state</th>
-                                        <th></th>
+                                        <th>승인</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -55,12 +55,13 @@
                                         <td th:text="${member.getState()}">state</td>
                                         <td>
                                             <div class="action-btn">
-                                                <a href="javascript:void(0)" class="text-primary edit">
-                                                    <i class="ti ti-check fs-5"></i>
-                                                </a>
-                                                <a href="javascript:void(0)" class="text-dark delete ms-2">
-                                                    <i class="ti ti-x fs-5"></i>
-                                                </a>
+                                                <form action=/admin/owner-register-request method="post" >
+                                                    <input type="hidden" name="memberId" th:value="${member.getId()}"/>
+                                                    <input type="hidden" name="stateId" value=2>
+                                                    <button type="submit" class="btn mb-1 btn-secondary rounded-circle round d-inline-flex align-items-center justify-content-center">
+                                                        <i class="ti ti-check fs-5"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>

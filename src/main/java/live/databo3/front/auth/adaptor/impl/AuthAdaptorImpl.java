@@ -25,7 +25,7 @@ public class AuthAdaptorImpl implements AuthAdaptor {
     @Override
     public ResponseEntity<ResponseDto<ResponseHeaderDto, TokenResponseDto>> tokenReIssue(String refreshToken) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + refreshToken);
+        headers.add(HttpHeaders.AUTHORIZATION, refreshToken);
 
         return restTemplate.exchange(
                 gatewayDomain+"/auth/token/reissue",

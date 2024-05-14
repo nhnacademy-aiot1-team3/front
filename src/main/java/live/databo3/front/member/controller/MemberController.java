@@ -99,9 +99,10 @@ public class MemberController {
 
                 accesesCookie.setMaxAge((int) Duration.ofHours(1).toSeconds());
                 accesesCookie.setPath("/");
+                accesesCookie.setHttpOnly(true);
                 refreshCookie.setMaxAge((int) Duration.ofHours(1).toSeconds());
                 refreshCookie.setPath("/");
-
+                refreshCookie.setHttpOnly(true);
                 response.addCookie(accesesCookie);
                 response.addCookie(refreshCookie);
 
