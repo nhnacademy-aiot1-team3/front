@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -28,4 +29,11 @@ public class CustomExceptionAdvice {
     public String noHandlerFoundExceptionHandler(NoHandlerFoundException e) {
         return "errors/404";
     }
+
+    @ExceptionHandler(HttpClientErrorException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String httpClientErrorExceptionHandler(HttpClientErrorException e) {
+        return "errors/403";
+    }
+
 }
