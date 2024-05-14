@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
@@ -56,12 +58,18 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
 
         Long exp = jwtPayloadDto.getExp();
 
+
         Instant expireTime = Instant.ofEpochSecond(exp);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(expireTime, ZoneId.of("Asia/Seoul"));
+
+        log.info("필터 받은 토큰{}",accessTokenCookie.getValue());
+        log.info("필터 만료 시간{}",localDateTime);
+
         Instant now = Instant.now();
 
         Long remainMinutes = Duration.between(now, expireTime).toMinutes();
 
-        if (now.isBefore(expireTime) && remainMinutes <= 59) {
+        if (now.isBefore(expireTime) && remainMinutes <= 15) {
             Cookie refreshTokenCookie = CookieUtil.findCookie(request, "refresh_token");
             if (Objects.isNull(refreshTokenCookie)) {
                 throw new MissingRefreshTokenException();
@@ -86,6 +94,10 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
 
             log.info("{}", responseDto);
         } else if (now.isAfter(expireTime)) {
+            Arrays.stream(request.getCookies()).forEach(cookie -> {
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            });
             throw new TokenExpiredException();
         }
         request.setAttribute(HttpHeaders.AUTHORIZATION, accessTokenCookie.getValue());
