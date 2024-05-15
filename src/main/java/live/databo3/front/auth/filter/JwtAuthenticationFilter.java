@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String accessToken = attribute.toString();
 
             JwtPayloadDto jwtPayloadDto = objectMapper.readValue(new String(Base64.getDecoder().decode(accessToken.split("\\.")[1])), JwtPayloadDto.class);
-
+            log.info(jwtPayloadDto+"hi");
             String memberId = jwtPayloadDto.getMemberId();
             String memberEmail = jwtPayloadDto.getMemberEmail();
 

@@ -60,10 +60,6 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
 
 
         Instant expireTime = Instant.ofEpochSecond(exp);
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(expireTime, ZoneId.of("Asia/Seoul"));
-
-        log.info("필터 받은 토큰{}",accessTokenCookie.getValue());
-        log.info("필터 만료 시간{}",localDateTime);
 
         Instant now = Instant.now();
 

@@ -9,10 +9,10 @@ import java.util.List;
 
 @Component
 public interface AdminMemberAdaptor {
-    public List<MemberDto> getMembers();
+    List<MemberDto> getMembers();
 
-    public List<MemberDto> getMembersByRoleAndState(int roleId, int stateId);
+    List<MemberDto> getMembersByRoleAndState(int roleId, int stateId);
 
-    public void modifyMember(MemberModifyStateRequest memberModifyStateRequest);
+    void modifyMember(MemberModifyStateRequest memberModifyStateRequest);
 
 }
