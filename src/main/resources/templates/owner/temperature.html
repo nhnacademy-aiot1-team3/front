@@ -7,27 +7,62 @@
 <th:block layout:fragment="content">
     <body>
         <div class="body-wrapper">
-            <section class="bg-light">
-                <section class="container">
-                    <div class="card">
-                        <aside id="sensor-nav-aside">
-                            <div>
-                                <nav class="sidebar-nav scrollable-dropdown">
-                                    <ul class="nav flex-column">
-                                        <li>
-                                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-<!--                                            <span class="hide-menu" th:text="${organization.getOrganizationName()}"></span>-->
+            <div class="container-fluid">
+                <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                    <div class="d-flex w-100">
+                        <!-- 센서 장비 장소별 네비게이션 바 -->
+                        <div class="left-part border-end w-20 flex-shrink-0 d-none d-lg-block h-auto">
+                            <div class="px-9 pt-4 pb-3">
+                                <!-- 조직 이름 여기-->
+                                <h4 class="fw-semibold mb-8">NHN 아카데미_김해</h4>
+                            </div>
+                            <!-- 브렌치별 place별로 for문으로 돌리기 -->
+                            <ul class="list-group mh-n100">
+
+                                <li class="list-group-item active border-0 p-0 mx-9">
+                                    <a class="sidebar-link has-arrow" href="/owner/my-page" aria-expanded="false">
+                                        <span class="d-flex">
+                                            <span class="hide-menu">강의실 A</span>
+                                        </span>
+                                    </a>
+                                    <ul aria-expanded="false" class="collapse first-level in">
+                                        <li class="list-group-item">
+                                            <span>01. MAIN</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span>A/C 실내기</span>
                                         </li>
                                     </ul>
-                                </nav>
-                            </div>
-                        </aside>
-                    </div>
-                </section>
-                <section>
+                                </li>
 
-                </section>
-            </section>
+                                <li class="list-group-item has-arrow active border-0 p-0 mx-9">
+                                    <span class="align-items-center">오피스</span>
+                                    <ul aria-expanded="false" class="collapse first-level in">
+                                        <li class="list-group-item">
+                                            <span>01. MAIN</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span>A/C 실내기</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <!-- 그래프 영역 -->
+                        <div class="d-flex w-100">
+                            <!-- 선택한 브렌치 or place 이름 표시 -->
+                            <div></div>
+                            <!-- 가로 네비게이션 탭 (현황) -> 흠...-->
+                            <div></div>
+                            <!-- 예측값 -->
+                            <div></div>
+                            <!-- 그래프 (실시간, 최근 24시간, 최근 1시간)-->
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </th:block>
