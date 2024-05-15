@@ -36,7 +36,7 @@
                                 id="pills-information-tab" data-bs-toggle="pill" data-bs-target="#pills-information" type="button" role="tab"
                                 aria-controls="pills-information" aria-selected="true">
                             <i class="ti ti-info-circle me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Information</span>
+                            <span class="d-none d-md-block">Main</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -46,6 +46,15 @@
                                 role="tab" aria-controls="pills-sensors" aria-selected="false">
                             <i class="ti ti-router me-2 fs-6"></i>
                             <span class="d-none d-md-block">Sensor 관리</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button
+                                class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
+                                id="pills-member-list-tab" data-bs-toggle="pill" data-bs-target="#pills-member-list" type="button"
+                                role="tab" aria-controls="pills-member-list" aria-selected="false">
+                            <i class="ti ti-list me-2 fs-6"></i>
+                            <span class="d-none d-md-block">조직회원 List</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -64,6 +73,15 @@
                                 role="tab" aria-controls="pills-settings" aria-selected="false">
                             <i class="ti ti-settings me-2 fs-6"></i>
                             <span class="d-none d-md-block">Settings</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button
+                                class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
+                                id="pills-place-tab" data-bs-toggle="pill" data-bs-target="#pills-place" type="button"
+                                role="tab" aria-controls="pills-place" aria-selected="false">
+                            <i class="ti ti-home me-2 fs-6"></i>
+                            <span class="d-none d-md-block">place 관리</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -89,17 +107,17 @@
                                             <div class="d-flex align-items-center justify-content-around m-4">
                                                 <div class="text-center">
                                                     <i class="ti ti-user-check fs-6 d-block mb-2"></i>
-                                                    <h4 class="mb-0 fw-semibold lh-1">3</h4>
+                                                    <h4 class="mb-0 fw-semibold lh-1" th:text="${ownerMemberAmount}"></h4>
                                                     <p class="mb-0 fs-4">Owner</p>
                                                 </div>
                                                 <div class="text-center">
                                                     <i class="ti ti-eye fs-6 d-block mb-2"></i>
-                                                    <h4 class="mb-0 fw-semibold lh-1">15</h4>
+                                                    <h4 class="mb-0 fw-semibold lh-1" th:text="${viewerMemberAmount}"></h4>
                                                     <p class="mb-0 fs-4">Viewer</p>
                                                 </div>
                                                 <div class="text-center">
                                                     <i class="ti ti-router fs-6 d-block mb-2"></i>
-                                                    <h4 class="mb-0 fw-semibold lh-1">10</h4>
+                                                    <h4 class="mb-0 fw-semibold lh-1" th:text="${sensorAmount}"></h4>
                                                     <p class="mb-0 fs-4">Sensor</p>
                                                 </div>
                                             </div>
@@ -198,6 +216,55 @@
                             </div>
                         </div>
 
+                        <div class="tab-pane fade" id="pills-member-list" role="tabpanel"
+                             aria-labelledby="pills-member-list-tab" tabindex="0">
+                            <div class="card-body p-4">
+                                <h5 class="card-title fw-semibold">OWNER 목록</h5>
+                                <table id="ownerTable" class="datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>State</th>
+                                        <th>lastLoginDateTime</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="owner: ${ownerMemberList}">
+                                        <td th:text="${owner.getId()}">ownerId</td>
+                                        <td th:text="${owner.getEmail()}">ownerEmail</td>
+                                        <td th:text="${owner.getRole()}">ownerRole</td>
+                                        <td th:text="${owner.getState()}">ownerState</td>
+                                        <td th:text="${owner.getLastLoginDateTime()}">ownerLastLoginDateTime</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <h5 class="card-title fw-semibold">VIEWER 목록</h5>
+                                <table id="viewerTable" class="datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>State</th>
+                                        <th>lastLoginDateTime</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="viewer: ${viewerMemberList}">
+                                        <td th:text="${viewer.getId()}">viewerId</td>
+                                        <td th:text="${viewer.getEmail()}">viewerEmail</td>
+                                        <td th:text="${viewer.getRole()}">viewerRole</td>
+                                        <td th:text="${viewer.getState()}">viewerState</td>
+                                        <td th:text="${viewer.getLastLoginDateTime()}">viewerLastLoginDateTime</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card overflow-hidden">
+                            </div>
+                        </div>
 
                         <div class="tab-pane fade" id="pills-gateway-controller" role="tabpanel"
                              aria-labelledby="pills-gateway-controller-tab" tabindex="0">
@@ -270,6 +337,69 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-place" role="tabpanel"
+                             aria-labelledby="pills-place-tab" tabindex="0">
+                            <div class="col-12">
+                                <div class="card w-100 position-relative overflow-hidden mb-0">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold">Place 추가</h5>
+                                        <form action=/admin/createPlace method="post">
+                                            <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <label for="placeName" class="form-label">추가할 place</label>
+                                                        <input type="text" class="form-control" id="placeName" name="placeName">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                        <button class="btn btn-primary" type="submit">추가</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card w-100 position-relative overflow-hidden mb-0">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold">Place 목록</h5>
+                                        <table id="placeTable" class="datatable">
+                                            <thead>
+                                            <tr>
+                                                <th>PlaceName</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="place: ${placeList}">
+                                                <td th:text="${place.getPlaceName()}">organizationName</td>
+                                                <td>
+                                                    <form action=/admin/deletePlace method="post">
+                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                        <div>
+                                                            <input type="text" class="form-control" id="placeModify" name="placeName">
+                                                        </div>
+                                                        <button class="btn btn-success" type="submit">place 수정</button>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <form action=/admin/deletePlace method="post">
+                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                        <button class="btn btn-danger" type="submit">place 삭제</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
