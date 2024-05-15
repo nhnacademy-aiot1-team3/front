@@ -33,10 +33,10 @@ public class AdminMemberController {
             return "admin/member_list";
         }catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/");
+            model.addAttribute(ALERT_URL,"/");
         } catch (Exception e) {
             model.addAttribute(ALERT_MESSAGE, "멤버 리스트 페이지를 불러오지 못하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/");
+            model.addAttribute(ALERT_URL,"/");
         }
         return ALERT;
     }
@@ -49,10 +49,10 @@ public class AdminMemberController {
             return "/admin/owner_register_request";
         }catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/");
+            model.addAttribute(ALERT_URL,"/");
         } catch (Exception e) {
             model.addAttribute(ALERT_MESSAGE, "OWNER 회원가입 요청 페이지를 불러오지 못하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/");
+            model.addAttribute(ALERT_URL,"/");
         }
         return ALERT;
     }
