@@ -23,7 +23,7 @@ public class AdminMemberController {
     private static final String ALERT_MESSAGE="message";
     private static final String ALERT_URL="searchUrl";
 
-    private AdminMemberAdaptor adminMemberAdaptor;
+    private final AdminMemberAdaptor adminMemberAdaptor;
 
     @GetMapping("/admin/member-list")
     public String getMemberList(Model model){
@@ -33,10 +33,10 @@ public class AdminMemberController {
             return "admin/member_list";
         }catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/");
+            model.addAttribute(ALERT_URL,"/");
         } catch (Exception e) {
             model.addAttribute(ALERT_MESSAGE, "멤버 리스트 페이지를 불러오지 못하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/");
+            model.addAttribute(ALERT_URL,"/");
         }
         return ALERT;
     }
@@ -49,10 +49,10 @@ public class AdminMemberController {
             return "/admin/owner_register_request";
         }catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/");
+            model.addAttribute(ALERT_URL,"/");
         } catch (Exception e) {
             model.addAttribute(ALERT_MESSAGE, "OWNER 회원가입 요청 페이지를 불러오지 못하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/");
+            model.addAttribute(ALERT_URL,"/");
         }
         return ALERT;
     }
@@ -61,14 +61,15 @@ public class AdminMemberController {
     public String modifyOwnerState(Model model, MemberModifyStateRequest request){
         try{
             adminMemberAdaptor.modifyMember(request);
-            return "redirect:/admin/owner_register_request";
+            return "redirect:/admin/owner-register-request";
         }catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/");
+            model.addAttribute(ALERT_URL,"/admin/owner_register_request");
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "요청을 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/");
+            model.addAttribute(ALERT_MESSAGE, "회원가입 승인 요청을 실패하였습니다");
+            model.addAttribute(ALERT_URL,"/admin/owner_register_request");
         }
         return ALERT;
     }
+
 }

@@ -14,6 +14,7 @@ import live.databo3.front.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
@@ -55,7 +58,9 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
 
         Long exp = jwtPayloadDto.getExp();
 
+
         Instant expireTime = Instant.ofEpochSecond(exp);
+
         Instant now = Instant.now();
 
         Long remainMinutes = Duration.between(now, expireTime).toMinutes();
@@ -71,12 +76,24 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
             String accessToken = responseDto.getBody().getAccessToken();
             String refreshToken = responseDto.getBody().getRefreshToken();
 
-
             accessTokenCookie.setValue(accessToken);
             refreshTokenCookie.setValue(refreshToken);
 
+            accessTokenCookie.setPath("/");
+            refreshTokenCookie.setPath("/");
+
+            accessTokenCookie.setHttpOnly(true);
+            refreshTokenCookie.setHttpOnly(true);
+
+            response.addCookie(accessTokenCookie);
+            response.addCookie(refreshTokenCookie);
+
             log.info("{}", responseDto);
         } else if (now.isAfter(expireTime)) {
+            Arrays.stream(request.getCookies()).forEach(cookie -> {
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            });
             throw new TokenExpiredException();
         }
         request.setAttribute(HttpHeaders.AUTHORIZATION, accessTokenCookie.getValue());

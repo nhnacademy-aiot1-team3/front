@@ -1,8 +1,8 @@
 package live.databo3.front.admin.adaptor.impl;
 
-import live.databo3.front.admin.adaptor.AdminMemberAdaptor;
-import live.databo3.front.admin.dto.MemberDto;
-import live.databo3.front.admin.dto.MemberModifyStateRequest;
+import live.databo3.front.admin.adaptor.SensorAdaptor;
+import live.databo3.front.admin.dto.SensorDto;
+import live.databo3.front.admin.dto.SensorRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,9 +16,9 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AdminMemberAdaptorImpl implements AdminMemberAdaptor {
+public class SensorAdaptorImpl implements SensorAdaptor {
 
-    private final String MEMBER_URL = "/api/account/member";
+    private final String SENSOR_URL = "/api/sensor/org";
 
 
     private final RestTemplate restTemplate;
@@ -27,52 +27,49 @@ public class AdminMemberAdaptorImpl implements AdminMemberAdaptor {
     String gatewayDomain;
 
     @Override
-    public List<MemberDto> getMembers() {
+    public List<SensorDto> getSensorsByOrganization(int organizationId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        ResponseEntity<List<MemberDto>> exchange = restTemplate.exchange(
-                gatewayDomain + MEMBER_URL + "/list",
+        ResponseEntity<List<SensorDto>> exchange = restTemplate.exchange(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor",
                 HttpMethod.GET,
                 request,
                 new ParameterizedTypeReference<>() {
-                });
+                },organizationId);
         return exchange.getBody();
     }
 
     @Override
-    public List<MemberDto> getMembersByRoleAndState(int roleId, int stateId) {
+    public SensorDto createSensor(SensorRequest sensorRequest, int organizationId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        ResponseEntity<List<MemberDto>> exchange = restTemplate.exchange(
-                gatewayDomain + MEMBER_URL + "/list?roleId={roleId}&stateId={stateID}",
-                HttpMethod.GET,
+        HttpEntity<SensorRequest> request = new HttpEntity<>(sensorRequest, httpHeaders);
+        ResponseEntity<SensorDto> exchange = restTemplate.exchange(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor",
+                HttpMethod.POST,
                 request,
                 new ParameterizedTypeReference<>() {
-                }, roleId, stateId);
-        return exchange.getBody();
-    }
-
-    @Override
-    public void modifyMember(MemberModifyStateRequest memberModifyStateRequest) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-        HttpEntity<MemberModifyStateRequest> request = new HttpEntity<>(memberModifyStateRequest, httpHeaders);
-        ResponseEntity<Object> exchange = restTemplate.exchange(
-                gatewayDomain + MEMBER_URL + "/modify/state",
-                HttpMethod.PUT,
-                request,
-                new ParameterizedTypeReference<>() {
-                }
+                },organizationId
         );
-        exchange.getBody();
+        return exchange.getBody();
     }
 
+    @Override
+    public void deleteSensor(int organizationId, String sensorSn) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        restTemplate.delete(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor/{sensorSn}",
+                HttpMethod.DELETE,
+                new ParameterizedTypeReference<>() {
+                },organizationId, sensorSn
+        );
+    }
 }

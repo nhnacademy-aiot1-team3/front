@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MemberModifyStateRequest {
-    private String memberId;
-    private int stateId;
+public class PlaceRequest {
+    private String placeName;
 }
