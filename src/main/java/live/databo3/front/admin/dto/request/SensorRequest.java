@@ -1,4 +1,4 @@
-package live.databo3.front.admin.dto;
+package live.databo3.front.admin.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,5 +8,5 @@ import lombok.Getter;
 public class SensorRequest {
     private String sensorSn;
     private String sensorName;
-    private String sensorPlace;
+    private int placeId;
 }

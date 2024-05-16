@@ -1,7 +1,7 @@
 package live.databo3.front.admin.adaptor;
 
 import live.databo3.front.admin.dto.PlaceDto;
-import live.databo3.front.admin.dto.PlaceRequest;
+import live.databo3.front.admin.dto.request.PlaceRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface PlaceAdaptor {
 
     PlaceDto createPlace(PlaceRequest placeRequest, int organizationId);
 
-    PlaceDto modifyPlace(PlaceRequest placeRequest, int organizationId, int placeId);
+    PlaceDto modifyPlace(int organizationId, int placeId, PlaceRequest placeRequest);
 
     void deletePlace(int organizationId, int placeId);
 }
