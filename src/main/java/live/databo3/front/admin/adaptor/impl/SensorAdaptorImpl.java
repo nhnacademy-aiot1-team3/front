@@ -2,7 +2,7 @@ package live.databo3.front.admin.adaptor.impl;
 
 import live.databo3.front.admin.adaptor.SensorAdaptor;
 import live.databo3.front.admin.dto.SensorDto;
-import live.databo3.front.admin.dto.SensorRequest;
+import live.databo3.front.admin.dto.request.SensorRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,9 +65,11 @@ public class SensorAdaptorImpl implements SensorAdaptor {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        restTemplate.delete(
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        restTemplate.exchange(
                 gatewayDomain + SENSOR_URL + "/{organizationId}/sensor/{sensorSn}",
                 HttpMethod.DELETE,
+                request,
                 new ParameterizedTypeReference<>() {
                 },organizationId, sensorSn
         );

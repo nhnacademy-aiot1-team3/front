@@ -4,6 +4,7 @@ import live.databo3.front.admin.adaptor.OrganizationAdaptor;
 import live.databo3.front.admin.adaptor.PlaceAdaptor;
 import live.databo3.front.admin.adaptor.SensorAdaptor;
 import live.databo3.front.admin.dto.*;
+import live.databo3.front.admin.dto.request.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -76,8 +77,9 @@ public class OrganizationController {
             OrganizationDto organization = organizationAdaptor.getOrganization(organizationId);
             List<SensorDto> sensorList = sensorAdaptor.getSensorsByOrganization(organizationId);
             int sensorAmount = sensorList.size();
-            List<MemberDto> ownerMemberList = organizationAdaptor.getMemberByState(organizationId, 2, "ROLE_OWNER");
-            List<MemberDto> viewerMemberList = organizationAdaptor.getMemberByState(organizationId, 2, "ROLE_VIEWER");
+            List<MemberOrganizationDto> ownerMemberList = organizationAdaptor.getMemberByState(organizationId, 2, "ROLE_OWNER");
+            List<MemberOrganizationDto> viewerMemberList = organizationAdaptor.getMemberByState(organizationId, 2, "ROLE_VIEWER");
+            List<MemberOrganizationDto> ownerRequestMemberList = organizationAdaptor.getMemberByState(organizationId, 1, "ROLE_OWNER");
             int ownerMemberAmount = ownerMemberList.size();
             int viewerMemberAmount = viewerMemberList.size();
             List<PlaceDto> placeList = placeAdaptor.getPlaces(organizationId);
@@ -87,6 +89,7 @@ public class OrganizationController {
             model.addAttribute("sensorAmount",sensorAmount);
             model.addAttribute("ownerMemberList", ownerMemberList);
             model.addAttribute("viewerMemberList", viewerMemberList);
+            model.addAttribute("ownerRequestMemberList", ownerRequestMemberList);
             model.addAttribute("ownerMemberAmount",ownerMemberAmount);
             model.addAttribute("viewerMemberAmount",viewerMemberAmount);
             model.addAttribute("placeList",placeList);
@@ -103,15 +106,47 @@ public class OrganizationController {
     }
 
     @PostMapping("/admin/organization")
-    public String createOrganization(OrganizationRequest request, Model model){
+    public String createOrganization(Model model, OrganizationRequest request){
         try{
-            String message = organizationAdaptor.createOrganization(request);
+            organizationAdaptor.createOrganization(request);
             return "/admin/organization_list";
         } catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
             model.addAttribute(ALERT_URL,"/admin/organization-list");
         } catch (Exception e) {
             model.addAttribute(ALERT_MESSAGE, "조직 생성에 실패하였습니다");
+            model.addAttribute(ALERT_URL,"/admin/organization-list");
+        }
+        return ALERT;
+    }
+
+    @PostMapping("/admin/modifyOrganization")
+    public String modifyOrganization(Model model, RedirectAttributes redirectAttributes, OrganizationRequest request, int organizationId){
+        redirectAttributes.addAttribute("organizationId", organizationId);
+        try{
+            organizationAdaptor.modifyOrganization(organizationId, request);
+            return "redirect:/admin/organization-management";
+        } catch(HttpClientErrorException e){
+            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+            model.addAttribute(ALERT_URL,"/admin/organization-list");
+        } catch (Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "부서명 변경에 실패하였습니다");
+            model.addAttribute(ALERT_URL,"/admin/organization-list");
+        }
+        return ALERT;
+    }
+
+    @PostMapping("/admin/modifyOrganizationSerialNumber")
+    public String modifySerialNumber(Model model, RedirectAttributes redirectAttributes, OrganizationRequest request, int organizationId){
+        redirectAttributes.addAttribute("organizationId", organizationId);
+        try{
+            organizationAdaptor.modifySerialNumber(organizationId, request);
+            return "redirect:/admin/organization-management";
+        } catch(HttpClientErrorException e){
+            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+            model.addAttribute(ALERT_URL,"/admin/organization-list");
+        } catch (Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "SN 변경에 실패하였습니다");
             model.addAttribute(ALERT_URL,"/admin/organization-list");
         }
         return ALERT;
@@ -132,24 +167,40 @@ public class OrganizationController {
         return ALERT;
     }
 
-    @PostMapping("/admin/createSensor")
-    public String createSensor(Model model, RedirectAttributes redirectAttributes, SensorRequest request, int organizationId){
+    @PostMapping("/admin/modifyMemberState")
+    public String modifyMemberState(Model model, RedirectAttributes redirectAttributes, int organizationId, String memberId){
+        redirectAttributes.addAttribute("organizationId", organizationId);
         try{
-            sensorAdaptor.createSensor(request, organizationId);
-            redirectAttributes.addAttribute("organizationId", organizationId);
+            organizationAdaptor.modifyMemberState(organizationId, memberId, 2);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management");
+            model.addAttribute(ALERT_URL,"/admin/organization-list");
+        } catch (Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "OWNER 수락에 실패하였습니다");
+            model.addAttribute(ALERT_URL,"/admin/organization-list");
+        }
+        return ALERT;
+    }
+
+    @PostMapping("/admin/createSensor")
+    public String createSensor(Model model, RedirectAttributes redirectAttributes, SensorRequest request, int organizationId){
+        redirectAttributes.addAttribute("organizationId", organizationId);
+        try{
+            sensorAdaptor.createSensor(request, organizationId);
+            return "redirect:/admin/organization-management";
+        } catch(HttpClientErrorException e){
+            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+            model.addAttribute(ALERT_URL,"/");
         }catch(Exception e) {
             model.addAttribute(ALERT_MESSAGE, "센서 생성에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management");
+            model.addAttribute(ALERT_URL,"/");
         }
         return ALERT;
     }
 
     @PostMapping("/admin/deleteSensor")
-    public String deleteSensor(Model model,RedirectAttributes redirectAttributes, @RequestParam("organizationId") int organizationId, @RequestParam("sensorSn") String sensorSn){
+    public String deleteSensor(Model model,RedirectAttributes redirectAttributes, int organizationId, String sensorSn){
         redirectAttributes.addAttribute("organizationId", organizationId);
         try{
             sensorAdaptor.deleteSensor(organizationId, sensorSn);
@@ -166,15 +217,47 @@ public class OrganizationController {
 
     @PostMapping("/admin/createPlace")
     public String createPlace(Model model, RedirectAttributes redirectAttributes, PlaceRequest request, int organizationId){
+        redirectAttributes.addAttribute("organizationId", organizationId);
         try{
             placeAdaptor.createPlace(request, organizationId);
-            redirectAttributes.addAttribute("organizationId", organizationId);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
             model.addAttribute(ALERT_URL,"/admin/organization-management");
         }catch(Exception e) {
             model.addAttribute(ALERT_MESSAGE, "Place 생성에 실패하였습니다");
+            model.addAttribute(ALERT_URL,"/admin/organization-management");
+        }
+        return ALERT;
+    }
+
+    @PostMapping("/admin/modifyPlace")
+    public String modifyPlace(Model model, RedirectAttributes redirectAttributes, PlaceRequest request, int organizationId, int placeId){
+        redirectAttributes.addAttribute("organizationId", organizationId);
+        try{
+            placeAdaptor.modifyPlace(organizationId, placeId, request);
+            return "redirect:/admin/organization-management";
+        } catch(HttpClientErrorException e){
+            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+            model.addAttribute(ALERT_URL,"/admin/organization-list");
+        } catch (Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "place 변경에 실패하였습니다");
+            model.addAttribute(ALERT_URL,"/admin/organization-list");
+        }
+        return ALERT;
+    }
+
+    @PostMapping("/admin/deletePlace")
+    public String deletePlace(Model model,RedirectAttributes redirectAttributes, @RequestParam("organizationId") int organizationId, @RequestParam("placeId") int placeId){
+        redirectAttributes.addAttribute("organizationId", organizationId);
+        try{
+            placeAdaptor.deletePlace(organizationId, placeId);
+            return "redirect:/admin/organization-management";
+        }catch(HttpClientErrorException e){
+            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+            model.addAttribute(ALERT_URL,"/admin/organization-management");
+        }catch(Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "Place 삭제에 실패하였습니다");
             model.addAttribute(ALERT_URL,"/admin/organization-management");
         }
         return ALERT;

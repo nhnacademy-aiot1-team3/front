@@ -2,7 +2,7 @@ package live.databo3.front.admin.adaptor.impl;
 
 import live.databo3.front.admin.adaptor.AdminMemberAdaptor;
 import live.databo3.front.admin.dto.MemberDto;
-import live.databo3.front.admin.dto.MemberModifyStateRequest;
+import live.databo3.front.admin.dto.request.MemberModifyStateRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

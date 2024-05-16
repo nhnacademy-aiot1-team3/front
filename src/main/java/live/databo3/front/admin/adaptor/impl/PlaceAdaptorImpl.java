@@ -2,9 +2,7 @@ package live.databo3.front.admin.adaptor.impl;
 
 import live.databo3.front.admin.adaptor.PlaceAdaptor;
 import live.databo3.front.admin.dto.PlaceDto;
-import live.databo3.front.admin.dto.PlaceRequest;
-import live.databo3.front.admin.dto.SensorDto;
-import live.databo3.front.admin.dto.SensorRequest;
+import live.databo3.front.admin.dto.request.PlaceRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,7 +59,7 @@ public class PlaceAdaptorImpl implements PlaceAdaptor {
     }
 
     @Override
-    public PlaceDto modifyPlace(PlaceRequest placeRequest, int organizationId, int placeId) {
+    public PlaceDto modifyPlace(int organizationId, int placeId, PlaceRequest placeRequest) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
@@ -72,7 +70,7 @@ public class PlaceAdaptorImpl implements PlaceAdaptor {
                 HttpMethod.PUT,
                 request,
                 new ParameterizedTypeReference<>() {
-                },organizationId,placeId
+                },organizationId, placeId
         );
         return exchange.getBody();
     }
@@ -84,7 +82,7 @@ public class PlaceAdaptorImpl implements PlaceAdaptor {
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        ResponseEntity<PlaceDto> exchange = restTemplate.exchange(
+        restTemplate.exchange(
                 gatewayDomain + PLACE_URL + "/{organizationId}/place/{placeId}",
                 HttpMethod.DELETE,
                 request,

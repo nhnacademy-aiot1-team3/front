@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 public class SensorDto {
     private String sensorSn;
     private String sensorName;
-    private String sensorPlace;
+    private PlaceDto place;
 }
