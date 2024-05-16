@@ -5,6 +5,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class PlaceRequest {
-    private String placeName;
+public class NotificationDto {
+    private String title;
+    private String contents;
+    private String file;
 }

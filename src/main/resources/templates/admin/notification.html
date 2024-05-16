@@ -47,35 +47,35 @@
                                             <th scope="col">날짜</th>
                                         </tr>
                                         </thead>
-                                        <tbody><!-- th:each="notice : ${noteList}"-->
+                                        <tbody th:each="notice : ${notificationListList}"-->
 <!--                                        실제로 만들고 나선 주석 처리 풀고 밑의 tr 부분 삭제-->
-<!--                                        <tr>-->
-<!--                                            <td>-->
-<!--                                                <div class="d-flex align-items-center">-->
-<!--                                                    <h6 class="fw-semibold mb-0 fs-4" th:text="${notice.title}" th:onclick="'location.href=\'/admin/noticeWriter/?number='+${notice.number}+'\''">title</h6>-->
-<!--                                                </div>-->
-<!--                                            </td>-->
-<!--                                            <td>-->
-<!--                                                <h6 class="mb-0 fs-4" th:text="${notice.author}">author</h6>-->
-<!--                                            </td>-->
-<!--                                            <td class="mb-0" th:text="${notice.date}">0</td>-->
-<!--                                        </tr>-->
-<!--                                        예시로 보여주기-->
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <div class="ms-3" onclick="location.href='/admin/notice-writer'">
-                                                        <h6 class="fw-semibold mb-0 fs-4">How Innovation Works</h6>
-                                                    </div>
+                                                    <h6 class="fw-semibold mb-0 fs-4" th:text="${notificationListList.title}" th:onclick="'location.href=\'/admin/noticeWriter/?number='+${notice.number}+'\''">title</h6>
                                                 </div>
                                             </td>
                                             <td>
-                                                <h6 class="mb-0 fs-4">$275</h6>
+                                                <h6 class="mb-0 fs-4" th:text="${notificationListList.author}">author</h6>
                                             </td>
-                                            <td>
-                                                <p class="mb-0">Thu, Jan 12 2023</p>
-                                            </td>
+                                            <td class="mb-0" th:text="${notificationListList.date}">0</td>
                                         </tr>
+<!--                                        예시로 보여주기-->
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <div class="d-flex align-items-center">-->
+<!--                                                    <div class="ms-3" onclick="location.href='/admin/notice-writer'">-->
+<!--                                                        <h6 class="fw-semibold mb-0 fs-4">How Innovation Works</h6>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <h6 class="mb-0 fs-4">$275</h6>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <p class="mb-0">Thu, Jan 12 2023</p>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
                                         </tbody>
                                     </table>
                                     <div class="d-flex align-items-center justify-content-end py-1">
