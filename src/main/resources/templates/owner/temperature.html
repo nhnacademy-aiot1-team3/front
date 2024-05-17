@@ -16,37 +16,29 @@
                             <div class="container">
                                 <nav class="navbar navbar-light bg-light flex-column animated bounceInDown">
                                     <ul class="navbar-nav">
-                                        <li class='nav-item sub-menu'>
-                                            <a class="nav-link active" href='#Menu3'>
+                                        <li class="nav-item sub-menu" th:each="organization : ${sensorList}">
+                                            <a class="nav-link"><!--th:href="@{${organization.getOrganizationName()}}"-->
                                                 <div class="px-9 pt-4 pb-3">
                                                     <!-- 조직 이름 여기-->
                                                     <h4 class="fw-semibold mb-8">
-                                                        NHN 아카데미_김해
+                                                        <span th:text="${organization.getOrganizationName()}"></span>
                                                         <span class='fa fa-caret-down right'></span>
                                                     </h4>
                                                 </div>
                                             </a>
-                                            <ul class="dropdown-menu">
-                                                <li class="dropdown-item sub-menu">
-                                                    <a class="nav-link" href='#Menu3.1'>
-                                                        Menu 3.1
+                                            <ul class="dropdown-menu" th:if="${organization.getPlace().size() > 0}">
+                                                <li class="dropdown-item sub-menu" th:each="place : ${organization.getPlace()}">
+                                                    <a class="nav-link"><!--th:href="@{${place.getPlaceName()}}"-->
+                                                        <span th:text="${place.getPlaceName()}"></span>
                                                         <div class='fa fa-caret-down right'></div>
                                                     </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li class="dropdown-item"><a href='#Menu3.1.1'>Menu 3.1.1</a></li>
-                                                        <li class="dropdown-item"><a href='#Menu3.1.2'>Menu 3.1.2</a></li>
-                                                        <li class="dropdown-item"><a href='#Menu3.1.3'>Menu 3.1.3</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class='dropdown-item sub-menu'>
-                                                    <a class="nav-link" href='#Menu4'>
-                                                        Menu 4
-                                                        <div class='fa fa-caret-down right'></div>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li class="dropdown-item"><a href='#Menu4.1'>Menu 4.1</a></li>
-                                                        <li class="dropdown-item"><a href='#Menu4.2'>Menu 4.2</a></li>
-                                                        <li class="dropdown-item"><a href='#Menu4.3'>Menu 4.3</a></li>
+
+                                                    <ul class="dropdown-menu" th:if="${place.getSensors().size() > 0}">
+                                                        <li class="dropdown-item" th:each="sensor : ${place.getSensors()}">
+                                                            <a><!--th:href="@{${sensor.getSensorName()}}"-->
+                                                                <span th:text="${sensor.getSensorSn()}"></span>
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </li>
                                             </ul>
@@ -62,7 +54,7 @@
                             <div class="px-9 pt-4 pb-3">
                                 <!-- 조직 이름 여기-->
                                 <h4 class="fw-semibold mb-8">
-                                    NHN 아카데미_김해
+                                    <span th:text="${sensorList.get(0).getOrganizationName()}"></span>
                                 </h4>
                             </div>
                             <!-- 가로 네비게이션 탭 (현황) -> 흠...-->
