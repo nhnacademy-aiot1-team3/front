@@ -45,27 +45,12 @@ public class AdminOrganizationController {
         return "admin/my_page";
     }
 
-    @GetMapping("/admin/notification")
-    public String getNotification(){
-        return "admin/notification";
-    }
-    /**
-     * 공지사항 작성란 페이지로 이동하는 method
-     * @param noticeNum 공지사항 번호
-     * @param model 공지사항 객체를 담을 공간
-     * @return 공지사항 작성란 페이지로 이동
-     */
-    @GetMapping("/admin/notice-writer")
-    public String getNoticeWriter(@RequestParam(value = "number", required = false) String noticeNum, Model model){
-        return "/admin/notice_writer";
-    }
-
     @GetMapping("/admin/organization-list")
     public String getOrganizationList(Model model){
         try{
             List<OrganizationDto> organizationDtoList = organizationAdaptor.getOrganizations();
             model.addAttribute("organizationDtoList",organizationDtoList);
-            return "/admin/organization_list";
+            return "admin/organization_list";
         } catch(HttpClientErrorException e){
             alertHandler(model, e.getMessage(), "/");
         } catch (Exception e) {
@@ -103,11 +88,11 @@ public class AdminOrganizationController {
             model.addAttribute("viewerMemberAmount",viewerMemberAmount);
             model.addAttribute("placeList",placeList);
 
-            return "/admin/organization_management";
+            return "admin/organization_management";
         } catch(HttpClientErrorException e){
-            alertHandler(model, e.getMessage(), "/");
+            alertHandler(model, e.getMessage(), "/admin/organization-list");
         } catch (Exception e) {
-            alertHandler(model, "조직창 불러오기를 실패하였습니다", "/");
+            alertHandler(model, "조직창 불러오기를 실패하였습니다", "/admin/organization-list");
         }
         return ALERT;
     }
