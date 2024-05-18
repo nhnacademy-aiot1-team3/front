@@ -1,7 +1,8 @@
 package live.databo3.front.admin.adaptor.impl;
 
 import live.databo3.front.admin.adaptor.SensorAdaptor;
-import live.databo3.front.admin.dto.SensorDto;
+import live.databo3.front.admin.dto.*;
+import live.databo3.front.admin.dto.request.DeviceRequest;
 import live.databo3.front.admin.dto.request.SensorRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +61,23 @@ public class SensorAdaptorImpl implements SensorAdaptor {
     }
 
     @Override
+    public SensorDto modifySensor(int organizationId, String sensorSn, SensorRequest sensorRequest) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<SensorRequest> request = new HttpEntity<>(sensorRequest, httpHeaders);
+        ResponseEntity<SensorDto> exchange = restTemplate.exchange(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor/{sensorSn}",
+                HttpMethod.PUT,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId, sensorSn
+        );
+        return exchange.getBody();
+    }
+
+    @Override
     public void deleteSensor(int organizationId, String sensorSn) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -74,4 +92,136 @@ public class SensorAdaptorImpl implements SensorAdaptor {
                 },organizationId, sensorSn
         );
     }
+
+    @Override
+    public SensorTypeMappingDto createSensorType(int organizationId, String sensorSn, int sensorTypeId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        ResponseEntity<SensorTypeMappingDto> exchange = restTemplate.exchange(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor/{sensorSn}/sensorTypeId/{sensorTypeId}/sensorTypeMapping",
+                HttpMethod.POST,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId, sensorSn, sensorTypeId
+        );
+        return exchange.getBody();
+    }
+
+    @Override
+    public void deleteSensorType(int organizationId, String sensorSn, int sensorTypeId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        restTemplate.exchange(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor/{sensorSn}/sensorTypeId/{sensorTypeId}/sensorTypeMapping",
+                HttpMethod.DELETE,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId, sensorSn, sensorTypeId
+        );
+    }
+
+    @Override
+    public List<SensorTypeMappingListDto> getGetSensorTypeMappingByOrganization(int organizationId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        ResponseEntity<List<SensorTypeMappingListDto>> exchange = restTemplate.exchange(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/sensorTypeMapping",
+                HttpMethod.GET,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId);
+        return exchange.getBody();
+    }
+
+    @Override
+    public List<SensorTypeDto> getSensorType() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        ResponseEntity<List<SensorTypeDto>> exchange = restTemplate.exchange(
+                gatewayDomain +  "/api/sensor/sensorType",
+                HttpMethod.GET,
+                request,
+                new ParameterizedTypeReference<>() {
+                });
+        return exchange.getBody();
+    }
+
+    @Override
+    public List<DeviceDto> getDevice(int organizationId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        ResponseEntity<List<DeviceDto>> exchange = restTemplate.exchange(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/device",
+                HttpMethod.GET,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId);
+        return exchange.getBody();
+    }
+
+    @Override
+    public SensorDto createDevice(DeviceRequest deviceRequest, int organizationId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<DeviceRequest> request = new HttpEntity<>(deviceRequest, httpHeaders);
+        ResponseEntity<SensorDto> exchange = restTemplate.exchange(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/device",
+                HttpMethod.POST,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId
+        );
+        return exchange.getBody();
+    }
+
+    @Override
+    public DeviceDto modifyDevice(int organizationId, String deviceSn, DeviceRequest deviceRequest) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<DeviceRequest> request = new HttpEntity<>(deviceRequest, httpHeaders);
+        ResponseEntity<DeviceDto> exchange = restTemplate.exchange(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/device/{deviceSn}",
+                HttpMethod.PUT,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId, deviceSn
+        );
+        return exchange.getBody();
+    }
+
+    @Override
+    public void deleteDevice(int organizationId, String deviceSn) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        restTemplate.exchange(
+                gatewayDomain + SENSOR_URL + "/{organizationId}/device",
+                HttpMethod.DELETE,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId, deviceSn
+        );
+    }
+
 }

@@ -2,7 +2,6 @@ package live.databo3.front.admin.adaptor.impl;
 
 import live.databo3.front.admin.adaptor.OrganizationAdaptor;
 import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.GatewayControllerRequest;
 import live.databo3.front.admin.dto.request.OrganizationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -93,6 +92,39 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
     }
 
     @Override
+    public void deleteOrganizationOwner(int organizationId, String memberId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        restTemplate.exchange(
+                gatewayDomain + ORGANIZATION_URL + "/{organizationId}/members/{memberId}",
+                HttpMethod.DELETE,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId,memberId
+        );
+    }
+
+    @Override
+    public void deleteOrganizationViewer(int organizationId, String memberId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        restTemplate.exchange(
+                gatewayDomain + ORGANIZATION_URL + "/{organizationId}/members/{memberId}",
+                HttpMethod.DELETE,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId,memberId
+        );
+    }
+
+
+    @Override
     public String createOrganization(OrganizationRequest organizationRequest) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -147,10 +179,13 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        restTemplate.delete(
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        restTemplate.exchange(
                 gatewayDomain + ORGANIZATION_URL + "/{organizationId}",
                 HttpMethod.DELETE,
+                request,
                 new ParameterizedTypeReference<>() {
-                },organizationId);
+                },organizationId
+        );
     }
 }
