@@ -45,7 +45,7 @@ public class AdminMemberController {
         try{
             List<MemberDto> stateWaitOwnerList = adminMemberAdaptor.getMembersByRoleAndState(2,1);
             model.addAttribute("memberList", stateWaitOwnerList);
-            return "/admin/owner_register_request";
+            return "admin/owner_register_request";
         }catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
             model.addAttribute(ALERT_URL,"/");
