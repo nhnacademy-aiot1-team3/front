@@ -1,6 +1,6 @@
 package live.databo3.front.admin.controller;
 
-import live.databo3.front.admin.adaptor.ANotificationAdaptor;
+import live.databo3.front.adaptor.ANotificationAdaptor;
 import live.databo3.front.admin.dto.GetNotificationDto;
 import live.databo3.front.admin.dto.GetNotificationsResponse;
 import live.databo3.front.admin.dto.NotificationDto;

@@ -1,6 +1,6 @@
-package live.databo3.front.admin.adaptor.impl;
+package live.databo3.front.adaptor.impl;
 
-import live.databo3.front.admin.adaptor.PlaceAdaptor;
+import live.databo3.front.adaptor.PlaceAdaptor;
 import live.databo3.front.admin.dto.PlaceDto;
 import live.databo3.front.admin.dto.request.PlaceRequest;
 import lombok.RequiredArgsConstructor;
