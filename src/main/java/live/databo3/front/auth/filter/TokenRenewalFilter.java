@@ -2,7 +2,7 @@ package live.databo3.front.auth.filter;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import live.databo3.front.auth.adaptor.AuthAdaptor;
+import live.databo3.front.adaptor.AuthAdaptor;
 import live.databo3.front.auth.dto.JwtPayloadDto;
 import live.databo3.front.auth.exception.MissingRefreshTokenException;
 import live.databo3.front.auth.exception.TokenExpiredException;
@@ -14,7 +14,6 @@ import live.databo3.front.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -25,8 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;

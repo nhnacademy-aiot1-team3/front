@@ -1,8 +1,8 @@
 package live.databo3.front.admin.controller;
 
-import live.databo3.front.admin.adaptor.OrganizationAdaptor;
-import live.databo3.front.admin.adaptor.PlaceAdaptor;
-import live.databo3.front.admin.adaptor.SensorAdaptor;
+import live.databo3.front.adaptor.OrganizationAdaptor;
+import live.databo3.front.adaptor.PlaceAdaptor;
+import live.databo3.front.adaptor.SensorAdaptor;
 import live.databo3.front.admin.dto.*;
 import live.databo3.front.admin.dto.request.*;
 import lombok.RequiredArgsConstructor;

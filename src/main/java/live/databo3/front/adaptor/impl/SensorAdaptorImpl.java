@@ -1,6 +1,6 @@
-package live.databo3.front.admin.adaptor.impl;
+package live.databo3.front.adaptor.impl;
 
-import live.databo3.front.admin.adaptor.SensorAdaptor;
+import live.databo3.front.adaptor.SensorAdaptor;
 import live.databo3.front.admin.dto.*;
 import live.databo3.front.admin.dto.request.DeviceRequest;
 import live.databo3.front.admin.dto.request.SensorRequest;
