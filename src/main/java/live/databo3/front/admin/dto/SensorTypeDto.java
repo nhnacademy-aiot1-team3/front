@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class SensorDto {
-    private String sensorSn;
-    private String sensorName;
-    private PlaceDto place;
+public class SensorTypeDto {
+    private int sensorTypeId;
+    private String sensorType;
 }

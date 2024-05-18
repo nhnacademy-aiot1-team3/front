@@ -18,7 +18,7 @@
                         <div class="col-3">
                             <div class="text-center mb-n5">
                                 <img
-                                        src="../assets/images/breadcrumb/ChatBc.png"
+                                        src="/assets/images/breadcrumb/ChatBc.png"
                                         alt=""
                                         class="img-fluid mb-n4"
                                 />
@@ -51,6 +51,15 @@
                     <li class="nav-item" role="presentation">
                         <button
                                 class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
+                                id="pills-devices-tab" data-bs-toggle="pill" data-bs-target="#pills-devices" type="button"
+                                role="tab" aria-controls="pills-devices" aria-selected="false">
+                            <i class="ti ti-router me-2 fs-6"></i>
+                            <span class="d-none d-md-block">Device 관리</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button
+                                class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
                                 id="pills-member-list-tab" data-bs-toggle="pill" data-bs-target="#pills-member-list" type="button"
                                 role="tab" aria-controls="pills-member-list" aria-selected="false">
                             <i class="ti ti-list me-2 fs-6"></i>
@@ -72,7 +81,7 @@
                                 id="pills-settings-tab" data-bs-toggle="pill" data-bs-target="#pills-settings" type="button"
                                 role="tab" aria-controls="pills-settings" aria-selected="false">
                             <i class="ti ti-settings me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Settings</span>
+                            <span class="d-none d-md-block">부서</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -101,7 +110,7 @@
                              aria-labelledby="pills-information-tab" tabindex="0">
                             <div class="card overflow-hidden">
                                 <div class="card-body p-0">
-                                    <img src="../assets/images/backgrounds/profilebg.jpg" alt="" class="img-fluid">
+                                    <img src="/assets/images/backgrounds/profilebg.jpg" alt="" class="img-fluid">
                                     <div class="row align-items-center">
                                         <div class="col-lg-4 order-lg-1 order-2">
                                             <div class="d-flex align-items-center justify-content-around m-4">
@@ -142,22 +151,192 @@
                             <div class="col-12">
                                 <div class="card w-100 position-relative overflow-hidden mb-0">
                                     <div class="card-body p-4">
-                                        <h5 class="card-title fw-semibold">sensor 추가</h5>
-                                        <form action=/admin/createSensor method="post">
+                                        <div class="row">
+                                            <div class="d-flex flex-wrap">
+                                                <div class="col-lg-6 d-flex align-items-stretch">
+                                                    <div>
+                                                        <h5 class="card-title fw-semibold">sensor 추가</h5>
+                                                        <form action="/admin/createSensor" method="post">
+                                                            <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div>
+                                                                        <label for="sensorSn1" class="form-label">Sensor Sn</label>
+                                                                        <input type="text" class="form-control" id="sensorSn1" name="sensorSn">
+                                                                    </div>
+                                                                    <div>
+                                                                        <label for="sensorName1" class="form-label">Sensor Name</label>
+                                                                        <input type="text" class="form-control" id="sensorName1" name="sensorName">
+                                                                    </div>
+                                                                    <div>
+                                                                        <label for="placeId1" class="form-label">Sensor Place</label>
+                                                                        <select id="placeId1" name="placeId" class="form-select">
+                                                                            <option value="">Select a place</option>
+                                                                            <option th:each="place: ${placeList}" th:value="${place.getPlaceId()}" th:text="${place.getPlaceName()}"></option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                                        <button class="btn btn-primary" type="submit">생성</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 d-flex align-items-stretch">
+                                                    <div>
+                                                        <h5 class="card-title fw-semibold">sensor 변경</h5>
+                                                        <form action="/admin/modifySensor" method="post">
+                                                            <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div>
+                                                                        <label for="sensorSn2" class="form-label">Sensor</label>
+                                                                        <select id="sensorSn2" name="sensorSn" class="form-select">
+                                                                            <option value="">Select a sensor</option>
+                                                                            <option th:each="sensor: ${sensorList}" th:value="${sensor.getSensorSn()}" th:text="${sensor.getSensorSn()}"></option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label for="sensorName2" class="form-label">Sensor Name</label>
+                                                                        <input type="text" class="form-control" id="sensorName2" name="sensorName">
+                                                                    </div>
+                                                                    <div>
+                                                                        <label for="placeId2" class="form-label">Sensor Place</label>
+                                                                        <select id="placeId2" name="placeId" class="form-select">
+                                                                            <option value="">Select a place</option>
+                                                                            <option th:each="place: ${placeList}" th:value="${place.getPlaceId()}" th:text="${place.getPlaceName()}"></option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                                        <button class="btn btn-primary" type="submit">수정</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <div class="row">
+                                            <div class="d-flex flex-wrap">
+                                                <div class="col-lg-6 d-flex align-items-stretch">
+                                                    <div>
+                                                        <h5 class="card-title fw-semibold">sensor 삭제</h5>
+                                                        <form action="/admin/deleteSensor" method="post">
+                                                            <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div>
+                                                                        <label for="sensorSn3" class="form-label">Sensor</label>
+                                                                        <select id="sensorSn3" name="sensorSn" class="form-select">
+                                                                            <option value="">Select a sensor</option>
+                                                                            <option th:each="sensor: ${sensorList}" th:value="${sensor.getSensorSn()}" th:text="${sensor.getSensorSn()}"></option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                                        <button class="btn btn-danger" type="submit">삭제</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 d-flex align-items-stretch">
+                                                    <div>
+                                                        <h5 class="card-title fw-semibold">sensor type 추가</h5>
+                                                        <form action="/admin/createSensorTypeMapping" method="post">
+                                                            <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div>
+                                                                        <label for="sensorSn4" class="form-label">Sensor</label>
+                                                                        <select id="sensorSn4" name="sensorSn" class="form-select">
+                                                                            <option value="">Select a sensor</option>
+                                                                            <option th:each="sensor: ${sensorList}" th:value="${sensor.getSensorSn()}" th:text="${sensor.getSensorSn()}"></option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label for="sensorTypeId" class="form-label">Sensor Type</label>
+                                                                        <select id="sensorTypeId" name="sensorTypeId" class="form-select">
+                                                                            <option value="">Select a type</option>
+                                                                            <option th:each="sensor: ${sensorTypeList}" th:value="${sensor.getSensorTypeId()}" th:text="${sensor.getSensorType()}"></option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                                        <button class="btn btn-primary" type="submit">추가</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold">센서 목록</h5>
+                                        <table id="sensorTable" class="datatable">
+                                            <thead>
+                                            <tr>
+                                                <th>SensorSn</th>
+                                                <th>SensorName</th>
+                                                <th>SensorPlace</th>
+                                                <th>SensorType</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="sensor: ${sensorTypeMappingList}">
+                                                <td th:text="${sensor.getSensor().getSensorSn()}">SensorSn</td>
+                                                <td th:text="${sensor.getSensor().getSensorName()}">SensorName</td>
+                                                <td th:text="${sensor.getSensor().getPlace().getPlaceName()}">SensorPlace</td>
+                                                <td th:text="${sensor.getSensorType().getSensorType()}">SensorType</td>
+                                                <td>
+                                                    <form action="/admin/deleteSensorType" method="post">
+                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                        <input type="hidden" name="sensorSn" th:value="${sensor.getSensor().getSensorSn()}"/>
+                                                        <input type="hidden" name="sensorTypeId" th:value="${sensor.getSensorType().getSensorTypeId()}"/>
+                                                        <button class="btn btn-danger" type="submit">Sensor Type 삭제</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="pills-devices" role="tabpanel"
+                             aria-labelledby="pills-devices-tab" tabindex="0">
+                            <div class="col-12">
+                                <div class="card w-100 position-relative overflow-hidden mb-0">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold">device 추가</h5>
+                                        <form action=/admin/createDevice method="post">
                                             <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div>
-                                                        <label for="sensorSn" class="form-label">Sensor Sn</label>
-                                                        <input type="text" class="form-control" id="sensorSn" name="sensorSn">
+                                                        <label for="deviceSn" class="form-label">Device Sn</label>
+                                                        <input type="text" class="form-control" id="deviceSn" name="deviceSn">
                                                     </div>
                                                     <div>
-                                                        <label for="sensorName" class="form-label">Sensor Name</label>
-                                                        <input type="text" class="form-control" id="sensorName" name="sensorName">
-                                                    </div>
-                                                    <div>
-                                                        <label for="sensorPlace" class="form-label">sensor Place</label>
-                                                        <input type="text" class="form-control" id="sensorPlace" name="sensorPlace">
+                                                        <label for="deviceName" class="form-label">Device Name</label>
+                                                        <input type="text" class="form-control" id="deviceName" name="deviceName">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
@@ -169,46 +348,35 @@
                                         </form>
                                     </div>
                                     <div class="card-body p-4">
-                                        <h5 class="card-title fw-semibold">센서 목록</h5>
-                                        <table id="sensorTable" class="datatable">
+                                        <h5 class="card-title fw-semibold">디바이스 목록</h5>
+                                        <table id="deviceTable" class="datatable">
                                             <thead>
                                             <tr>
-                                                <th>SensorSn</th>
-                                                <th>SensorName</th>
-                                                <th>SensorPlace</th>
+                                                <th>DeviceSn</th>
+                                                <th>DeviceName</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                <tr th:each="sensor: ${sensorList}">
-                                                    <td th:text="${sensor.getSensorSn()}">organizationName</td>
-                                                    <td th:text="${sensor.getSensorName()}">gatewaySn</td>
-                                                    <td th:text="${sensor.getSensorPlace()}">controllerSn</td>
-                                                    <td>
-                                                        <div class="dropdown dropstart">
-                                                            <a href="#" class="text-muted" id="dropdownMenuButton3" data-bs-toggle="dropdown"
-                                                               aria-expanded="false">
-                                                                <i class="ti ti-dots fs-5"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                                                <li>
-                                                                    <form action=/admin/createSensor method="post">
-                                                                        <i class="fs-4 ti ti-edit"></i>
-                                                                        <button class="btn btn-light" type="submit">Edit</button>
-                                                                    </form>
-                                                                </li>
-                                                                <li>
-                                                                    <form action=/admin/deleteSensor method="post">
-                                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
-                                                                        <input type="hidden" name="sensorSn" th:value="${sensor.getSensorSn()}"/>
-                                                                            <i class="fs-4 ti ti-trash"></i>
-                                                                            <button class="btn btn-light" type="submit">Delete</button>
-                                                                    </form>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                            <tr th:each="device: ${deviceList}">
+                                                <td th:text="${device.getDeviceSn()}">DeviceSn</td>
+                                                <td th:text="${device.getDeviceName()}">DeviceName</td>
+<!--                                                <td>-->
+<!--                                                    <form action=/admin/modifyDevice method="post">-->
+<!--                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>-->
+<!--                                                        <input type="hidden" name="placeId" th:value="${device.getDeviceSn()}"/>-->
+<!--                                                        <input type="text" class="form-control" id="deviceModify" name="deviceName">-->
+<!--                                                        <button class="btn btn-success" type="submit">place 수정</button>-->
+<!--                                                    </form>-->
+<!--                                                </td>-->
+                                                <td>
+                                                    <form action=/admin/deleteDevice method="post">
+                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                        <input type="hidden" name="sensorSn" th:value="${device.getDeviceSn()}"/>
+                                                        <button class="btn btn-danger" type="submit">Device 삭제</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -227,16 +395,22 @@
                                         <th>Email</th>
                                         <th>Role</th>
                                         <th>State</th>
-                                        <th>lastLoginDateTime</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr th:each="owner: ${ownerMemberList}">
-                                        <td th:text="${owner.getId()}">ownerId</td>
-                                        <td th:text="${owner.getEmail()}">ownerEmail</td>
-                                        <td th:text="${owner.getRole()}">ownerRole</td>
+                                        <td th:text="${owner.getMemberId()}">ownerId</td>
+                                        <td th:text="${owner.getMemberEmail()}">ownerEmail</td>
+                                        <td th:text="${owner.getRoleName()}">ownerRole</td>
                                         <td th:text="${owner.getState()}">ownerState</td>
-                                        <td th:text="${owner.getLastLoginDateTime()}">ownerLastLoginDateTime</td>
+                                        <td>
+                                            <form action=/admin/deleteOrganizationOwner method="post">
+                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                <input type="hidden" name="memberId" th:value="${owner.getMemberId()}"/>
+                                                <button class="btn btn-danger" type="submit">Owner 삭제</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -248,16 +422,22 @@
                                         <th>Email</th>
                                         <th>Role</th>
                                         <th>State</th>
-                                        <th>lastLoginDateTime</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr th:each="viewer: ${viewerMemberList}">
-                                        <td th:text="${viewer.getId()}">viewerId</td>
-                                        <td th:text="${viewer.getEmail()}">viewerEmail</td>
-                                        <td th:text="${viewer.getRole()}">viewerRole</td>
+                                        <td th:text="${viewer.getMemberId()}">viewerId</td>
+                                        <td th:text="${viewer.getMemberEmail()}">viewerEmail</td>
+                                        <td th:text="${viewer.getRoleName()}">viewerRole</td>
                                         <td th:text="${viewer.getState()}">viewerState</td>
-                                        <td th:text="${viewer.getLastLoginDateTime()}">viewerLastLoginDateTime</td>
+                                        <td>
+                                            <form action=/admin/deleteOrganizationViewer method="post">
+                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                <input type="hidden" name="memberId" th:value="${viewer.getMemberId()}"/>
+                                                <button class="btn btn-danger" type="submit">Viewer 삭제</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -272,17 +452,18 @@
                                 <div class="card w-100 position-relative overflow-hidden mb-0">
                                     <div class="card-body p-4">
                                         <h5 class="card-title fw-semibold">게이트웨이, 컨트롤러 변경</h5>
-                                        <form>
+                                        <form action=/admin/modifyOrganizationSerialNumber method="post">
+                                            <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div>
-                                                        <label for="gatewayInput" class="form-label">변경할 게이트웨이</label>
-                                                        <input type="text" class="form-control" id="gatewayInput"
+                                                        <label for="gatewaySn" class="form-label">변경할 게이트웨이</label>
+                                                        <input type="text" class="form-control" id="gatewaySn" name="gatewaySn"
                                                                th:placeholder="${organization.getGatewaySn()}">
                                                     </div>
                                                     <div>
-                                                        <label for="controllerInput" class="form-label">변경할 컨트롤러</label>
-                                                        <input type="text" class="form-control" id="controllerInput"
+                                                        <label for="controllerSn" class="form-label">변경할 컨트롤러</label>
+                                                        <input type="text" class="form-control" id="controllerSn" name="controllerSn"
                                                                th:placeholder="${organization.getControllerSn()}">
                                                     </div>
                                                 </div>
@@ -304,12 +485,13 @@
                                     <div class="card w-100 position-relative overflow-hidden mb-0">
                                         <div class="card-body p-4">
                                             <h5 class="card-title fw-semibold">부서명 변경</h5>
-                                            <form>
+                                            <form action=/admin/modifyOrganization method="post">
+                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div>
-                                                            <label for="exampleInputtext1" class="form-label">변경할 부서명</label>
-                                                            <input type="text" class="form-control" id="exampleInputtext1"
+                                                            <label for="organizationName" class="form-label">변경할 부서명</label>
+                                                            <input type="text" class="form-control" id="organizationName" name="organizationName"
                                                                    th:placeholder="${organization.getOrganizationName()}">
                                                         </div>
                                                     </div>
@@ -383,17 +565,17 @@
                                             <tr th:each="place: ${placeList}">
                                                 <td th:text="${place.getPlaceName()}">organizationName</td>
                                                 <td>
-                                                    <form action=/admin/deletePlace method="post">
+                                                    <form action=/admin/modifyPlace method="post">
                                                         <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
-                                                        <div>
-                                                            <input type="text" class="form-control" id="placeModify" name="placeName">
-                                                        </div>
+                                                        <input type="hidden" name="placeId" th:value="${place.getPlaceId()}"/>
+                                                        <input type="text" class="form-control" id="placeModify" name="placeName">
                                                         <button class="btn btn-success" type="submit">place 수정</button>
                                                     </form>
                                                 </td>
                                                 <td>
                                                     <form action=/admin/deletePlace method="post">
                                                         <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                        <input type="hidden" name="placeId" th:value="${place.getPlaceId()}"/>
                                                         <button class="btn btn-danger" type="submit">place 삭제</button>
                                                     </form>
                                                 </td>
@@ -410,84 +592,29 @@
                             <div class="widget-content searchable-container list">
                                 <div class="card card-body">
                                     <div class="table-responsive">
-                                        <table class="table search-table align-middle text-nowrap">
-                                            <thead class="header-item">
-                                            <th></th>
-                                            <th>Id</th>
-                                            <th>Email</th>
-                                            <th>Role</th>
-                                            <th>State</th>
-                                            <th>Action</th>
+                                        <h5 class="card-title fw-semibold">OWNER 부서 신청 목록</h5>
+                                        <table id="ownerRequestTable" class="datatable">
+                                            <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>State</th>
+                                                <th></th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                            <tr class="search-items">
+                                            <tr th:each="ownerRequest: ${ownerRequestMemberList}">
+                                                <td th:text="${ownerRequest.getMemberId()}">ownerId</td>
+                                                <td th:text="${ownerRequest.getMemberEmail()}">ownerEmail</td>
+                                                <td th:text="${ownerRequest.getRoleName()}">ownerRole</td>
+                                                <td th:text="${ownerRequest.getState()}">ownerState</td>
                                                 <td>
-
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="../assets/images/profile/user-2.jpg" alt="avatar" class="rounded-circle"
-                                                             width="35" />
-                                                        <div class="ms-3">
-                                                            <div class="user-meta-info">
-                                                                <h6 class="user-name mb-0" data-name="Emma Adams">Emma Adams</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-email-addr" data-email="adams@mail.com">adams@mail.com</span>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-role" data-role="Boston, USA">Owner</span>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-state" data-state="+1 (070) 123-4567">wait</span>
-                                                </td>
-                                                <td>
-                                                    <div class="action-btn">
-                                                        <a href="javascript:void(0)" class="text-primary edit">
-                                                            <i class="ti ti-check fs-5"></i>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="text-dark delete ms-2">
-                                                            <i class="ti ti-x fs-5"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="search-items">
-                                                <td>
-
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="../assets/images/profile/user-2.jpg" alt="avatar" class="rounded-circle"
-                                                             width="35" />
-                                                        <div class="ms-3">
-                                                            <div class="user-meta-info">
-                                                                <h6 class="user-name mb-0" data-name="Emma Adams">Emma Adams</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-email-addr" data-email="adams@mail.com">adams@mail.com</span>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-role" data-role="Boston, USA">owner</span>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-state" data-state="+1 (070) 123-4567">wait</span>
-                                                </td>
-                                                <td>
-                                                    <div class="action-btn">
-                                                        <a href="javascript:void(0)" class="text-primary edit">
-                                                            <i class="ti ti-check fs-5"></i>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="text-dark delete ms-2">
-                                                            <i class="ti ti-x fs-5"></i>
-                                                        </a>
-                                                    </div>
+                                                    <form action=/admin/modifyMemberState method="post">
+                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                        <input type="hidden" name="memberId" th:value="${ownerRequest.getMemberId()}"/>
+                                                        <button class="btn btn-success" type="submit">수락</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                             </tbody>

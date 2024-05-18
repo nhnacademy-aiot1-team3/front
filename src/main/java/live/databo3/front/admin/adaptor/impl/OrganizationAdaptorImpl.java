@@ -2,6 +2,7 @@ package live.databo3.front.admin.adaptor.impl;
 
 import live.databo3.front.admin.adaptor.OrganizationAdaptor;
 import live.databo3.front.admin.dto.*;
+import live.databo3.front.admin.dto.request.OrganizationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,8 +10,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -59,13 +58,13 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
     }
 
     @Override
-    public List<MemberDto> getMemberByState(int organizationId, int stateId, String roleName) {
+    public List<MemberOrganizationDto> getMemberByState(int organizationId, int stateId, String roleName) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        ResponseEntity<List<MemberDto>> exchange = restTemplate.exchange(
+        ResponseEntity<List<MemberOrganizationDto>> exchange = restTemplate.exchange(
                 gatewayDomain + ORGANIZATION_URL +"/{organizationId}/members/state?state={stateId}&role={roleName}",
                 HttpMethod.GET,
                 request,
@@ -74,6 +73,56 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
         );
         return exchange.getBody();
     }
+
+    @Override
+    public String modifyMemberState(int organizationId, String memberId, int stateId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        ResponseEntity<String> exchange = restTemplate.exchange(
+                gatewayDomain + ORGANIZATION_URL +"/{organizationId}/members/{memberId}?state={stateId}",
+                HttpMethod.PUT,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId, memberId, stateId
+        );
+        return exchange.getBody();
+    }
+
+    @Override
+    public void deleteOrganizationOwner(int organizationId, String memberId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        restTemplate.exchange(
+                gatewayDomain + ORGANIZATION_URL + "/{organizationId}/members/{memberId}",
+                HttpMethod.DELETE,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId,memberId
+        );
+    }
+
+    @Override
+    public void deleteOrganizationViewer(int organizationId, String memberId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        restTemplate.exchange(
+                gatewayDomain + ORGANIZATION_URL + "/{organizationId}/members/{memberId}",
+                HttpMethod.DELETE,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId,memberId
+        );
+    }
+
 
     @Override
     public String createOrganization(OrganizationRequest organizationRequest) {
@@ -91,15 +140,52 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
     }
 
     @Override
+    public String modifyOrganization(int organizationId, OrganizationRequest organizationRequest) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<OrganizationRequest> request = new HttpEntity<>(organizationRequest, httpHeaders);
+        ResponseEntity<String> exchange = restTemplate.exchange(
+                gatewayDomain + ORGANIZATION_URL + "/{organizationId}",
+                HttpMethod.PUT,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId
+        );
+        return exchange.getBody();
+    }
+
+    @Override
+    public String modifySerialNumber(int organizationId, OrganizationRequest organizationRequest) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<OrganizationRequest> request = new HttpEntity<>(organizationRequest, httpHeaders);
+        ResponseEntity<String> exchange = restTemplate.exchange(
+                gatewayDomain + ORGANIZATION_URL + "/{organizationId}/gatewayAndController",
+                HttpMethod.PUT,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId
+        );
+        return exchange.getBody();
+    }
+
+    @Override
     public void deleteOrganization(int organizationId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        restTemplate.delete(
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        restTemplate.exchange(
                 gatewayDomain + ORGANIZATION_URL + "/{organizationId}",
                 HttpMethod.DELETE,
+                request,
                 new ParameterizedTypeReference<>() {
-                },organizationId);
+                },organizationId
+        );
     }
 }

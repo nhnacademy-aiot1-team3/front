@@ -2,7 +2,7 @@ package live.databo3.front.admin.controller;
 
 import live.databo3.front.admin.adaptor.AdminMemberAdaptor;
 import live.databo3.front.admin.dto.MemberDto;
-import live.databo3.front.admin.dto.MemberModifyStateRequest;
+import live.databo3.front.admin.dto.request.MemberModifyStateRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -60,7 +59,7 @@ public class AdminMemberController {
     @PostMapping("/admin/owner-register-request")
     public String modifyOwnerState(Model model, MemberModifyStateRequest request){
         try{
-            adminMemberAdaptor.modifyMember(request);
+ adminMemberAdaptor           .modifyMember(request);
             return "redirect:/admin/owner-register-request";
         }catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
