@@ -75,6 +75,40 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
     }
 
     @Override
+    public List<OrganizationDto> getOrganizationsWithoutMember() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        ResponseEntity<List<OrganizationDto>> exchange = restTemplate.exchange(
+                gatewayDomain + ORGANIZATION_URL +"/members-without/me",
+                HttpMethod.GET,
+                request,
+                new ParameterizedTypeReference<>() {
+                }
+        );
+        return exchange.getBody();
+    }
+
+    @Override
+    public List<OrganizationDto> getOrganizationsByMember() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        ResponseEntity<List<OrganizationDto>> exchange = restTemplate.exchange(
+                gatewayDomain + ORGANIZATION_URL +"/members/me",
+                HttpMethod.GET,
+                request,
+                new ParameterizedTypeReference<>() {
+                }
+        );
+        return exchange.getBody();
+    }
+
+    @Override
     public String modifyMemberState(int organizationId, String memberId, int stateId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -137,6 +171,23 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
                 request,
                 String.class
         ).getBody();
+    }
+
+    @Override
+    public String postMemberOrgs(int organizationId) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<OrganizationRequest> request = new HttpEntity<>(httpHeaders);
+        ResponseEntity<String> exchange =  restTemplate.exchange(
+                gatewayDomain + ORGANIZATION_URL + "/{organizationId}/members",
+                HttpMethod.POST,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId
+        );
+        return exchange.getBody();
     }
 
     @Override
