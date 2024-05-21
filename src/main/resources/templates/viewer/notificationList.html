@@ -2,7 +2,7 @@
 <html lang="ko" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme"
       data-layout="vertical" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/owner_layout}">
+      layout:decorate="~{layout/viewer_layout}">
 
 <th:block layout:fragment="content">
     <body>
@@ -14,6 +14,16 @@
                         <div class="row align-items-center">
                             <div class="col-9">
                                 <h4 class="fw-semibold mb-8">Notification</h4>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a class="text-muted text-decoration-none" href="/"
+                                            >Home</a
+                                            >
+                                        </li>
+                                        <li class="breadcrumb-item" aria-current="page">Notification</li>
+                                    </ol>
+                                </nav>
                             </div>
                             <div class="col-3">
                                 <div class="text-center mb-n5">
@@ -42,34 +52,17 @@
                                         <th scope="col">날짜</th>
                                     </tr>
                                     </thead>
-                                    <tbody><!-- th:each="notice : ${noteList}"-->
-                                    <!--                                        실제로 만들고 나선 주석 처리 풀고 밑의 tr 부분 삭제-->
-                                    <!--                                        <tr>-->
-                                    <!--                                            <td>-->
-                                    <!--                                                <div class="d-flex align-items-center">-->
-                                    <!--                                                    <h6 class="fw-semibold mb-0 fs-4" th:text="${notice.title}" th:onclick="'location.href=\'/admin/noticeWriter/?number='+${notice.number}+'\''">title</h6>-->
-                                    <!--                                                </div>-->
-                                    <!--                                            </td>-->
-                                    <!--                                            <td>-->
-                                    <!--                                                <h6 class="mb-0 fs-4" th:text="${notice.author}">author</h6>-->
-                                    <!--                                            </td>-->
-                                    <!--                                            <td class="mb-0" th:text="${notice.date}">0</td>-->
-                                    <!--                                        </tr>-->
-                                    <!--                                        예시로 보여주기-->
+                                    <tbody th:each="notification : ${notificationList}">
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="ms-3" onclick="location.href='{해당 공지사항으로 가는 경로}'">
-                                                    <h6 class="fw-semibold mb-0 fs-4">How Innovation Works</h6>
-                                                </div>
+                                                <h6 class="fw-semibold mb-0 fs-4" th:text="${notification.title}" th:onclick="'location.href=\'/admin/notifications/'+${notification.notificationId}+'\''">title</h6>
                                             </div>
                                         </td>
                                         <td>
-                                            <h6 class="mb-0 fs-4">admin</h6>
+                                            <h6 class="mb-0 fs-4" th:text="${notification.author}">author</h6>
                                         </td>
-                                        <td>
-                                            <p class="mb-0">Thu, Jan 12 2023</p>
-                                        </td>
+                                        <td class="mb-0" th:text="${notification.date}">0</td>
                                     </tr>
                                     </tbody>
                                 </table>

@@ -8,5 +8,4 @@ import lombok.Getter;
 public class NotificationDto {
     private String title;
     private String contents;
-    private String file;
 }

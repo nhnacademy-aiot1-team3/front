@@ -7,9 +7,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class GetNotificationsResponse {
+public class GetNotificationListResponse {
     private Long notificationId;
     private String title;
     private String author;
     private LocalDateTime date;
+
 }
