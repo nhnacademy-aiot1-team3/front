@@ -2,7 +2,7 @@ package live.databo3.front.config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import live.databo3.front.auth.adaptor.AuthAdaptor;
+import live.databo3.front.adaptor.AuthAdaptor;
 import live.databo3.front.auth.filter.ExceptionHandlingFilter;
 import live.databo3.front.auth.filter.JwtAuthenticationFilter;
 import live.databo3.front.auth.filter.TokenRenewalFilter;

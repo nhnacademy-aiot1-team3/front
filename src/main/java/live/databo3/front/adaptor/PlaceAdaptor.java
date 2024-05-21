@@ -1,4 +1,4 @@
-package live.databo3.front.admin.adaptor;
+package live.databo3.front.adaptor;
 
 import live.databo3.front.admin.dto.PlaceDto;
 import live.databo3.front.admin.dto.request.PlaceRequest;

@@ -7,7 +7,6 @@
 <th:block layout:fragment="content">
     <body>
 
-
     <div class="body-wrapper">
         <div class="container-fluid">
             <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
@@ -19,7 +18,7 @@
                         <div class="col-3">
                             <div class="text-center mb-n5">
                                 <img
-                                        src="../assets/images/breadcrumb/ChatBc.png"
+                                        src="/assets/images/breadcrumb/ChatBc.png"
                                         alt=""
                                         class="img-fluid mb-n4"
                                 />
@@ -29,67 +28,62 @@
                 </div>
             </div>
 
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-register" role="tabpanel"
-                     aria-labelledby="pills-register-tab" tabindex="0">
-                    <div class="widget-content searchable-container list">
-                        <div class="card card-body">
-                            <div class="table-responsive">
-                                <h5 class="card-title fw-semibold">부서 목록</h5>
-                                <table id="organizationTable" class="datatable">
-                                    <thead>
-                                        <tr>
-                                            <th>organizationName</th>
-                                            <th>gatewaySn</th>
-                                            <th>controllerSn</th>
-                                            <th>관리 페이지</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="organization : ${organizationDtoList}">
-                                        <td th:text="${organization.getOrganizationName()}">organizationName</td>
-                                        <td th:text="${organization.getGatewaySn()}">gatewaySn</td>
-                                        <td th:text="${organization.getControllerSn()}">controllerSn</td>
-                                        <td>
-                                            <form action=/admin/organization-management method="get">
-                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
-                                                <button class="btn btn-primary w-60 py-8 mb-0 rounded-2" type="submit">조직 관리창</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <div class="widget-content searchable-container list">
+                <div class="card card-body">
+                    <div class="table-responsive">
+                        <h5 class="card-title fw-semibold">부서 목록</h5>
+                        <table id="organizationTable" class="datatable">
+                            <thead>
+                            <tr>
+                                <th>organizationName</th>
+                                <th>gatewaySn</th>
+                                <th>controllerSn</th>
+                                <th>관리 페이지</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="organization : ${organizationDtoList}">
+                                <td th:text="${organization.getOrganizationName()}">organizationName</td>
+                                <td th:text="${organization.getGatewaySn()}">gatewaySn</td>
+                                <td th:text="${organization.getControllerSn()}">controllerSn</td>
+                                <td>
+                                    <form action=/admin/organization-management method="get">
+                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                        <button class="btn btn-primary w-60 py-8 mb-0 rounded-2" type="submit">조직 관리창</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="col-12">
-                        <div class="card w-100 position-relative overflow-hidden mb-0">
-                            <div class="card-body p-4">
-                                <h5 class="card-title fw-semibold">부서 추가</h5>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <form action=/admin/organization method="post">
-                                                <div>
-                                                    <label for="organizationName" class="form-label">추가할 부서명</label>
-                                                    <input type="text" class="form-control" id="organizationName" name="organizationName"
-                                                           placeholder="ex)NHN academy 경남" required>
-                                                </div>
-                                                <div>
-                                                    <label for="gatewaySn" class="form-label">게이트웨이 시리얼 넘버</label>
-                                                    <input type="text" class="form-control" id="gatewaySn" name="gatewaySn"
-                                                           placeholder="ex)1Qskxc1Yk779">
-                                                </div>
-                                                <div>
-                                                    <label for="controllerSn" class="form-label">컨트롤러 시리얼 넘버</label>
-                                                    <input type="text" class="form-control" id="controllerSn" name="controllerSn"
-                                                           placeholder="ex)jsas0Sxc098921">
-                                                </div>
-                                                <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                    <button class="btn btn-primary" type="submit">부서생성</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card w-100 position-relative overflow-hidden mb-0">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-semibold">부서 추가</h5>
+                        <div class="row">
+                            <div class="col-12">
+                                <form action=/admin/organization method="post">
+                                    <div>
+                                        <label for="organizationName" class="form-label">추가할 부서명</label>
+                                        <input type="text" class="form-control" id="organizationName" name="organizationName"
+                                               placeholder="ex)NHN academy 경남" required>
                                     </div>
+                                    <div>
+                                        <label for="gatewaySn" class="form-label">게이트웨이 시리얼 넘버</label>
+                                        <input type="text" class="form-control" id="gatewaySn" name="gatewaySn"
+                                               placeholder="ex)1Qskxc1Yk779">
+                                    </div>
+                                    <div>
+                                        <label for="controllerSn" class="form-label">컨트롤러 시리얼 넘버</label>
+                                        <input type="text" class="form-control" id="controllerSn" name="controllerSn"
+                                               placeholder="ex)jsas0Sxc098921">
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                        <button class="btn btn-primary" type="submit">부서생성</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -1,14 +1,12 @@
-package live.databo3.front.member.adaptor;
+package live.databo3.front.adaptor;
 
+import live.databo3.front.admin.dto.MemberDto;
+import live.databo3.front.admin.dto.request.MemberModifyStateRequest;
 import live.databo3.front.member.dto.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-/**
- *
- * @author 이지현
- * @version 1.0.0
- */
+import java.util.List;
+
 @Component
 public interface MemberAdaptor {
     /**
@@ -28,4 +26,11 @@ public interface MemberAdaptor {
      * @since 1.0.0
      */
     String doRegister(MemberRegisterRequest memberRegisterRequest);
+
+    List<MemberDto> getMembers();
+
+    List<MemberDto> getMembersByRoleAndState(int roleId, int stateId);
+
+    void modifyMember(MemberModifyStateRequest memberModifyStateRequest);
+
 }

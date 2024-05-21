@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class OrganizationIdRequest {
-    private int organizationId;
+public class DeviceRequest {
+    private String deviceName;
+    private String deviceSn;
 }

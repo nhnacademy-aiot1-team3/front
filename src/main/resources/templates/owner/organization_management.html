@@ -18,7 +18,7 @@
                         <div class="col-3">
                             <div class="text-center mb-n5">
                                 <img
-                                        src="../assets/images/breadcrumb/ChatBc.png"
+                                        src="/assets/images/breadcrumb/ChatBc.png"
                                         alt=""
                                         class="img-fluid mb-n4"
                                 />
@@ -36,7 +36,7 @@
                                 id="pills-information-tab" data-bs-toggle="pill" data-bs-target="#pills-information" type="button" role="tab"
                                 aria-controls="pills-information" aria-selected="true">
                             <i class="ti ti-info-circle me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Information</span>
+                            <span class="d-none d-md-block">Main</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -45,7 +45,7 @@
                                 id="pills-notification-tab" data-bs-toggle="pill" data-bs-target="#pills-notifications" type="button"
                                 role="tab" aria-controls="pills-notifications" aria-selected="false">
                             <i class="ti ti-router me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Sensor 리스트</span>
+                            <span class="d-none d-md-block">Sensor Device 리스트</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -54,7 +54,16 @@
                                 id="pills-settings-tab" data-bs-toggle="pill" data-bs-target="#pills-settings" type="button"
                                 role="tab" aria-controls="pills-settings" aria-selected="false">
                             <i class="ti ti-list me-2 fs-6"></i>
-                            <span class="d-none d-md-block">조직 멤버 리스트</span>
+                            <span class="d-none d-md-block">조직멤버 리스트</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button
+                                class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-4"
+                                id="pills-place-tab" data-bs-toggle="pill" data-bs-target="#pills-place" type="button"
+                                role="tab" aria-controls="pills-place" aria-selected="false">
+                            <i class="ti ti-home me-2 fs-6"></i>
+                            <span class="d-none d-md-block">place 리스트</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -74,23 +83,23 @@
                              aria-labelledby="pills-information-tab" tabindex="0">
                             <div class="card overflow-hidden">
                                 <div class="card-body p-0">
-                                    <img src="../assets/images/backgrounds/profilebg.jpg" alt="" class="img-fluid">
+                                    <img src="/assets/images/backgrounds/profilebg.jpg" alt="" class="img-fluid">
                                     <div class="row align-items-center">
                                         <div class="col-lg-4 order-lg-1 order-2">
                                             <div class="d-flex align-items-center justify-content-around m-4">
                                                 <div class="text-center">
                                                     <i class="ti ti-user-check fs-6 d-block mb-2"></i>
-                                                    <h4 class="mb-0 fw-semibold lh-1">3</h4>
+                                                    <h4 class="mb-0 fw-semibold lh-1" th:text="${ownerMemberAmount}"></h4>
                                                     <p class="mb-0 fs-4">Owner</p>
                                                 </div>
                                                 <div class="text-center">
                                                     <i class="ti ti-eye fs-6 d-block mb-2"></i>
-                                                    <h4 class="mb-0 fw-semibold lh-1">15</h4>
+                                                    <h4 class="mb-0 fw-semibold lh-1" th:text="${viewerMemberAmount}"></h4>
                                                     <p class="mb-0 fs-4">Viewer</p>
                                                 </div>
                                                 <div class="text-center">
                                                     <i class="ti ti-router fs-6 d-block mb-2"></i>
-                                                    <h4 class="mb-0 fw-semibold lh-1">10</h4>
+                                                    <h4 class="mb-0 fw-semibold lh-1" th:text="${sensorAmount}"></h4>
                                                     <p class="mb-0 fs-4">Sensor</p>
                                                 </div>
                                             </div>
@@ -98,12 +107,30 @@
                                         <div class="col-lg-4 mt-n3 order-lg-2 order-1">
                                             <div class="mt-n5">
                                                 <div class="text-center">
-                                                    <h5 class="fs-10 mb-0 fw-semibold">NHNacademy 경남</h5>
+                                                    <h5 class="fs-10 mb-0 fw-semibold" th:text="${organization.getOrganizationName()}"></h5>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 order-last">
-
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card w-100 position-relative overflow-hidden mb-0">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold">게이트웨이, 컨트롤러</h5>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div>
+                                                    <label class="form-label">게이트웨이</label>
+                                                    <a th:text="${organization.getGatewaySn()}" />
+                                                </div>
+                                                <div>
+                                                    <label  class="form-label">컨트롤러</label>
+                                                    <a th:text="${organization.getControllerSn()}" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -115,155 +142,112 @@
                             <div class="col-12">
                                 <div class="card w-100 position-relative overflow-hidden mb-0">
                                     <div class="card-body p-4">
-                                        <div class="table-responsive">
-                                            <table class="table border text-nowrap mb-0 align-middle">
-                                                <thead class="text-dark fs-4">
-                                                <tr>
-                                                    <th>
-                                                        <h6 class="fs-4 fw-semibold mb-0">Device ID</h6>
-                                                    </th>
-                                                    <th>
-                                                        <h6 class="fs-4 fw-semibold mb-0">Device Type</h6>
-                                                    </th>
-                                                    <th>
-                                                        <h6 class="fs-4 fw-semibold mb-0">Device Place</h6>
-                                                    </th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="ms-3">
-                                                                <h6 class="fw-semibold mb-1">24e124785c389818</h6>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <p class="mb-0 fw-normal">온도, 습도</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 fw-normal">A 강의실</p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="ms-3">
-                                                                <h6 class="fw-semibold mb-1">24e124126d152969</h6>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <p class="mb-0 fw-normal">CO2</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 fw-normal">로비</p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="ms-3">
-                                                                <h6 class="fw-semibold mb-1">6757D16625110018</h6>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <p class="mb-0 fw-normal">출입 인원수</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 fw-normal">사무실</p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="ms-3">
-                                                                <h6 class="fw-semibold mb-1">6757D16625110018</h6>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <p class="mb-0 fw-normal">출입 인원수</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 fw-normal">B 강의실</p>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        <h5 class="card-title fw-semibold">센서 목록</h5>
+                                        <table id="sensorTable" class="datatable">
+                                            <thead>
+                                            <tr>
+                                                <th>SensorSn</th>
+                                                <th>SensorName</th>
+                                                <th>SensorPlace</th>
+                                                <th>SensorType</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="sensor: ${sensorTypeMappingList}">
+                                                <td th:text="${sensor.getSensor().getSensorSn()}">SensorSn</td>
+                                                <td th:text="${sensor.getSensor().getSensorName()}">SensorName</td>
+                                                <td th:text="${sensor.getSensor().getPlace().getPlaceName()}">SensorPlace</td>
+                                                <td th:text="${sensor.getSensorType().getSensorType()}">SensorType</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card w-100 position-relative overflow-hidden mb-0">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold">디바이스 목록</h5>
+                                        <table id="deviceTable" class="datatable">
+                                            <thead>
+                                            <tr>
+                                                <th>DeviceSn</th>
+                                                <th>DeviceName</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="device: ${deviceList}">
+                                                <td th:text="${device.getDeviceSn()}">DeviceSn</td>
+                                                <td th:text="${device.getDeviceName()}">DeviceName</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="pills-settings" role="tabpanel" aria-labelledby="pills-settings-tab"
                              tabindex="0">
-                            <div class="widget-content searchable-container list">
-                                <div class="card card-body">
-                                    <div class="table-responsive">
-                                        <table class="table search-table align-middle text-nowrap">
-                                            <thead class="header-item">
-                                            <th></th>
-                                            <th>Id</th>
-                                            <th>Email</th>
-                                            <th>Role</th>
+                            <div class="card-body p-4">
+                                <h5 class="card-title fw-semibold">OWNER 목록</h5>
+                                <table id="ownerTable" class="datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>State</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="owner: ${ownerMemberList}">
+                                        <td th:text="${owner.getMemberId()}">ownerId</td>
+                                        <td th:text="${owner.getMemberEmail()}">ownerEmail</td>
+                                        <td th:text="${owner.getRoleName()}">ownerRole</td>
+                                        <td th:text="${owner.getState()}">ownerState</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <h5 class="card-title fw-semibold">VIEWER 목록</h5>
+                                <table id="viewerTable" class="datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>State</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="viewer: ${viewerMemberList}">
+                                        <td th:text="${viewer.getMemberId()}">viewerId</td>
+                                        <td th:text="${viewer.getMemberEmail()}">viewerEmail</td>
+                                        <td th:text="${viewer.getRoleName()}">viewerRole</td>
+                                        <td th:text="${viewer.getState()}">viewerState</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card overflow-hidden">
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-place" role="tabpanel"
+                             aria-labelledby="pills-place-tab" tabindex="0">
+                            <div class="col-12">
+                                <div class="card w-100 position-relative overflow-hidden mb-0">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold">Place 목록</h5>
+                                        <table id="placeTable" class="datatable">
+                                            <thead>
+                                            <tr>
+                                                <th>PlaceName</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                            <tr class="search-items">
-                                                <td>
-
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="../assets/images/profile/user-3.jpg" alt="avatar" class="rounded-circle"
-                                                             width="35" />
-                                                        <div class="ms-3">
-                                                            <div class="user-meta-info">
-                                                                <h6 class="user-name mb-0" data-name="Emma Adams">Jack Hitmans</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-email-addr" data-email="adams@mail.com">hitmans@mail.com</span>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-role" data-role="Boston, USA">Owner</span>
-                                                </td>
-                                            </tr>
-                                            <tr class="search-items">
-                                                <td>
-
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="../assets/images/profile/user-2.jpg" alt="avatar" class="rounded-circle"
-                                                             width="35" />
-                                                        <div class="ms-3">
-                                                            <div class="user-meta-info">
-                                                                <h6 class="user-name mb-0" data-name="Emma Adams">Emma Adams</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-email-addr" data-email="adams@mail.com">adams@mail.com</span>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-role" data-role="Boston, USA">Viewer</span>
-                                                </td>
+                                            <tr th:each="place: ${placeList}">
+                                                <td th:text="${place.getPlaceName()}">organizationName</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -277,84 +261,29 @@
                             <div class="widget-content searchable-container list">
                                 <div class="card card-body">
                                     <div class="table-responsive">
-                                        <table class="table search-table align-middle text-nowrap">
-                                            <thead class="header-item">
-                                            <th></th>
-                                            <th>Id</th>
-                                            <th>Email</th>
-                                            <th>Role</th>
-                                            <th>State</th>
-                                            <th>Action</th>
+                                        <h5 class="card-title fw-semibold">VIEWER 부서 신청 목록</h5>
+                                        <table id="ownerRequestTable" class="datatable">
+                                            <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>State</th>
+                                                <th></th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                            <tr class="search-items">
+                                            <tr th:each="viewerRequest: ${viewerRequestMemberList}">
+                                                <td th:text="${viewerRequest.getMemberId()}">ownerId</td>
+                                                <td th:text="${viewerRequest.getMemberEmail()}">ownerEmail</td>
+                                                <td th:text="${viewerRequest.getRoleName()}">ownerRole</td>
+                                                <td th:text="${viewerRequest.getState()}">ownerState</td>
                                                 <td>
-
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="../assets/images/profile/user-2.jpg" alt="avatar" class="rounded-circle"
-                                                             width="35" />
-                                                        <div class="ms-3">
-                                                            <div class="user-meta-info">
-                                                                <h6 class="user-name mb-0" data-name="Emma Adams">Emma Adams</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-email-addr" data-email="adams@mail.com">adams@mail.com</span>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-role" data-role="Boston, USA">Viewer</span>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-state" data-state="+1 (070) 123-4567">wait</span>
-                                                </td>
-                                                <td>
-                                                    <div class="action-btn">
-                                                        <a href="javascript:void(0)" class="text-primary edit">
-                                                            <i class="ti ti-check fs-5"></i>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="text-dark delete ms-2">
-                                                            <i class="ti ti-x fs-5"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="search-items">
-                                                <td>
-
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="../assets/images/profile/user-2.jpg" alt="avatar" class="rounded-circle"
-                                                             width="35" />
-                                                        <div class="ms-3">
-                                                            <div class="user-meta-info">
-                                                                <h6 class="user-name mb-0" data-name="Emma Adams">Emma Adams</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-email-addr" data-email="adams@mail.com">adams@mail.com</span>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-role" data-role="Boston, USA">Viewer</span>
-                                                </td>
-                                                <td>
-                                                    <span class="usr-state" data-state="+1 (070) 123-4567">wait</span>
-                                                </td>
-                                                <td>
-                                                    <div class="action-btn">
-                                                        <a href="javascript:void(0)" class="text-primary edit">
-                                                            <i class="ti ti-check fs-5"></i>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="text-dark delete ms-2">
-                                                            <i class="ti ti-x fs-5"></i>
-                                                        </a>
-                                                    </div>
+                                                    <form action=/owner/modifyMemberState method="post">
+                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                        <input type="hidden" name="memberId" th:value="${viewerRequest.getMemberId()}"/>
+                                                        <button class="btn btn-success" type="submit">수락</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                             </tbody>
