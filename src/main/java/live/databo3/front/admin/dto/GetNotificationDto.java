@@ -13,5 +13,4 @@ public class GetNotificationDto {
     private String contents;
     private LocalDateTime date;
     private String memberId;
-    private String file;
 }
