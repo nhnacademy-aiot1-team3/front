@@ -1,8 +1,8 @@
-package live.databo3.front.admin.adaptor.impl;
+package live.databo3.front.adaptor.impl;
 
-import live.databo3.front.admin.adaptor.SensorAdaptor;
-import live.databo3.front.admin.dto.SensorDto;
-import live.databo3.front.admin.dto.request.SensorRequest;
+import live.databo3.front.adaptor.PlaceAdaptor;
+import live.databo3.front.admin.dto.PlaceDto;
+import live.databo3.front.admin.dto.request.PlaceRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,9 +16,8 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SensorAdaptorImpl implements SensorAdaptor {
-
-    private final String SENSOR_URL = "/api/sensor/org";
+public class PlaceAdaptorImpl implements PlaceAdaptor {
+    private final String PLACE_URL = "/api/sensor/org";
 
 
     private final RestTemplate restTemplate;
@@ -27,14 +26,14 @@ public class SensorAdaptorImpl implements SensorAdaptor {
     String gatewayDomain;
 
     @Override
-    public List<SensorDto> getSensorsByOrganization(int organizationId) {
+    public List<PlaceDto> getPlaces(int organizationId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        ResponseEntity<List<SensorDto>> exchange = restTemplate.exchange(
-                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor",
+        ResponseEntity<List<PlaceDto>> exchange = restTemplate.exchange(
+                gatewayDomain + PLACE_URL + "/{organizationId}/place",
                 HttpMethod.GET,
                 request,
                 new ParameterizedTypeReference<>() {
@@ -43,14 +42,14 @@ public class SensorAdaptorImpl implements SensorAdaptor {
     }
 
     @Override
-    public SensorDto createSensor(SensorRequest sensorRequest, int organizationId) {
+    public PlaceDto createPlace(PlaceRequest placeRequest, int organizationId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpEntity<SensorRequest> request = new HttpEntity<>(sensorRequest, httpHeaders);
-        ResponseEntity<SensorDto> exchange = restTemplate.exchange(
-                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor",
+        HttpEntity<PlaceRequest> request = new HttpEntity<>(placeRequest, httpHeaders);
+        ResponseEntity<PlaceDto> exchange = restTemplate.exchange(
+                gatewayDomain + PLACE_URL + "/{organizationId}/place",
                 HttpMethod.POST,
                 request,
                 new ParameterizedTypeReference<>() {
@@ -60,18 +59,35 @@ public class SensorAdaptorImpl implements SensorAdaptor {
     }
 
     @Override
-    public void deleteSensor(int organizationId, String sensorSn) {
+    public PlaceDto modifyPlace(int organizationId, int placeId, PlaceRequest placeRequest) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<PlaceRequest> request = new HttpEntity<>(placeRequest, httpHeaders);
+        ResponseEntity<PlaceDto> exchange = restTemplate.exchange(
+                gatewayDomain + PLACE_URL + "/{organizationId}/place/{placeId}",
+                HttpMethod.PUT,
+                request,
+                new ParameterizedTypeReference<>() {
+                },organizationId, placeId
+        );
+        return exchange.getBody();
+    }
+
+    @Override
+    public void deletePlace(int organizationId, int placeId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
         restTemplate.exchange(
-                gatewayDomain + SENSOR_URL + "/{organizationId}/sensor/{sensorSn}",
+                gatewayDomain + PLACE_URL + "/{organizationId}/place/{placeId}",
                 HttpMethod.DELETE,
                 request,
                 new ParameterizedTypeReference<>() {
-                },organizationId, sensorSn
+                },organizationId,placeId
         );
     }
 }

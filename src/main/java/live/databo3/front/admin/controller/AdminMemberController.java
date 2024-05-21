@@ -1,6 +1,6 @@
 package live.databo3.front.admin.controller;
 
-import live.databo3.front.admin.adaptor.AdminMemberAdaptor;
+import live.databo3.front.adaptor.MemberAdaptor;
 import live.databo3.front.admin.dto.MemberDto;
 import live.databo3.front.admin.dto.request.MemberModifyStateRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +22,12 @@ public class AdminMemberController {
     private static final String ALERT_MESSAGE="message";
     private static final String ALERT_URL="searchUrl";
 
-    private final AdminMemberAdaptor adminMemberAdaptor;
+    private final MemberAdaptor memberAdaptor;
 
     @GetMapping("/admin/member-list")
     public String getMemberList(Model model){
         try{
-            List<MemberDto> memberList = adminMemberAdaptor.getMembers();
+            List<MemberDto> memberList = memberAdaptor.getMembers();
             model.addAttribute("memberList", memberList);
             return "admin/member_list";
         }catch(HttpClientErrorException e){
@@ -43,9 +43,9 @@ public class AdminMemberController {
     @GetMapping("/admin/owner-register-request")
     public String getOwnerStateWaitList(Model model){
         try{
-            List<MemberDto> stateWaitOwnerList = adminMemberAdaptor.getMembersByRoleAndState(2,1);
+            List<MemberDto> stateWaitOwnerList = memberAdaptor.getMembersByRoleAndState(2,1);
             model.addAttribute("memberList", stateWaitOwnerList);
-            return "/admin/owner_register_request";
+            return "admin/owner_register_request";
         }catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());
             model.addAttribute(ALERT_URL,"/");
@@ -59,7 +59,7 @@ public class AdminMemberController {
     @PostMapping("/admin/owner-register-request")
     public String modifyOwnerState(Model model, MemberModifyStateRequest request){
         try{
-            adminMemberAdaptor.modifyMember(request);
+ memberAdaptor           .modifyMember(request);
             return "redirect:/admin/owner-register-request";
         }catch(HttpClientErrorException e){
             model.addAttribute(ALERT_MESSAGE, e.getStatusText());

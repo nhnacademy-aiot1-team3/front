@@ -1,7 +1,6 @@
-package live.databo3.front.admin.adaptor;
+package live.databo3.front.adaptor;
 
 import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.GatewayControllerRequest;
 import live.databo3.front.admin.dto.request.OrganizationRequest;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +15,19 @@ public interface OrganizationAdaptor {
 
     List<MemberOrganizationDto> getMemberByState(int organizationId, int stateId, String roleName);
 
+    List<OrganizationDto> getOrganizationsWithoutMember();
+
+    List<OrganizationDto> getOrganizationsByMember();
+
     String modifyMemberState(int organizationId, String memberId, int stateId);
 
+    void deleteOrganizationOwner(int organizationId, String memberId);
+
+    void deleteOrganizationViewer(int organizationId, String memberId);
+
     String createOrganization(OrganizationRequest organizationRequest);
+
+    String postMemberOrgs(int organizationId);
 
     String modifyOrganization(int organizationId, OrganizationRequest organizationRequest);
 

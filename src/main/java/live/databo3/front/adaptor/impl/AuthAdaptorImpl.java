@@ -1,6 +1,6 @@
-package live.databo3.front.auth.adaptor.impl;
+package live.databo3.front.adaptor.impl;
 
-import live.databo3.front.auth.adaptor.AuthAdaptor;
+import live.databo3.front.adaptor.AuthAdaptor;
 import live.databo3.front.member.dto.ResponseDto;
 import live.databo3.front.member.dto.ResponseHeaderDto;
 import live.databo3.front.member.dto.TokenResponseDto;
