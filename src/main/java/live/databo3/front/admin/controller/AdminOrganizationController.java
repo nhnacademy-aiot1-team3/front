@@ -103,11 +103,9 @@ public class AdminOrganizationController {
             organizationAdaptor.createOrganization(request);
             return "redirect:/admin/organization-list";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-list");
+            alertHandler(model, e.getMessage(), "/admin/organization-list");
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "조직 생성에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-list");
+            alertHandler(model, "조직 생성에 실패하였습니다", "/admin/organization-list");
         }
         return ALERT;
     }
@@ -119,11 +117,9 @@ public class AdminOrganizationController {
             organizationAdaptor.modifyOrganization(organizationId, request);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "부서명 변경에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "부서명 변경에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -135,11 +131,9 @@ public class AdminOrganizationController {
             organizationAdaptor.modifySerialNumber(organizationId, request);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "SN 변경에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "SN 변경에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }

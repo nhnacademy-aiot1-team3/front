@@ -18,7 +18,7 @@
                         <div class="col-3">
                             <div class="text-center mb-n5">
                                 <img
-                                        src="../assets/images/breadcrumb/ChatBc.png"
+                                        src="/assets/images/breadcrumb/ChatBc.png"
                                         alt=""
                                         class="img-fluid mb-n4"
                                 />
@@ -28,59 +28,56 @@
                 </div>
             </div>
 
-
-            <div class="card card-body">
-                <div class="table-responsive">
-                    <h5 class="card-title fw-semibold">나의 부서 목록</h5>
-                    <table class="table search-table align-middle text-nowrap">
-                        <thead class="header-item">
-                        <th></th>
-                        <th>Organization</th>
-                        <th>role</th>
-                        </thead>
-                        <tbody>
-                        <tr class="search-items">
-                            <td>
-                            </td>
-                            <td>
-                                <span class="usr-dc-name" data-phone="NHNACADEMY 경남">NHNACADEMY 경남</span>
-                            </td>
-                            <td>
-                                <span class="usr-role">viewer</span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+            <div class="widget-content searchable-container list">
+                <div class="card card-body">
+                    <div class="table-responsive">
+                        <h5 class="card-title fw-semibold">나의 부서 목록</h5>
+                        <table id="organizationTable" class="datatable">
+                            <thead>
+                            <tr>
+                                <th>organizationName</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="organization : ${organizationList}">
+                                <td th:text="${organization.getOrganizationName()}">organizationName</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="card card-body">
-                <div class="table-responsive">
-                    <h5 class="card-title fw-semibold">신청 가능한 부서 목록</h5>
-                    <table class="table search-table align-middle text-nowrap">
-                        <thead class="header-item">
-                        <th></th>
-                        <th>Organization</th>
-                        <th></th>
-                        </thead>
-                        <tbody>
-                        <tr class="search-items">
-                            <td>
-                            </td>
-                            <td>
-                                <span class="usr-dc-name" data-phone="NHNACADEMY 경남">NHNACADEMY 뉴욕</span>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary w-60 py-8 mb-0 rounded-2">조직 신청</button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+            <div class="widget-content searchable-container list">
+                <div class="card card-body">
+                    <div class="table-responsive">
+                        <h5 class="card-title fw-semibold">신청 가능한 부서 목록</h5>
+                        <table id="withoutMeOrganizationTable" class="datatable">
+                            <thead>
+                            <tr>
+                                <th>organizationName</th>
+                                <th>신청</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="organization : ${organizationWithoutList}">
+                                <td th:text="${organization.getOrganizationName()}">organizationName</td>
+                                <td>
+                                    <form action=/viewer/postMemberOrgs method="post">
+                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                        <button class="btn btn-primary w-60 py-8 mb-0 rounded-2" type="submit">조직 신청</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
+
     </body>
 </th:block>
 
