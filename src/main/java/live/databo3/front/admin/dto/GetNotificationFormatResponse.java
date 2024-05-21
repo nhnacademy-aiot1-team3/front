@@ -15,15 +15,12 @@ public class GetNotificationFormatResponse {
     private String contents;
     private String date;
     private String memberId;
-    private String file;
-
     @Builder
-    public GetNotificationFormatResponse(Long notificationId, String title, String contents, LocalDateTime date, String memberId, String file) {
+    public GetNotificationFormatResponse(Long notificationId, String title, String contents, LocalDateTime date, String memberId) {
         this.notificationId = notificationId;
         this.title = title;
         this.contents = contents;
         this.date = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.memberId = memberId;
-        this.file = file;
     }
 }
