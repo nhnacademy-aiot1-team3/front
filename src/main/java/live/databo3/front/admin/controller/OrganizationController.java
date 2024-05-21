@@ -21,7 +21,7 @@ import java.util.List;
  * admin 페이지 관련 controller
  *
  * @author 나채현
- * @version 1.0.3
+ * @version 1.0.2
  */
 @Slf4j
 @Controller
@@ -42,7 +42,7 @@ public class OrganizationController {
 
     @GetMapping("/admin/notification")
     public String getNotification(){
-        return "admin/notificationList";
+        return "admin/notification";
     }
     /**
      * 공지사항 작성란 페이지로 이동하는 method
