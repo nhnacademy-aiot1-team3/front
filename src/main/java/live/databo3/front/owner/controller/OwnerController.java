@@ -1,12 +1,9 @@
 package live.databo3.front.owner.controller;
 
-import live.databo3.front.owner.adaptor.OwnerAdaptor;
-import live.databo3.front.owner.dto.SensorListDto;
 import live.databo3.front.adaptor.OrganizationAdaptor;
 import live.databo3.front.adaptor.PlaceAdaptor;
 import live.databo3.front.adaptor.SensorAdaptor;
 import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.OrganizationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 import java.util.List;
 
@@ -58,8 +53,8 @@ public class OwnerController {
 
     @GetMapping("/owner/temperature")
     public String getTemperature(Model model){
-        List<SensorListDto> sensorList = ownerAdaptor.getPlacesBySensorType(1);
-        model.addAttribute("sensorList", sensorList);
+//        List<SensorListDto> sensorList = ownerAdaptor.getPlacesBySensorType(1);
+//        model.addAttribute("sensorList", sensorList);
         return "owner/temperature";
     }
 
