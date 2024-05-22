@@ -1,4 +1,4 @@
-package live.databo3.front.admin.dto;
+package live.databo3.front.dto;
 
 import lombok.Builder;
 import lombok.Getter;
