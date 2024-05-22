@@ -1,15 +1,16 @@
-package live.databo3.front.admin.service.impl;
+package live.databo3.front.service.impl;
 
-import live.databo3.front.admin.adaptor.ANotificationAdaptor;
-import live.databo3.front.admin.dto.GetNotificationDto;
-import live.databo3.front.admin.dto.GetNotificationFormatResponse;
-import live.databo3.front.admin.dto.GetNotificationListFormatResponse;
-import live.databo3.front.admin.dto.GetNotificationListResponse;
-import live.databo3.front.admin.service.AdminNotificationService;
+import live.databo3.front.adaptor.NotificationAdaptor;
+import live.databo3.front.dto.GetNotificationDto;
+import live.databo3.front.dto.GetNotificationFormatResponse;
+import live.databo3.front.dto.GetNotificationListFormatResponse;
+import live.databo3.front.dto.GetNotificationListResponse;
+import live.databo3.front.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,9 +20,9 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class AdminNotificationSerivceImpl implements AdminNotificationService {
+public class NotificationSerivceImpl implements NotificationService {
 
-    private final ANotificationAdaptor notificationAdaptor;
+    private final NotificationAdaptor notificationAdaptor;
 
     /**
      * adaptor에서 받은 notification 리스트를 dto 리스트로 변경하면서 date를 format한다
@@ -41,7 +42,7 @@ public class AdminNotificationSerivceImpl implements AdminNotificationService {
                     .build();
             responseList.add(formatResponse);
         }
-
+        Collections.reverse(responseList);
         return responseList;
     }
 
