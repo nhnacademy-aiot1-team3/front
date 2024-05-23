@@ -404,7 +404,7 @@
                                         <td th:text="${owner.getRoleName()}">ownerRole</td>
                                         <td th:text="${owner.getState()}">ownerState</td>
                                         <td>
-                                            <form action=/admin/deleteOrganizationOwner method="post">
+                                            <form action=/admin/deleteOrganizationMember method="post">
                                                 <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                 <input type="hidden" name="memberId" th:value="${owner.getMemberId()}"/>
                                                 <button class="btn btn-danger" type="submit">Owner 삭제</button>
@@ -431,7 +431,7 @@
                                         <td th:text="${viewer.getRoleName()}">viewerRole</td>
                                         <td th:text="${viewer.getState()}">viewerState</td>
                                         <td>
-                                            <form action=/admin/deleteOrganizationViewer method="post">
+                                            <form action=/admin/deleteOrganizationMember method="post">
                                                 <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                 <input type="hidden" name="memberId" th:value="${viewer.getMemberId()}"/>
                                                 <button class="btn btn-danger" type="submit">Viewer 삭제</button>

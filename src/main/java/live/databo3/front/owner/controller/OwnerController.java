@@ -1,12 +1,11 @@
 package live.databo3.front.owner.controller;
 
-import live.databo3.front.owner.adaptor.OwnerAdaptor;
 import live.databo3.front.owner.dto.SensorListDto;
 import live.databo3.front.adaptor.OrganizationAdaptor;
 import live.databo3.front.adaptor.PlaceAdaptor;
 import live.databo3.front.adaptor.SensorAdaptor;
 import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.OrganizationRequest;
+import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,8 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -56,11 +55,35 @@ public class OwnerController {
         return "owner/sensor_list";
     }
 
-    @GetMapping("/owner/temperature")
-    public String getTemperature(Model model){
-        List<SensorListDto> sensorList = ownerAdaptor.getPlacesBySensorType(1);
-        model.addAttribute("sensorList", sensorList);
-        return "owner/temperature";
+    @GetMapping("/owner/sensor-page")
+    public String getTemperature(Model model, int sensorType, String type, HttpServletRequest request){
+        String access_token = CookieUtil.findCookie(request, "access_token").getValue();
+        try{
+            List<SensorListDto> sensorList = sensorAdaptor.getOrganizationListBySensorType(sensorType);
+            model.addAttribute("sensorList", sensorList);
+            model.addAttribute("type", type);
+            model.addAttribute("get_access_token", access_token);
+            return "owner/sensor_page";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "센서 페이지를 불러오지 못하였습니다", "/");
+        }
+        return ALERT;
+    }
+
+    @GetMapping("/owner/humidity")
+    public String getHumidity(Model model){
+        try{
+            List<SensorListDto> sensorList = sensorAdaptor.getOrganizationListBySensorType(2);
+            model.addAttribute("sensorList", sensorList);
+            return "owner/sensor_page";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "센서 페이지를 불러오지 못하였습니다", "/");
+        }
+        return ALERT;
     }
 
     @GetMapping("/owner/battery-level")

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
@@ -74,6 +75,21 @@ public class ViewerController {
             alertHandler(model, e.getMessage(), "/");
         } catch (Exception e) {
             alertHandler(model, "조직 목록 페이지를 불러오지 못하였습니다", "/");
+        }
+        return ALERT;
+    }
+
+    @PostMapping("/viewer/postMemberOrgs")
+    public String postMemberOrgs(Model model, int organizationId){
+        try{
+            organizationAdaptor.postMemberOrgs(organizationId);
+            return "redirect:/viewer/organization-list";
+        } catch(HttpClientErrorException e){
+            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+            model.addAttribute(ALERT_URL,"/viewer/organization-list");
+        } catch (Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "조직 신청에 실패하였습니다");
+            model.addAttribute(ALERT_URL,"/viewer/organization-list");
         }
         return ALERT;
     }
