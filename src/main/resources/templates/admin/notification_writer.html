@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme"
+      data-layout="vertical" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_layout}">
+
+<th:block layout:fragment="content">
+    <body>
+    <div class="body-wrapper">
+        <div class="container-fluid">
+            <form method="post" action="/admin/notifications/add">
+                <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                    <div class="card-body px-4 py-3">
+                        <div class="row align-items-center">
+                            <div class="col-9">
+                                <h4 class="fw-semibold mb-8">공지사항 작성</h4>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a class="text-muted text-decoration-none" href="/"
+                                            >Home</a
+                                            >
+                                        </li>
+                                        <li class="breadcrumb-item" aria-current="page">Add Notification</li>
+                                    </ol>
+                                </nav>
+                            </div>
+
+                            <div class="col-3">
+                                <div class="texte-center mb-n5">
+                                    <img src="/assets/images/breadcrumb/ChatBc.png" alt class="img-fluid mb-n4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <h3 class="fw-semibold mb-8" style="margin-top: 20px">제목</h3>
+                        <input style="margin-top: 10px" type="text" class="form-control" name="title">
+                    </div>
+                    <div class="form-group">
+                        <h3 class="fw-semibold mb-8" style="margin-top: 20px">내용</h3>
+                        <span style="margin-top: 10px"></span>
+                        <textarea style="height: 700px" class="form-control" rows="3" name="contents"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary bottom-0 end-100" style="float: right; margin-top: 20px; width: 70px; height: 50px">완료</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </body>
+</th:block>
+
+</html>

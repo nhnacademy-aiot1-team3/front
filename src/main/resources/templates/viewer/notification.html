@@ -2,13 +2,12 @@
 <html lang="ko" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme"
       data-layout="vertical" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/admin_layout}">
+      layout:decorate="~{layout/viewer_layout}">
 
 <th:block layout:fragment="content">
   <body>
   <div class="body-wrapper">
     <div class="container-fluid">
-      <form method="get" th:action="@{/admin/notifications/{notificationId}/modify-page(notificationId=${notification.notificationId})}">
         <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
           <div class="card-body px-4 py-3">
             <div class="row align-items-center">
@@ -17,7 +16,7 @@
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                      <a class="text-muted text-decoration-none" href="/admin/notifications"
+                      <a class="text-muted text-decoration-none" href="/viewer/notifications"
                       >Home</a
                       >
                     </li>
@@ -26,7 +25,7 @@
                 </nav>
               </div>
               <div class="col-3">
-                <div class="texte-center mb-n5">
+                <div class="text-center mb-n5">
                   <img src="/assets/images/breadcrumb/ChatBc.png" alt class="img-fluid mb-n4">
                 </div>
               </div>
@@ -41,18 +40,13 @@
           <div class="form-group">
             <h3 class="fw-semibold mb-8" style="margin-top: 20px">내용</h3>
             <span style="margin-top: 10px"></span>
-            <div class="form-control" name="contents" style="height: 600px" th:text="${notification.contents}"></div>
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary bottom-0 end-100"
-                    style="float: right; margin-top: 20px; width: 70px; height: 50px">수정</button>
+            <div class="form-control" name="contents" rows="3" style="height: 600px" th:text="${notification.contents}"></div>
           </div>
         </div>
-        </div>
-      </form>
     </div>
   </div>
   </body>
 </th:block>
+
 </html>
 
