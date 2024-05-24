@@ -51,16 +51,11 @@ $(document).ready(function () {
                 }
             }
         },
-        yaxis: [{
+        yaxis: {
             title: {
                 text: '',
             },
-        }, {
-            opposite: true,
-            title: {
-                text: ''
-            }
-        }],
+        },
         noData: {
             text: 'Loading...',
             align: 'center',
