@@ -1,4 +1,4 @@
-package live.databo3.front.admin.dto;
+package live.databo3.front.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,11 +7,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class GetNotificationDto {
+public class GetNotificationListResponse {
     private Long notificationId;
     private String title;
-    private String contents;
+    private String author;
     private LocalDateTime date;
-    private String memberId;
-    private String file;
+
 }
