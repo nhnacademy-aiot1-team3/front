@@ -3,24 +3,34 @@
 let gaugeChart = null;
 let symbol = '';
 let gaugeSensorType = '';
+let gaugeValue=null;
+let minValue = null;
+let maxValue = null;
 
 let sensorTypeLast = document.getElementById("sensor-type").value;
 
 if(sensorTypeLast ==='temperature'){
     symbol = '°C';
     gaugeSensorType = '온도';
+    minValue = 0;
+    maxValue = 40;
 }else if(sensorTypeLast === 'humidity'){
     symbol = '%';
     gaugeSensorType = '습도';
+    minValue = 0;
+    maxValue = 100;
 }else if(sensorTypeLast === 'co2'){
     symbol = 'ppm';
     gaugeSensorType = 'CO2';
+    minValue = 500;
+    maxValue = 2000;
 }
 
 $(document).ready(function() {
     'use strict'
+    console.log(gaugeValue);
 
-    var options = {
+    let options = {
         series: [0],
         chart: {
             height: 315,
@@ -43,7 +53,6 @@ $(document).ready(function() {
                 hollow: {
                     margin: 0,
                     size: '70%',
-                    background: '#fff',
                     image: undefined,
                     imageOffsetX: 0,
                     imageOffsetY: 0,
@@ -68,14 +77,13 @@ $(document).ready(function() {
                         opacity: 0.35
                     }
                 },
-
                 dataLabels: {
                     show: true,
                     name: {
                         offsetY: -10,
                         show: true,
-                        color: '#888',
-                        fontSize: '17px'
+                        color: '#111',
+                        fontSize: '30px'
                     },
                     value: {
                         formatter: function(val) {
@@ -83,7 +91,7 @@ $(document).ready(function() {
                         },
                         color: '#111',
                         fontSize: '36px',
-                        show: true,
+                        show: false,
                     }
                 }
             }
@@ -128,7 +136,6 @@ $(document).ready(function() {
 });
 
 function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType) {
-    console.log(branchName, placeName, sensorName, sensorType);
     const access_token = document.getElementById("access_token").value;
     const url = `http://localhost:8888/api/sensor/${sensorType}/fields/value/branches/${branchName}/places/${placeName}/sensors/${sensorName}/last`;
 
@@ -144,11 +151,18 @@ function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType) {
             return response.json();
         })
         .then(async data => {
-            const value = data.data.value;
+            gaugeValue = data.data.value;
             let time = dayjs().format('HH:mm:ss A');
-            console.log("가져온 값 : "+value);
+            console.log("가져온 값 : "+gaugeValue);
 
-            gaugeChart.updateSeries([value]);
+            let normalizedValue = ((gaugeValue - minValue) / (maxValue - minValue)) * 100;
+            console.log(normalizedValue);
+
+            // gaugeChart.updateSeries([normalizedValue]);
+            gaugeChart.updateOptions({
+                series: [normalizedValue],
+                labels: [Number.isInteger(gaugeValue) ? parseInt(gaugeValue) : gaugeValue.toFixed(1) + symbol]
+            });
 
             document.getElementById("realTime").innerText = `${time}`;
         })

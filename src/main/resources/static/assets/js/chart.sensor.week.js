@@ -120,7 +120,6 @@ $(document).ready(function () {
 
 function fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType) {
     const access_token = document.getElementById("access_token").value;
-    console.log(sensorType)
     const minBaseUrl = `http://localhost:8888/api/sensor/${sensorType}/fields/${sensorType}_min/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/min`;
     const maxBaseUrl = `http://localhost:8888/api/sensor/${sensorType}/fields/${sensorType}_max/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/max`;
 
