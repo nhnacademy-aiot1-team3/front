@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class OrganizationDto {
-    private Long organizationId;
+    private Integer organizationId;
     private String organizationName;
     private String gatewaySn;
     private String controllerSn;
