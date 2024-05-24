@@ -71,9 +71,7 @@
                         <div class="container-fluid">
 
                             <div class="text-right mt-3 mb-3 d-fixed">
-                                <h2>
-                                    기기를 선택해주세요
-                                </h2>
+                                <h2>기기를 선택해주세요</h2>
                                 <span id="selected-info"></span>
                             </div>
 
@@ -159,9 +157,9 @@
                 fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType);
                 fetchDataOfHourChart(branchName, placeName, sensorName, sensorType);
 
-                setInterval(fetchDataOfRealTime, 10000, branchName, placeName, sensorName, sensorType);
+                setInterval(fetchDataOfRealTime, 60000, branchName, placeName, sensorName, sensorType);
                 setInterval(fetchDataAndUpdateChart, 1800000, branchName, placeName, sensorName, sensorType);
-                setInterval(fetchDataOfHourChart, 10000, branchName, placeName, sensorName, sensorType);
+                setInterval(fetchDataOfHourChart, 60000, branchName, placeName, sensorName, sensorType);
 
                 hourChart.render();
                 dayChart.render();
