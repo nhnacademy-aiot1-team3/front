@@ -1,5 +1,7 @@
 package live.databo3.front.owner.controller;
 
+import live.databo3.front.adaptor.ErrorLogAdaptor;
+import live.databo3.front.owner.dto.ErrorLogResponseDto;
 import live.databo3.front.owner.dto.SensorListDto;
 import live.databo3.front.adaptor.OrganizationAdaptor;
 import live.databo3.front.adaptor.PlaceAdaptor;
@@ -16,10 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -40,6 +43,7 @@ public class OwnerController {
     private final OrganizationAdaptor organizationAdaptor;
     private final SensorAdaptor sensorAdaptor;
     private final PlaceAdaptor placeAdaptor;
+    private final ErrorLogAdaptor errorLogAdaptor;
 
     private void alertHandler(Model model, String message, String url) {
         model.addAttribute(ALERT_MESSAGE, message);
@@ -137,6 +141,27 @@ public class OwnerController {
             alertHandler(model, e.getMessage(), "/owner/organization-list");
         } catch (Exception e) {
             alertHandler(model, "조직창 불러오기를 실패하였습니다", "/owner/organization-list");
+        }
+        return ALERT;
+    }
+
+    @GetMapping("/owner/error")
+    public String getErrorLogs(Model model){
+        try {
+            Map<OrganizationDto, List<ErrorLogResponseDto>> errorLog = new HashMap<>();
+            List<OrganizationDto> organizationList = organizationAdaptor.getOrganizationsByMember();
+            organizationList.forEach(org -> {
+                Integer organizationId = org.getOrganizationId();
+                errorLog.put(organizationAdaptor.getOrganization(organizationId), errorLogAdaptor.getErrorLog(organizationId));
+            });
+
+            model.addAttribute("errorLog", errorLog);
+
+            return "owner/error";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "에러 목록 불러오기를 실패하였습니다", "/");
         }
         return ALERT;
     }
