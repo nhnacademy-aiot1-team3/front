@@ -1,11 +1,9 @@
 package live.databo3.front.owner.controller;
 
-import live.databo3.front.adaptor.ErrorLogAdaptor;
+import live.databo3.front.adaptor.*;
+import live.databo3.front.owner.dto.DeviceLogResponseDto;
 import live.databo3.front.owner.dto.ErrorLogResponseDto;
 import live.databo3.front.owner.dto.SensorListDto;
-import live.databo3.front.adaptor.OrganizationAdaptor;
-import live.databo3.front.adaptor.PlaceAdaptor;
-import live.databo3.front.adaptor.SensorAdaptor;
 import live.databo3.front.admin.dto.*;
 
 import live.databo3.front.util.CookieUtil;
@@ -44,6 +42,7 @@ public class OwnerController {
     private final SensorAdaptor sensorAdaptor;
     private final PlaceAdaptor placeAdaptor;
     private final ErrorLogAdaptor errorLogAdaptor;
+    private final DeviceLogAdaptor deviceLogAdaptor;
 
     private void alertHandler(Model model, String message, String url) {
         model.addAttribute(ALERT_MESSAGE, message);
@@ -141,6 +140,27 @@ public class OwnerController {
             alertHandler(model, e.getMessage(), "/owner/organization-list");
         } catch (Exception e) {
             alertHandler(model, "조직창 불러오기를 실패하였습니다", "/owner/organization-list");
+        }
+        return ALERT;
+    }
+
+    @GetMapping("/owner/device-log")
+    public String getDeviceLogs(Model model){
+        try {
+            Map<OrganizationDto, List<DeviceLogResponseDto>> deviceLog = new HashMap<>();
+            List<OrganizationDto> organizationList = organizationAdaptor.getOrganizationsByMember();
+            organizationList.forEach(org -> {
+                Integer organizationId = org.getOrganizationId();
+                deviceLog.put(organizationAdaptor.getOrganization(organizationId), deviceLogAdaptor.getDeviceLog(organizationId));
+            });
+
+            model.addAttribute("deviceLog", deviceLog);
+
+            return "owner/device_log";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "센서 장비 목록 불러오기를 실패하였습니다", "/");
         }
         return ALERT;
     }
