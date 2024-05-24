@@ -4,6 +4,7 @@ import live.databo3.front.adaptor.SensorAdaptor;
 import live.databo3.front.admin.dto.*;
 import live.databo3.front.admin.dto.request.DeviceRequest;
 import live.databo3.front.admin.dto.request.SensorRequest;
+import live.databo3.front.owner.dto.SensorListDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -222,6 +223,22 @@ public class SensorAdaptorImpl implements SensorAdaptor {
                 new ParameterizedTypeReference<>() {
                 },organizationId, deviceSn
         );
+    }
+
+    @Override
+    public List<SensorListDto> getOrganizationListBySensorType(int sensorType) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+        ResponseEntity<List<SensorListDto>> exchange = restTemplate.exchange(
+                gatewayDomain + "/api/sensor/sensorList?sensorTypeId={sensorType}",
+                HttpMethod.GET,
+                request,
+                new ParameterizedTypeReference<>(){
+                }, sensorType);
+        return exchange.getBody();
     }
 
 }

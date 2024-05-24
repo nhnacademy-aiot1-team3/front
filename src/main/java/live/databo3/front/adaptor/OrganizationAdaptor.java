@@ -21,9 +21,7 @@ public interface OrganizationAdaptor {
 
     String modifyMemberState(int organizationId, String memberId, int stateId);
 
-    void deleteOrganizationOwner(int organizationId, String memberId);
-
-    void deleteOrganizationViewer(int organizationId, String memberId);
+    void deleteOrganizationMember(int organizationId, String memberId);
 
     String createOrganization(OrganizationRequest organizationRequest);
 

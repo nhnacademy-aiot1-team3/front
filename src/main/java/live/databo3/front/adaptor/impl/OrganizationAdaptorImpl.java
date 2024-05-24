@@ -126,7 +126,7 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
     }
 
     @Override
-    public void deleteOrganizationOwner(int organizationId, String memberId) {
+    public void deleteOrganizationMember(int organizationId, String memberId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
@@ -140,23 +140,6 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
                 },organizationId,memberId
         );
     }
-
-    @Override
-    public void deleteOrganizationViewer(int organizationId, String memberId) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        restTemplate.exchange(
-                gatewayDomain + ORGANIZATION_URL + "/{organizationId}/members/{memberId}",
-                HttpMethod.DELETE,
-                request,
-                new ParameterizedTypeReference<>() {
-                },organizationId,memberId
-        );
-    }
-
 
     @Override
     public String createOrganization(OrganizationRequest organizationRequest) {

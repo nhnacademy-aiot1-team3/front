@@ -3,6 +3,7 @@ package live.databo3.front.adaptor;
 import live.databo3.front.admin.dto.*;
 import live.databo3.front.admin.dto.request.DeviceRequest;
 import live.databo3.front.admin.dto.request.SensorRequest;
+import live.databo3.front.owner.dto.SensorListDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -32,4 +33,6 @@ public interface SensorAdaptor {
     void deleteDevice(int organizationId, String deviceSn);
 
     DeviceDto modifyDevice(int organizationId, String deviceSn, DeviceRequest deviceRequest);
+
+    List<SensorListDto> getOrganizationListBySensorType(int sensorType);
 }
