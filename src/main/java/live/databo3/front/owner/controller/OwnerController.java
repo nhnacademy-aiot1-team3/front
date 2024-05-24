@@ -148,11 +148,11 @@ public class OwnerController {
     @GetMapping("/owner/error")
     public String getErrorLogs(Model model){
         try {
-            Map<Integer, List<ErrorLogResponseDto>> errorLog = new HashMap<>();
+            Map<OrganizationDto, List<ErrorLogResponseDto>> errorLog = new HashMap<>();
             List<OrganizationDto> organizationList = organizationAdaptor.getOrganizationsByMember();
             organizationList.forEach(org -> {
                 Integer organizationId = org.getOrganizationId();
-                errorLog.put(organizationId, errorLogAdaptor.getErrorLog(organizationId));
+                errorLog.put(organizationAdaptor.getOrganization(organizationId), errorLogAdaptor.getErrorLog(organizationId));
             });
 
             model.addAttribute("errorLog", errorLog);

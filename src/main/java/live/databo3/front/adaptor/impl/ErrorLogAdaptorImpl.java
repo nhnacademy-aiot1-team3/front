@@ -25,9 +25,9 @@ public class ErrorLogAdaptorImpl implements ErrorLogAdaptor {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpEntity<MemberRequestDto> request = new HttpEntity<>(httpHeaders);
+        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
         ResponseEntity<List<ErrorLogResponseDto>> exchange = restTemplate.exchange(
-                gatewayDomain+"api/sensor/error/log/org/{organizationId}",
+                gatewayDomain+"/api/sensor/error/log/org/{organizationId}",
                 HttpMethod.GET,
                 request,
                 new ParameterizedTypeReference<>() {

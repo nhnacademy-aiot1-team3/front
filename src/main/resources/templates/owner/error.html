@@ -31,9 +31,9 @@
                 <div class="widget-content searchable-container list" th:each="entry : ${errorLog}">
                     <div class="card card-body">
                         <div class="table-responsive">
-                            <div th:with="organizationId=${entry.key}, errorLogs=${entry.value}">
+                            <div th:with="organization=${entry.key}, errorLogs=${entry.value}">
                                 <h5 class="card-title fw-semibold">
-                                    <span th:text="${organizationAdaptor.getOrganizationById(organizationId).getOrganizationName()}">Organization Name</span>의
+                                    <span th:text="${organization.getOrganizationName()}">Organization Name</span>의
                                     에러 목록
                                 </h5>
                                 <table id="organizationTable" class="datatable">
