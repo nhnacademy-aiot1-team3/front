@@ -1,11 +1,9 @@
 package live.databo3.front.owner.controller;
 
-import live.databo3.front.adaptor.ErrorLogAdaptor;
+import live.databo3.front.adaptor.*;
+import live.databo3.front.dto.SettingFunctionTypeDto;
 import live.databo3.front.owner.dto.ErrorLogResponseDto;
 import live.databo3.front.owner.dto.SensorListDto;
-import live.databo3.front.adaptor.OrganizationAdaptor;
-import live.databo3.front.adaptor.PlaceAdaptor;
-import live.databo3.front.adaptor.SensorAdaptor;
 import live.databo3.front.admin.dto.*;
 
 import live.databo3.front.util.CookieUtil;
@@ -42,6 +40,7 @@ public class OwnerController {
 
     private final OrganizationAdaptor organizationAdaptor;
     private final SensorAdaptor sensorAdaptor;
+    private final SettingFunctionTypeAdaptor settingFunctionTypeAdaptor;
     private final PlaceAdaptor placeAdaptor;
     private final ErrorLogAdaptor errorLogAdaptor;
 
@@ -63,11 +62,13 @@ public class OwnerController {
 
 
     @GetMapping("/owner/sensor-page")
-    public String getTemperature(Model model, int sensorType, String type, HttpServletRequest request){
+    public String getSensorPage(Model model, int sensorType, String type, HttpServletRequest request){
         String access_token = CookieUtil.findCookie(request, "access_token").getValue();
         try{
             List<SensorListDto> sensorList = sensorAdaptor.getOrganizationListBySensorType(sensorType);
+            List<SettingFunctionTypeDto> settingFunctionTypeList = settingFunctionTypeAdaptor.getSettingFunctionTypes();
             model.addAttribute("sensorList", sensorList);
+            model.addAttribute("settingFunctionTypeList", settingFunctionTypeList);
             model.addAttribute("type", type);
             model.addAttribute("get_access_token", access_token);
             return "owner/sensor_page";
@@ -84,13 +85,24 @@ public class OwnerController {
         return "owner/battery_level";
     }
 
-    /**
-     * 공지사항으로 이동하는 method
-     * @return 공지사항 페이지로 이동
-     */
-    @GetMapping("/owner/notification")
-    public String getNotification(){
-        return "/owner/notification";
+    @GetMapping("/owner/setting")
+    public String getSensorSetting(Model model, String type){
+        try{
+            List<SensorListDto> temperatureSensorList = sensorAdaptor.getOrganizationListBySensorType(1);
+            List<SensorListDto> humiditySensorList = sensorAdaptor.getOrganizationListBySensorType(2);
+            List<SensorListDto> co2SensorList = sensorAdaptor.getOrganizationListBySensorType(3);
+            List<SettingFunctionTypeDto> settingFunctionTypeList = settingFunctionTypeAdaptor.getSettingFunctionTypes();
+            model.addAttribute("temperatureSensorList", temperatureSensorList);
+            model.addAttribute("humiditySensorList", humiditySensorList);
+            model.addAttribute("co2SensorList", co2SensorList);
+            model.addAttribute("settingFunctionTypeList", settingFunctionTypeList);
+            return "owner/setting";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "센서 페이지를 불러오지 못하였습니다", "/");
+        }
+        return ALERT;
     }
 
     @GetMapping("/owner/organization-list")
