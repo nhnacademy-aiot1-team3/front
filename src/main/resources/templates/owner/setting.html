@@ -48,13 +48,13 @@
                                                             th:if="${place.getSensors().size() > 0}">
                                                             <li class="dropdown-item"
                                                                 th:each="sensor : ${place.getSensors()}">
-                                                                <form class="temp" th:id="temp" action="/owner/getDevice" method="get">
+                                                                <form class="temp-form" action="/owner/getDevice" method="get">
                                                                     <input type="hidden" name="organizationId" th:value="${temperatureOrganization.getOrganizationId()}"/>
                                                                     <input type="hidden" name="organizationName" th:value="${temperatureOrganization.getOrganizationName()}"/>
                                                                     <input type="hidden" name="placeName" th:value="${place.getPlaceName()}"/>
                                                                     <input type="hidden" name="sensorSn" th:value="${sensor.getSensorSn()}"/>
                                                                     <input type="hidden" name="sensorType" value="temperature"/>
-                                                                    <a class="sensor-link" href="#" onclick="document.getElementById('temp').submit();" aria-expanded="false">
+                                                                    <a class="sensor-link" href="#" onclick="this.closest('form').submit();" aria-expanded="false">
                                                                         <span th:text="${sensor.getSensorName() + '(' + sensor.getSensorSn() + ')'}"></span>
                                                                     </a>
                                                                 </form>
@@ -99,13 +99,13 @@
                                                             th:if="${place.getSensors().size() > 0}">
                                                             <li class="dropdown-item"
                                                                 th:each="sensor : ${place.getSensors()}">
-                                                                <form id="humidity" action="/owner/getDevice" method="get">
+                                                                <form class="humidity-form" action="/owner/getDevice" method="get">
                                                                     <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                                     <input type="hidden" name="organizationName" th:value="${organization.getOrganizationName()}"/>
                                                                     <input type="hidden" name="placeName" th:value="${place.getPlaceName()}"/>
                                                                     <input type="hidden" name="sensorSn" th:value="${sensor.getSensorSn()}"/>
                                                                     <input type="hidden" name="sensorType" value="humidity"/>
-                                                                    <a class="sensor-link" href="#" onclick="document.getElementById('humidity').submit();" aria-expanded="false">
+                                                                    <a class="sensor-link" href="#" onclick="this.closest('form').submit();" aria-expanded="false">
                                                                         <span th:text="${sensor.getSensorName() + '(' + sensor.getSensorSn() + ')'}"></span>
                                                                     </a>
                                                                 </form>
@@ -151,13 +151,13 @@
                                                             th:if="${place.getSensors().size() > 0}">
                                                             <li class="dropdown-item"
                                                                 th:each="sensor : ${place.getSensors()}">
-                                                                <form id="co2Form" action="/owner/getDevice" method="get">
+                                                                <form class="co2-form" action="/owner/getDevice" method="get">
                                                                     <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                                     <input type="hidden" name="organizationName" th:value="${organization.getOrganizationName()}"/>
                                                                     <input type="hidden" name="placeName" th:value="${place.getPlaceName()}"/>
                                                                     <input type="hidden" name="sensorSn" th:value="${sensor.getSensorSn()}"/>
                                                                     <input type="hidden" name="sensorType" value="co2"/>
-                                                                    <a class="sensor-link" href="#" onclick="document.getElementById('co2Form').submit();" aria-expanded="false">
+                                                                    <a class="sensor-link" href="#" onclick="this.closest('form').submit();" aria-expanded="false">
                                                                         <span th:text="${sensor.getSensorName() + '(' + sensor.getSensorSn() + ')'}"></span>
                                                                     </a>
                                                                 </form>
