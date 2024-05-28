@@ -27,18 +27,18 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li class="dropdown-item sub-menu"
-                                                th:each="organization : ${temperatureSensorList}">
-                                                <a class="nav-link">
+                                                th:each="temperatureOrganization : ${temperatureSensorList}">
+                                                    <a class="nav-link">
                                                     <!-- 조직 이름 여기-->
                                                     <h4 class="fw-semibold mb-8">
                                                         <span class="organization-name"
-                                                              th:text="${organization.getOrganizationName()}"></span>
+                                                              th:text="${temperatureOrganization.getOrganizationName()}"></span>
                                                         <div class='fa fa-caret-down right'></div>
                                                     </h4>
                                                 </a>
-                                                <ul class="dropdown-menu" th:if="${organization.getPlace().size() > 0}">
+                                                <ul class="dropdown-menu" th:if="${temperatureOrganization.getPlace().size() > 0}">
                                                     <li class="dropdown-item sub-menu"
-                                                        th:each="place : ${organization.getPlace()}">
+                                                        th:each="place : ${temperatureOrganization.getPlace()}">
                                                         <a class="nav-link">
                                                             <span class="place-name"
                                                                   th:text="${place.getPlaceName()}"></span>
@@ -48,13 +48,16 @@
                                                             th:if="${place.getSensors().size() > 0}">
                                                             <li class="dropdown-item"
                                                                 th:each="sensor : ${place.getSensors()}">
-                                                                <a class="sensor-link">
-                                                                    <span th:text="${sensor.getSensorName() + '(' + sensor.getSensorSn() + ')'}"></span>
-                                                                    <!--                                                            <input type="hidden" id="organization-name" th:value="${organization.getOrganizationName()}"/>-->
-                                                                    <!--                                                            <input type="hidden" id="place-name" th:value="${place.getPlaceName()}"/>-->
-                                                                    <!--                                                            <input type="hidden" id="sensor-sn" th:value="${sensor.getSensorSn()}"/>-->
-                                                                    <!--                                                            <input type="hidden" id="sensor-type" th:value="${type}"/>-->
-                                                                </a>
+                                                                <form class="temp" th:id="temp" action="/owner/getDevice" method="get">
+                                                                    <input type="hidden" name="organizationId" th:value="${temperatureOrganization.getOrganizationId()}"/>
+                                                                    <input type="hidden" name="organizationName" th:value="${temperatureOrganization.getOrganizationName()}"/>
+                                                                    <input type="hidden" name="placeName" th:value="${place.getPlaceName()}"/>
+                                                                    <input type="hidden" name="sensorSn" th:value="${sensor.getSensorSn()}"/>
+                                                                    <input type="hidden" name="sensorType" value="temperature"/>
+                                                                    <a class="sensor-link" href="#" onclick="document.getElementById('temp').submit();" aria-expanded="false">
+                                                                        <span th:text="${sensor.getSensorName() + '(' + sensor.getSensorSn() + ')'}"></span>
+                                                                    </a>
+                                                                </form>
                                                             </li>
                                                         </ul>
                                                     </li>
@@ -96,13 +99,16 @@
                                                             th:if="${place.getSensors().size() > 0}">
                                                             <li class="dropdown-item"
                                                                 th:each="sensor : ${place.getSensors()}">
-                                                                <a class="sensor-link">
-                                                                    <span th:text="${sensor.getSensorName() + '(' + sensor.getSensorSn() + ')'}"></span>
-                                                                    <!--                                                            <input type="hidden" id="organization-name" th:value="${organization.getOrganizationName()}"/>-->
-                                                                    <!--                                                            <input type="hidden" id="place-name" th:value="${place.getPlaceName()}"/>-->
-                                                                    <!--                                                            <input type="hidden" id="sensor-sn" th:value="${sensor.getSensorSn()}"/>-->
-                                                                    <!--                                                            <input type="hidden" id="sensor-type" th:value="${type}"/>-->
-                                                                </a>
+                                                                <form id="humidity" action="/owner/getDevice" method="get">
+                                                                    <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                                    <input type="hidden" name="organizationName" th:value="${organization.getOrganizationName()}"/>
+                                                                    <input type="hidden" name="placeName" th:value="${place.getPlaceName()}"/>
+                                                                    <input type="hidden" name="sensorSn" th:value="${sensor.getSensorSn()}"/>
+                                                                    <input type="hidden" name="sensorType" value="humidity"/>
+                                                                    <a class="sensor-link" href="#" onclick="document.getElementById('humidity').submit();" aria-expanded="false">
+                                                                        <span th:text="${sensor.getSensorName() + '(' + sensor.getSensorSn() + ')'}"></span>
+                                                                    </a>
+                                                                </form>
                                                             </li>
                                                         </ul>
                                                     </li>
@@ -145,13 +151,16 @@
                                                             th:if="${place.getSensors().size() > 0}">
                                                             <li class="dropdown-item"
                                                                 th:each="sensor : ${place.getSensors()}">
-                                                                <a class="sensor-link">
-                                                                    <span th:text="${sensor.getSensorName() + '(' + sensor.getSensorSn() + ')'}"></span>
-                                                                    <!--                                                            <input type="hidden" id="organization-name" th:value="${organization.getOrganizationName()}"/>-->
-                                                                    <!--                                                            <input type="hidden" id="place-name" th:value="${place.getPlaceName()}"/>-->
-                                                                    <!--                                                            <input type="hidden" id="sensor-sn" th:value="${sensor.getSensorSn()}"/>-->
-                                                                    <!--                                                            <input type="hidden" id="sensor-type" th:value="${type}"/>-->
-                                                                </a>
+                                                                <form id="co2Form" action="/owner/getDevice" method="get">
+                                                                    <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
+                                                                    <input type="hidden" name="organizationName" th:value="${organization.getOrganizationName()}"/>
+                                                                    <input type="hidden" name="placeName" th:value="${place.getPlaceName()}"/>
+                                                                    <input type="hidden" name="sensorSn" th:value="${sensor.getSensorSn()}"/>
+                                                                    <input type="hidden" name="sensorType" value="co2"/>
+                                                                    <a class="sensor-link" href="#" onclick="document.getElementById('co2Form').submit();" aria-expanded="false">
+                                                                        <span th:text="${sensor.getSensorName() + '(' + sensor.getSensorSn() + ')'}"></span>
+                                                                    </a>
+                                                                </form>
                                                             </li>
                                                         </ul>
                                                     </li>
@@ -163,77 +172,87 @@
                             </nav>
                         </div>
                     </div>
-                </div>
 
-                <div class="container-fluid">
+                    <div class="container-fluid">
 
-                    <div class="d-flex flex-wrap">
-                        <div class="col-lg-6 d-flex align-items-stretch">
-                            <div>
-                                <h5 class="card-title fw-semibold">설정</h5>
-                                <form action="/admin/createSensor" method="post">
-                                    <!--                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>-->
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div>
-                                                <label for="placeId1" class="form-label">Sensor SettingType</label>
-                                                <select id="placeId1" name="placeId" class="form-select">
-                                                    <option value="">Select a SettingType</option>
-                                                    <option th:each="settingFunctionType: ${settingFunctionTypeList}"
-                                                            th:value="${settingFunctionType.getFunctionId()}"
-                                                            th:text="${settingFunctionType.getFunctionName()}"></option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label for="sensorSn1" class="form-label">Device Sn</label>
-                                                <input type="text" class="form-control" id="sensorSn1" name="sensorSn">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                <button class="btn btn-primary" type="submit">설정</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                        <!-- deviceList가 null일 때 보여줄 내용 -->
+                        <div th:if="${deviceList == null}" class="text-right mt-3 mb-3 d-fixed">
+                            <h2 id="selectSensor">설정할 기기를 선택해주세요</h2>
                         </div>
-                        <div class="col-lg-6 d-flex align-items-stretch">
-                            <div>
-                                <h5 class="card-title fw-semibold">값 설정</h5>
-                                <form action="/admin/modifySensor" method="post">
-                                    <!--                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>정-->
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div>
+                        <div th:if="${deviceList != null}">
+                            <span id="selected-info" th:text="${'Organization : ' + organizationName +
+                            ' Place : ' + placeName + ' Sensor SN : ' + sensorSn + ' Sensor Type:' + sensorType}"></span>
+
+                        <div class="d-flex flex-wrap">
+                            <div class="col-lg-6 d-flex align-items-stretch">
+                                <div>
+                                    <h5 class="card-title fw-semibold">설정</h5>
+                                    <form action="/admin/createSensor" method="post">
+                                        <!--                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>-->
+                                        <div class="row">
+                                            <div class="col-12">
                                                 <div>
-                                                    <label for="sensorSn1" class="form-label">값</label>
-                                                    <input type="text" class="form-control" id="sensorSn2"
-                                                           name="sensorSn">
+                                                    <label for="placeId1" class="form-label">Sensor SettingType</label>
+                                                    <select id="placeId1" name="placeId" class="form-select">
+                                                        <option value="">Select a SettingType</option>
+                                                        <option th:each="settingFunctionType: ${settingFunctionTypeList}"
+                                                                th:value="${settingFunctionType.getFunctionId()}"
+                                                                th:text="${settingFunctionType.getFunctionName()}"></option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label for="sensorSn1" class="form-label">Device Sn</label>
+                                                    <input type="text" class="form-control" id="sensorSn1" name="sensorSn">
                                                 </div>
                                             </div>
-                                            <div>
-                                                <label for="sensorName2" class="form-label">오차</label>
-                                                <input type="text" class="form-control" id="sensorName2"
-                                                       name="sensorName">
+                                            <div class="col-12">
+                                                <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                    <button class="btn btn-primary" type="submit">설정</button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                <button class="btn btn-primary" type="submit">수정</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 d-flex align-items-stretch">
+                                <div>
+                                    <h5 class="card-title fw-semibold">값 설정</h5>
+                                    <form action="/admin/modifySensor" method="post">
+                                        <!--                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>정-->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div>
+                                                    <div>
+                                                        <label for="sensorSn1" class="form-label">값</label>
+                                                        <input type="text" class="form-control" id="sensorSn2"
+                                                               name="sensorSn">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label for="sensorName2" class="form-label">오차</label>
+                                                    <input type="text" class="form-control" id="sensorName2"
+                                                           name="sensorName">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                    <button class="btn btn-primary" type="submit">수정</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
-
         </div>
     </div>
-    </div>
+
     </body>
 </th:block>
 

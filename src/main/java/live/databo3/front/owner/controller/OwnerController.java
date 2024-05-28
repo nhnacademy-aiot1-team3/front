@@ -102,7 +102,34 @@ public class OwnerController {
         } catch(HttpClientErrorException e){
             alertHandler(model, e.getMessage(), "/");
         } catch (Exception e) {
-            alertHandler(model, "센서 페이지를 불러오지 못하였습니다", "/");
+            alertHandler(model, "설정 페이지를 불러오지 못하였습니다", "/");
+        }
+        return ALERT;
+    }
+
+    @GetMapping("/owner/getDevice")
+    public String getSensorSettingClick(Model model, int organizationId, String organizationName, String placeName, String sensorSn, String sensorType){
+        try{
+            List<SensorListDto> temperatureSensorList = sensorAdaptor.getOrganizationListBySensorType(1);
+            List<SensorListDto> humiditySensorList = sensorAdaptor.getOrganizationListBySensorType(2);
+            List<SensorListDto> co2SensorList = sensorAdaptor.getOrganizationListBySensorType(3);
+            List<SettingFunctionTypeDto> settingFunctionTypeList = settingFunctionTypeAdaptor.getSettingFunctionTypes();
+            List<DeviceDto> deviceList = sensorAdaptor.getDevice(organizationId);
+            model.addAttribute("temperatureSensorList", temperatureSensorList);
+            model.addAttribute("humiditySensorList", humiditySensorList);
+            model.addAttribute("co2SensorList", co2SensorList);
+            model.addAttribute("settingFunctionTypeList", settingFunctionTypeList);
+            model.addAttribute("deviceList", deviceList);
+            model.addAttribute("organizationId", organizationId);
+            model.addAttribute("organizationName", organizationName);
+            model.addAttribute("placeName", placeName);
+            model.addAttribute("sensorSn", sensorSn);
+            model.addAttribute("sensorType", sensorType);
+            return "owner/setting";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "설정 센서 페이지를 불러오지 못하였습니다", "/");
         }
         return ALERT;
     }

@@ -22,7 +22,7 @@
     <body>
     <input type="hidden" id="access_token" th:value="${get_access_token}"/>
     <div class="body-wrapper">
-<!--        <div class="container-fluid">-->
+        <div class="container-fluid">
             <div class="card overflow-hidden chat-application">
                     <div class="d-flex w-100">
                         <!-- 센서 장비 장소별 네비게이션 바 -->
@@ -118,68 +118,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-flex flex-wrap">
-                                <div class="col-lg-6 d-flex align-items-stretch">
-                                    <div>
-                                        <h5 class="card-title fw-semibold">설정</h5>
-                                        <form action="/admin/createSensor" method="post">
-                                            <!--                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>-->
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div>
-                                                        <label for="placeId1" class="form-label">Sensor SettingType</label>
-                                                        <select id="placeId1" name="placeId" class="form-select">
-                                                            <option value="">Select a SettingType</option>
-                                                            <option th:each="settingFunctionType: ${settingFunctionTypeList}" th:value="${settingFunctionType.getFunctionId()}" th:text="${settingFunctionType.getFunctionName()}"></option>
-                                                        </select>
-                                                    </div>
-                                                    <div>
-                                                        <label for="sensorSn1" class="form-label">Device Sn</label>
-                                                        <input type="text" class="form-control" id="sensorSn1" name="sensorSn">
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                        <button class="btn btn-primary" type="submit">설정</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 d-flex align-items-stretch">
-                                    <div>
-                                        <h5 class="card-title fw-semibold">값 설정</h5>
-                                        <form action="/admin/modifySensor" method="post">
-                                            <!--                                                <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>정-->
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div>
-                                                        <div>
-                                                            <label for="sensorSn1" class="form-label">값</label>
-                                                            <input type="text" class="form-control" id="sensorSn2" name="sensorSn">
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <label for="sensorName2" class="form-label">오차</label>
-                                                        <input type="text" class="form-control" id="sensorName2" name="sensorName">
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                        <button class="btn btn-primary" type="submit">수정</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-
             </div>
-<!--        </div>-->
+        </div>
     </div>
 
 
