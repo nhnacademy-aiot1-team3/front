@@ -1,9 +1,9 @@
 package live.databo3.front.adaptor.impl;
 
 import live.databo3.front.adaptor.ValueConfigAdaptor;
-import live.databo3.front.admin.dto.ConfigsDto;
-import live.databo3.front.admin.dto.ValueConfigDto;
-import live.databo3.front.admin.dto.request.ValueConfigRequest;
+import live.databo3.front.dto.ConfigsDto;
+import live.databo3.front.dto.ValueConfigDto;
+import live.databo3.front.dto.request.ValueConfigRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;

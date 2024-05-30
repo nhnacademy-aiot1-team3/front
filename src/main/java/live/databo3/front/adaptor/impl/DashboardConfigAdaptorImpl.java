@@ -1,9 +1,8 @@
 package live.databo3.front.adaptor.impl;
 
-import live.databo3.front.adaptor.SettingFunctionTypeAdaptor;
-import live.databo3.front.dto.SettingFunctionTypeDto;
+import live.databo3.front.adaptor.DashboardConfigAdaptor;
+import live.databo3.front.dto.DashboardConfigDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -12,28 +11,24 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
-public class SettingFunctionTypeAdaptorImpl implements SettingFunctionTypeAdaptor {
+public class DashboardConfigAdaptorImpl implements DashboardConfigAdaptor {
 
     private final RestTemplate restTemplate;
 
-    private final String SETTINGFUNCTION_URL = "/api/sensor/settingFunction";
-
     @Value("${gateway.api.url}")
-    private String gatewayDomain;
-
+    String gatewayDomain;
 
     @Override
-    public List<SettingFunctionTypeDto> getSettingFunctionTypes() {
+    public List<DashboardConfigDto> dashboardConfigDtoList() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        ResponseEntity<List<SettingFunctionTypeDto>> exchange = restTemplate.exchange(
-                gatewayDomain + SETTINGFUNCTION_URL,
+        ResponseEntity<List<DashboardConfigDto>> exchange = restTemplate.exchange(
+                gatewayDomain + "/api/account/config/dashboard",
                 HttpMethod.GET,
                 request,
                 new ParameterizedTypeReference<>() {

@@ -1,7 +1,7 @@
 package live.databo3.front.adaptor;
 
-import live.databo3.front.admin.dto.GeneralConfigDto;
-import live.databo3.front.admin.dto.request.GeneralConfigRequest;
+import live.databo3.front.dto.GeneralConfigDto;
+import live.databo3.front.dto.request.GeneralConfigRequest;
 
 public interface GeneralConfigAdaptor {
     GeneralConfigDto getGeneralConfig(int organizationId, String sensorSn, int sensorTypeId);

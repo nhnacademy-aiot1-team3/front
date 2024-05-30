@@ -1,8 +1,10 @@
 package live.databo3.front.adaptor.impl;
 
 import live.databo3.front.adaptor.OrganizationAdaptor;
-import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.OrganizationRequest;
+import live.databo3.front.dto.MemberOrganizationDto;
+import live.databo3.front.dto.OrganizationDto;
+import live.databo3.front.dto.OrganizationListDto;
+import live.databo3.front.dto.request.OrganizationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

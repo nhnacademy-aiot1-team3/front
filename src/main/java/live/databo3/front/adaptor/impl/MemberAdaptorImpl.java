@@ -1,16 +1,15 @@
 package live.databo3.front.adaptor.impl;
 
 import live.databo3.front.adaptor.MemberAdaptor;
-import live.databo3.front.admin.dto.MemberDto;
-import live.databo3.front.admin.dto.request.MemberModifyStateRequest;
-import live.databo3.front.admin.dto.request.UpdatePasswordRequest;
+import live.databo3.front.dto.MemberDto;
+import live.databo3.front.dto.request.MemberModifyStateRequest;
+import live.databo3.front.dto.request.UpdatePasswordRequest;
 import live.databo3.front.member.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 

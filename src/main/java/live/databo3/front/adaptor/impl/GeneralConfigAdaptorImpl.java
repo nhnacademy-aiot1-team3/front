@@ -1,8 +1,8 @@
 package live.databo3.front.adaptor.impl;
 
 import live.databo3.front.adaptor.GeneralConfigAdaptor;
-import live.databo3.front.admin.dto.GeneralConfigDto;
-import live.databo3.front.admin.dto.request.GeneralConfigRequest;
+import live.databo3.front.dto.GeneralConfigDto;
+import live.databo3.front.dto.request.GeneralConfigRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;

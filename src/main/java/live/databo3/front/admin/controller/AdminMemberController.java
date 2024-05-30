@@ -1,8 +1,8 @@
 package live.databo3.front.admin.controller;
 
 import live.databo3.front.adaptor.MemberAdaptor;
-import live.databo3.front.admin.dto.MemberDto;
-import live.databo3.front.admin.dto.request.MemberModifyStateRequest;
+import live.databo3.front.dto.MemberDto;
+import live.databo3.front.dto.request.MemberModifyStateRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
