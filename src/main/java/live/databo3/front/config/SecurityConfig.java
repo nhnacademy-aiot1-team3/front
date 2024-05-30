@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .antMatchers("/owner/**").hasRole("OWNER")
                 .antMatchers("/viewer/**").hasRole("VIEWER")
                 .anyRequest().authenticated()
-                .and().addFilterAfter(jwtAuthenticationFilter(), FilterSecurityInterceptor.class);;
+                .and();
         http
                 .csrf().disable()
                 .cors().disable()
@@ -59,8 +59,8 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
 
-        http.exceptionHandling().accessDeniedPage("/errors/403");
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterAfter(jwtAuthenticationFilter(), SecurityContextPersistenceFilter.class);
         http.addFilterBefore(tokenRenewalFilter(null), JwtAuthenticationFilter.class);
         http.addFilterBefore(exceptionHandlingFilter(), TokenRenewalFilter.class);
         return http.build();
@@ -95,7 +95,9 @@ public class SecurityConfig {
     @Bean
     public String[] excludePath() {
         return new String[]{
+                "/login",
                 "/logout",
+                "/register",
                 "/pre-login/.*",
                 "/oauth/.*",
                 "/static/.*",
