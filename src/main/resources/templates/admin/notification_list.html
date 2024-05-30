@@ -28,9 +28,9 @@
                         </div>
                     </div>
 
-                    <div class="product-list">
+                    <div class="notification-list">
                         <div class="card">
-                            <div class="card-body p-3">
+                            <div class="card card-body">
                                 <div class="d-flex justify-content-between align-items-center gap-6 mb-9">
                                     <form class="position-relative"></form>
                                     <a href="/admin/notifications/add-page" class="btn btn-primary d-flex align-items-center px-3 gap-6">
@@ -38,26 +38,22 @@
                                         <span class="d-none d-md-block font-weight-medium fs-3">Add Notes</span>
                                     </a>
                                 </div>
-                                <div class="table-responsive border rounded">
-                                    <table class="table align-middle text-nowrap mb-0">
+                                <div class="table-responsive">
+                                    <h5 class="card-title fw-semibold">공지사항</h5>
+                                    <table id="notificationTable" class="datatable">
                                         <thead>
                                         <tr>
-                                            <th scope="col">제목</th>
-                                            <th scope="col">글쓴이</th>
-                                            <th scope="col">날짜</th>
+                                            <th>title</th>
+                                            <th>author</th>
+                                            <th>date</th>
+                                            <th>delete</th>
                                         </tr>
                                         </thead>
-                                        <tbody th:each="notification : ${notificationList}">
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="fw-semibold mb-0 fs-4" th:text="${notification.title}" th:onclick="'location.href=\'/admin/notifications/'+${notification.notificationId}+'\''">title</h6>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <h6 class="mb-0 fs-4" th:text="${notification.author}">author</h6>
-                                            </td>
-                                            <td class="mb-0" th:text="${notification.date}">0</td>
+                                        <tbody>
+                                        <tr th:each="notification : ${notificationList}">
+                                            <td th:text="${notification.title}" th:onclick="'location.href=\'/admin/notifications/'+${notification.notificationId}+'\''"></td>
+                                            <td th:text="${notification.author}"></td>
+                                            <td th:text="${notification.date}"></td>
                                             <td>
                                                 <form th:action="@{/admin/notifications/{notificationId}/delete(notificationId=${notification.notificationId})}" method="post">
                                                     <button type="submit" class="btn btn-outline-primary">삭제</button>
@@ -66,23 +62,7 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <div class="d-flex align-items-center justify-content-end py-1">
-                                        <p class="mb-0 fs-2">1–5 of 12</p>
-                                        <nav aria-label="...">
-                                            <ul class="pagination justify-content-center mb-0 ms-8 ms-sm-9">
-                                                <li class="page-item p-1">
-                                                    <a class="page-link border-0 rounded-circle text-dark fs-6 round-32 d-flex align-items-center justify-content-center"
-                                                       href="#"><i class="ti ti-chevron-left"></i></a>
-                                                </li>
-                                                <li class="page-item p-1">
-                                                    <a class="page-link border-0 rounded-circle text-dark fs-6 round-32 d-flex align-items-center justify-content-center"
-                                                       href="#"><i class="ti ti-chevron-right"></i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
