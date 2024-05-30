@@ -1,9 +1,15 @@
 package live.databo3.front.viewer.controller;
 
-import live.databo3.front.adaptor.OrganizationAdaptor;
-import live.databo3.front.adaptor.PlaceAdaptor;
-import live.databo3.front.adaptor.SensorAdaptor;
+import live.databo3.front.adaptor.*;
 import live.databo3.front.admin.dto.OrganizationDto;
+import live.databo3.front.admin.dto.OrganizationListDto;
+import live.databo3.front.admin.dto.request.UpdatePasswordRequest;
+import live.databo3.front.dto.SettingFunctionTypeDto;
+import live.databo3.front.member.dto.MemberRequestDto;
+import live.databo3.front.owner.dto.DeviceLogResponseDto;
+import live.databo3.front.owner.dto.ErrorLogResponseDto;
+import live.databo3.front.owner.dto.SensorListDto;
+import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,7 +18,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.HttpClientErrorException;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * viewer 페이지 관련 controller
@@ -28,9 +38,13 @@ public class ViewerController {
     private static final String ALERT_MESSAGE="message";
     private static final String ALERT_URL="searchUrl";
 
+    private final MemberAdaptor memberAdaptor;
+    private final SettingFunctionTypeAdaptor settingFunctionTypeAdaptor;
     private final OrganizationAdaptor organizationAdaptor;
     private final SensorAdaptor sensorAdaptor;
     private final PlaceAdaptor placeAdaptor;
+    private final ErrorLogAdaptor errorLogAdaptor;
+    private final DeviceLogAdaptor deviceLogAdaptor;
 
     private void alertHandler(Model model, String message, String url) {
         model.addAttribute(ALERT_MESSAGE, message);
@@ -40,6 +54,29 @@ public class ViewerController {
     @GetMapping("/viewer/my-page")
     public String getViewerMyPage(){
         return "viewer/my_page";
+    }
+
+    @PostMapping("/viewer/modifyPassword")
+    public String modifyPassword(Model model, String memberId, String currentPassword, String checkPassword, String modifyPassword){
+        try{
+            if(!checkPassword.equals(modifyPassword)){
+                model.addAttribute(ALERT_MESSAGE, "New Password와 Confirm Password가 다릅니다");
+                model.addAttribute(ALERT_URL,"/viewer/my-page");
+                return ALERT;
+            }
+            memberAdaptor.doLogin(new MemberRequestDto(memberId, currentPassword));
+            memberAdaptor.modifyPassword(memberId, new UpdatePasswordRequest(modifyPassword));
+            model.addAttribute(ALERT_MESSAGE, "비밀번호 변경에 성공하였습니다 다시 로그인해주세요");
+            model.addAttribute(ALERT_URL,"/login");
+            return "pre_login/login";
+        } catch(HttpClientErrorException e){
+            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
+            model.addAttribute(ALERT_URL,"/viewer/my-page");
+        } catch (Exception e) {
+            model.addAttribute(ALERT_MESSAGE, "비밀번호 변경에 실패하였습니다");
+            model.addAttribute(ALERT_URL,"/viewer/my-page");
+        }
+        return ALERT;
     }
 
     @GetMapping("/viewer/sensor-list")
@@ -66,10 +103,20 @@ public class ViewerController {
     public String getOrganizationList(Model model){
         try{
             List<OrganizationDto> organizationWithoutList = organizationAdaptor.getOrganizationsWithoutMember();
-            List<OrganizationDto> organizationList = organizationAdaptor.getOrganizationsByMember();
+            List<OrganizationListDto> organizationList = organizationAdaptor.getOrganizationsByMember();
 
+            List<OrganizationListDto> state2Organizations = organizationList.stream()
+                    .filter(org -> org.getState() == 2)
+                    .collect(Collectors.toList());
+
+            List<OrganizationListDto> state1Organizations = organizationList.stream()
+                    .filter(org -> org.getState() == 1)
+                    .collect(Collectors.toList());
             model.addAttribute("organizationWithoutList",organizationWithoutList);
             model.addAttribute("organizationList",organizationList);
+            model.addAttribute("state2Organizations",state2Organizations);
+            model.addAttribute("state1Organizations",state1Organizations);
+
             return "viewer/organization_list";
         } catch(HttpClientErrorException e){
             alertHandler(model, e.getMessage(), "/");
@@ -94,4 +141,68 @@ public class ViewerController {
         return ALERT;
     }
 
+    @GetMapping("/viewer/sensor-page")
+    public String getSensorPage(Model model, int sensorType, String type, HttpServletRequest request){
+        String access_token = CookieUtil.findCookie(request, "access_token").getValue();
+        try{
+            List<SensorListDto> sensorList = sensorAdaptor.getOrganizationListBySensorType(sensorType);
+            List<SettingFunctionTypeDto> settingFunctionTypeList = settingFunctionTypeAdaptor.getSettingFunctionTypes();
+            model.addAttribute("sensorList", sensorList);
+            model.addAttribute("settingFunctionTypeList", settingFunctionTypeList);
+            model.addAttribute("type", type);
+            model.addAttribute("get_access_token", access_token);
+            return "viewer/sensor_page";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "센서 페이지를 불러오지 못하였습니다", "/");
+        }
+        return ALERT;
+    }
+
+    @GetMapping("/viewer/device-log")
+    public String getDeviceLogs(Model model){
+        try {
+            Map<OrganizationDto, List<DeviceLogResponseDto>> deviceLog = new HashMap<>();
+            List<OrganizationListDto> organizationList = organizationAdaptor.getOrganizationsByMember();
+            organizationList.forEach(org -> {
+                if(org.getState() == 2){
+                    Integer organizationId = org.getOrganizationId();
+                    deviceLog.put(organizationAdaptor.getOrganization(organizationId), deviceLogAdaptor.getDeviceLog(organizationId));
+                }
+            });
+
+            model.addAttribute("deviceLog", deviceLog);
+
+            return "viewer/device_log";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "센서 장비 목록 불러오기를 실패하였습니다", "/");
+        }
+        return ALERT;
+    }
+
+    @GetMapping("/viewer/error")
+    public String getErrorLogs(Model model){
+        try {
+            Map<OrganizationDto, List<ErrorLogResponseDto>> errorLog = new HashMap<>();
+            List<OrganizationListDto> organizationList = organizationAdaptor.getOrganizationsByMember();
+            organizationList.forEach(org -> {
+                if(org.getState() == 2) {
+                    Integer organizationId = org.getOrganizationId();
+                    errorLog.put(organizationAdaptor.getOrganization(organizationId), errorLogAdaptor.getErrorLog(organizationId));
+                }
+            });
+
+            model.addAttribute("errorLog", errorLog);
+
+            return "viewer/error";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "에러 목록 불러오기를 실패하였습니다", "/");
+        }
+        return ALERT;
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
@@ -49,7 +50,7 @@ public class SecurityConfig {
                 .antMatchers("/owner/**").hasRole("OWNER")
                 .antMatchers("/viewer/**").hasRole("VIEWER")
                 .anyRequest().authenticated()
-                .and();
+                .and().addFilterAfter(jwtAuthenticationFilter(), FilterSecurityInterceptor.class);;
         http
                 .csrf().disable()
                 .cors().disable()
@@ -58,8 +59,8 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
 
+        http.exceptionHandling().accessDeniedPage("/errors/403");
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterAfter(jwtAuthenticationFilter(), SecurityContextPersistenceFilter.class);
         http.addFilterBefore(tokenRenewalFilter(null), JwtAuthenticationFilter.class);
         http.addFilterBefore(exceptionHandlingFilter(), TokenRenewalFilter.class);
         return http.build();
@@ -94,11 +95,11 @@ public class SecurityConfig {
     @Bean
     public String[] excludePath() {
         return new String[]{
-                "/login",
                 "/logout",
                 "/pre-login/.*",
                 "/oauth/.*",
                 "/static/.*",
+                "/errors/.*",
                 "/error",
                 "/assets/.*",
                 "/favicon.ico/*"

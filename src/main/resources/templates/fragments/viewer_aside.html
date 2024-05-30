@@ -39,52 +39,34 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/viewer/sensor-list" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-list-check"></i>
-                            </span>
-                            <span class="hide-menu">SensorList</span>
-                        </a>
+                        <form id="temperatureForm" action="/viewer/sensor-page" method="get">
+                            <input type="hidden" name="sensorType" value="1">
+                            <input type="hidden" name="type" value="temperature">
+                            <a class="sidebar-link" href="#" onclick="document.getElementById('temperatureForm').submit();" aria-expanded="false">
+                                <i class="ti ti-temperature"></i>
+                                <span class="hide-menu">Temperature</span>
+                            </a>
+                        </form>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/viewer/temperature" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-temperature"></i>
-                            </span>
-                            <span class="hide-menu">Temperature</span>
-                        </a>
+                        <form id="humidityForm" action="/viewer/sensor-page" method="get">
+                            <input type="hidden" name="sensorType" value="2">
+                            <input type="hidden" name="type" value="humidity">
+                            <a class="sidebar-link" href="#" onclick="document.getElementById('humidityForm').submit();" aria-expanded="false">
+                                <i class="ti ti-droplet-half-2"></i>
+                                <span class="hide-menu">Humidity</span>
+                            </a>
+                        </form>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/viewer/humidity" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-droplet-half-2"></i>
-                            </span>
-                            <span class="hide-menu">Humidity</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/viewer/co2" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-wind"></i>
-                            </span>
-                            <span class="hide-menu">CO2</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/viewer/power" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-circuit-resistor"></i>
-                            </span>
-                            <span class="hide-menu">Power</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/viewer/areaPeople" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-users"></i>
-                            </span>
-                            <span class="hide-menu">Area People</span>
-                        </a>
+                        <form id="CO2Form" action="/viewer/sensor-page" method="get">
+                            <input type="hidden" name="sensorType" value="3">
+                            <input type="hidden" name="type" value="co2">
+                            <a class="sidebar-link" href="#" onclick="document.getElementById('CO2Form').submit();" aria-expanded="false">
+                                <i class="ti ti-wind"></i>
+                                <span class="hide-menu">CO2</span>
+                            </a>
+                        </form>
                     </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="/viewer/battery-level" aria-expanded="false">
@@ -99,7 +81,23 @@
                             <span>
                               <i class="ti ti-home-search"></i>
                             </span>
-                            <span class="hide-menu">조직 목록/관리</span>
+                            <span class="hide-menu">조직 목록/신청</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/viewer/device-log" aria-expanded="false">
+                            <span>
+                              <i class="ti ti-clipboard-list"></i>
+                            </span>
+                            <span class="hide-menu">디바이스 로그</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/viewer/error" aria-expanded="false">
+                            <span>
+                              <i class="ti ti-bug"></i>
+                            </span>
+                            <span class="hide-menu">에러 로그</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -108,14 +106,6 @@
                               <i class="ti ti-man"></i>
                             </span>
                             <span class="hide-menu">MyPage</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/viewer/error" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-bug"></i>
-                            </span>
-                            <span class="hide-menu">Error</span>
                         </a>
                     </li>
                 </ul>

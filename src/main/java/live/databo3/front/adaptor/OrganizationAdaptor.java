@@ -17,7 +17,7 @@ public interface OrganizationAdaptor {
 
     List<OrganizationDto> getOrganizationsWithoutMember();
 
-    List<OrganizationDto> getOrganizationsByMember();
+    List<OrganizationListDto> getOrganizationsByMember();
 
     String modifyMemberState(int organizationId, String memberId, int stateId);
 

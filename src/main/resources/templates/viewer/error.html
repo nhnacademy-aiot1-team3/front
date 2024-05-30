@@ -2,7 +2,7 @@
 <html lang="ko" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme"
       data-layout="vertical" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/owner_layout}">
+      layout:decorate="~{layout/viewer_layout}">
 
 <th:block layout:fragment="content">
     <body>
@@ -13,7 +13,7 @@
                     <div class="card-body px-4 py-3">
                         <div class="row align-items-center">
                             <div class="col-9">
-                                <h4 class="fw-semibold mb-8">Device Logs</h4>
+                                <h4 class="fw-semibold mb-8">Error Logs</h4>
                             </div>
                             <div class="col-3">
                                 <div class="text-center mb-n5">
@@ -28,31 +28,33 @@
                     </div>
                 </div>
 
-                <div class="widget-content searchable-container list" th:each="entry : ${deviceLog}">
+                <div class="widget-content searchable-container list" th:each="entry : ${errorLog}">
                     <div class="card card-body">
                         <div class="table-responsive">
-                            <div th:with="organization=${entry.key}, deviceLogs=${entry.value}">
+                            <div th:with="organization=${entry.key}, errorLogs=${entry.value}">
                                 <h5 class="card-title fw-semibold">
                                     <span th:text="${organization.getOrganizationName()}">Organization Name</span>의
-                                    디바이스 로그 리스트
+                                    에러 목록
                                 </h5>
                                 <table id="organizationTable" class="datatable">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>디바이스 장비 Serial Number</th>
-                                        <th>디바이스 장비 이름</th>
+                                        <th>센서 Serial Number</th>
+                                        <th>센서 타입</th>
                                         <th>날짜 및 시간</th>
-                                        <th>코드</th>
+                                        <th>에러 코드</th>
+                                        <th>에러 상세 메시지</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="deviceLog : ${deviceLogs}">
-                                        <td th:text="${deviceLog.getLogId()}">ID</td>
-                                        <td th:text="${deviceLog.getDevice().getDeviceSn()}">Serial Number</td>
-                                        <td th:text="${deviceLog.getDevice().getDeviceName()}">Name</td>
-                                        <td th:text="${deviceLog.getTimestamp()}">Date and Time</td>
-                                        <td th:text="${deviceLog.getValue()}">Code</td>
+                                    <tr th:each="errorLog : ${errorLogs}">
+                                        <td th:text="${errorLog.getLogId()}">ID</td>
+                                        <td th:text="${errorLog.getSensor().getSensorSn()}">Serial Number</td>
+                                        <td th:text="${errorLog.getSensorType().getSensorType()}">Sensor Type</td>
+                                        <td th:text="${errorLog.getTimestamp()}">Date and Time</td>
+                                        <td th:text="${errorLog.getValue()}">Error Code</td>
+                                        <td th:text="${errorLog.getErrorMsg()}">Error Detail</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -65,3 +67,5 @@
     </div>
     </body>
 </th:block>
+
+</html>

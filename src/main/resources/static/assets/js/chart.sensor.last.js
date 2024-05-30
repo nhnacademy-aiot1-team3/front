@@ -28,7 +28,7 @@ if(sensorTypeLast ==='temperature'){
 
 $(document).ready(function() {
     'use strict'
-    console.log(gaugeValue);
+    // console.log(gaugeValue + symbol);
 
     let options = {
         series: [0],
@@ -151,20 +151,22 @@ function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType) {
             return response.json();
         })
         .then(async data => {
-            gaugeValue = data.data.value;
-            let time = dayjs().format('HH:mm:ss A');
-            console.log("가져온 값 : "+gaugeValue);
+                gaugeValue = (data && data.data && typeof data.data.value !== 'undefined' && data.data.value !== null) ? data.data.value : 0;
 
-            let normalizedValue = ((gaugeValue - minValue) / (maxValue - minValue)) * 100;
-            console.log(normalizedValue);
+                // gaugeValue = data.data.value;
+                let time = dayjs().format('HH:mm:ss A');
+                console.log("가져온 값 : "+gaugeValue+symbol);
 
-            // gaugeChart.updateSeries([normalizedValue]);
-            gaugeChart.updateOptions({
-                series: [normalizedValue],
-                labels: [Number.isInteger(gaugeValue) ? parseInt(gaugeValue) : gaugeValue.toFixed(1) + symbol]
-            });
+                let normalizedValue = ((gaugeValue - minValue) / (maxValue - minValue)) * 100;
+                console.log(normalizedValue);
 
-            document.getElementById("realTime").innerText = `${time}`;
+                // gaugeChart.updateSeries([normalizedValue]);
+                gaugeChart.updateOptions({
+                    series: [normalizedValue],
+                    labels: [Number.isInteger(gaugeValue) ? parseInt(gaugeValue)+ symbol : gaugeValue.toFixed(1)+ symbol]
+                });
+
+                document.getElementById("realTime").innerText = `${time}`;
         })
         .catch(error => {
             console.error('Fetch error:', error);
