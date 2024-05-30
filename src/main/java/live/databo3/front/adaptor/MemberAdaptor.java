@@ -1,8 +1,8 @@
 package live.databo3.front.adaptor;
 
-import live.databo3.front.admin.dto.MemberDto;
-import live.databo3.front.admin.dto.request.MemberModifyStateRequest;
-import live.databo3.front.admin.dto.request.UpdatePasswordRequest;
+import live.databo3.front.dto.MemberDto;
+import live.databo3.front.dto.request.MemberModifyStateRequest;
+import live.databo3.front.dto.request.UpdatePasswordRequest;
 import live.databo3.front.member.dto.*;
 import org.springframework.stereotype.Component;
 

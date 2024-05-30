@@ -1,6 +1,6 @@
 package live.databo3.front.owner.dto;
 
-import live.databo3.front.admin.dto.SensorTypeDto;
+import live.databo3.front.dto.SensorTypeDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

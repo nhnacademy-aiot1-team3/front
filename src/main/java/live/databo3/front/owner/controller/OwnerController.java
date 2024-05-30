@@ -1,15 +1,14 @@
 package live.databo3.front.owner.controller;
 
 import live.databo3.front.adaptor.*;
-import live.databo3.front.admin.dto.request.GeneralConfigRequest;
-import live.databo3.front.admin.dto.request.UpdatePasswordRequest;
-import live.databo3.front.admin.dto.request.ValueConfigRequest;
+import live.databo3.front.dto.*;
+import live.databo3.front.dto.request.GeneralConfigRequest;
+import live.databo3.front.dto.request.UpdatePasswordRequest;
+import live.databo3.front.dto.request.ValueConfigRequest;
 import live.databo3.front.member.dto.MemberRequestDto;
 import live.databo3.front.owner.dto.DeviceLogResponseDto;
-import live.databo3.front.dto.SettingFunctionTypeDto;
 import live.databo3.front.owner.dto.ErrorLogResponseDto;
 import live.databo3.front.owner.dto.SensorListDto;
-import live.databo3.front.admin.dto.*;
 
 import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
@@ -69,19 +68,16 @@ public class OwnerController {
     public String modifyPassword(Model model, String memberId, String currentPassword, String checkPassword, String modifyPassword){
         try{
             if(!checkPassword.equals(modifyPassword)){
-                model.addAttribute(ALERT_MESSAGE, "New Password와 Confirm Password가 다릅니다");
-                model.addAttribute(ALERT_URL,"/owner/my-page");
+                alertHandler(model, "New Password와 Confirm Password가 다릅니다", "/owner/my-page");
                 return ALERT;
             }
             memberAdaptor.doLogin(new MemberRequestDto(memberId, currentPassword));
             memberAdaptor.modifyPassword(memberId, new UpdatePasswordRequest(modifyPassword));
             return "owner/my_page";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/owner/my-page");
+            alertHandler(model, e.getStatusText(), "/owner/my-page");
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "비밀번호 변경에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/owner/my-page");
+            alertHandler(model, "비밀번호 변경에 실패하였습니다", "/owner/my-page");
         }
         return ALERT;
     }

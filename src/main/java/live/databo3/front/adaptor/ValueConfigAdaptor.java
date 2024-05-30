@@ -1,9 +1,9 @@
 package live.databo3.front.adaptor;
 
 
-import live.databo3.front.admin.dto.ConfigsDto;
-import live.databo3.front.admin.dto.ValueConfigDto;
-import live.databo3.front.admin.dto.request.ValueConfigRequest;
+import live.databo3.front.dto.ConfigsDto;
+import live.databo3.front.dto.ValueConfigDto;
+import live.databo3.front.dto.request.ValueConfigRequest;
 
 public interface ValueConfigAdaptor {
     ConfigsDto getValueConfig(int organizationId, String sensorSn, int sensorTypeId);

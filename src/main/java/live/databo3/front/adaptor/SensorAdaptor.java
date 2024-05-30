@@ -1,8 +1,8 @@
 package live.databo3.front.adaptor;
 
-import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.DeviceRequest;
-import live.databo3.front.admin.dto.request.SensorRequest;
+import live.databo3.front.dto.*;
+import live.databo3.front.dto.request.DeviceRequest;
+import live.databo3.front.dto.request.SensorRequest;
 import live.databo3.front.owner.dto.SensorListDto;
 import org.springframework.stereotype.Component;
 

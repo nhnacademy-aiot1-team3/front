@@ -1,7 +1,7 @@
 package live.databo3.front.adaptor;
 
-import live.databo3.front.admin.dto.PlaceDto;
-import live.databo3.front.admin.dto.request.PlaceRequest;
+import live.databo3.front.dto.PlaceDto;
+import live.databo3.front.dto.request.PlaceRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

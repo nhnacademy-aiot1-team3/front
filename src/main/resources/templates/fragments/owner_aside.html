@@ -38,21 +38,13 @@
                             <span class="hide-menu">공지사항</span>
                         </a>
                     </li>
-<!--                    <li class="sidebar-item">-->
-<!--                        <a class="sidebar-link" href="/owner/sensor-list" aria-expanded="false">-->
-<!--                            <span>-->
-<!--                              <i class="ti ti-list-check"></i>-->
-<!--                            </span>-->
-<!--                            <span class="hide-menu">SensorList</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
                     <li class="sidebar-item">
                         <form id="temperatureForm" action="/owner/sensor-page" method="get">
                             <input type="hidden" name="sensorType" value="1">
                             <input type="hidden" name="type" value="temperature">
                             <a class="sidebar-link" href="#" onclick="document.getElementById('temperatureForm').submit();" aria-expanded="false">
                                 <i class="ti ti-temperature"></i>
-                                <span class="hide-menu">Temperature</span>
+                                <span class="hide-menu">온도</span>
                             </a>
                         </form>
                     </li>
@@ -62,7 +54,7 @@
                             <input type="hidden" name="type" value="humidity">
                             <a class="sidebar-link" href="#" onclick="document.getElementById('humidityForm').submit();" aria-expanded="false">
                                 <i class="ti ti-droplet-half-2"></i>
-                                <span class="hide-menu">Humidity</span>
+                                <span class="hide-menu">습도</span>
                             </a>
                         </form>
                     </li>
@@ -81,7 +73,7 @@
                             <span>
                               <i class="ti ti-battery-3"></i>
                             </span>
-                            <span class="hide-menu">Battery</span>
+                            <span class="hide-menu">배터리</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -89,7 +81,7 @@
                             <span>
                               <i class="ti ti-settings"></i>
                             </span>
-                            <span class="hide-menu">Setting</span>
+                            <span class="hide-menu">디바이스/센서 설정</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -121,7 +113,7 @@
                             <span>
                               <i class="ti ti-man"></i>
                             </span>
-                            <span class="hide-menu">MyPage</span>
+                            <span class="hide-menu">마이페이지</span>
                         </a>
                     </li>
                 </ul>

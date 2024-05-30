@@ -1,9 +1,9 @@
 package live.databo3.front.adaptor;
 
-import live.databo3.front.admin.dto.request.ModifyNotificationRequest;
+import live.databo3.front.dto.request.ModifyNotificationRequest;
 import live.databo3.front.dto.GetNotificationDto;
 import live.databo3.front.dto.GetNotificationListResponse;
-import live.databo3.front.admin.dto.NotificationDto;
+import live.databo3.front.dto.NotificationDto;
 
 import java.util.List;
 

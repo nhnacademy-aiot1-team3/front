@@ -1,9 +1,9 @@
 package live.databo3.front.viewer.controller;
 
 import live.databo3.front.adaptor.*;
-import live.databo3.front.admin.dto.OrganizationDto;
-import live.databo3.front.admin.dto.OrganizationListDto;
-import live.databo3.front.admin.dto.request.UpdatePasswordRequest;
+import live.databo3.front.dto.OrganizationDto;
+import live.databo3.front.dto.OrganizationListDto;
+import live.databo3.front.dto.request.UpdatePasswordRequest;
 import live.databo3.front.dto.SettingFunctionTypeDto;
 import live.databo3.front.member.dto.MemberRequestDto;
 import live.databo3.front.owner.dto.DeviceLogResponseDto;

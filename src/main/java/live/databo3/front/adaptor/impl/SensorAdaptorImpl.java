@@ -1,9 +1,9 @@
 package live.databo3.front.adaptor.impl;
 
 import live.databo3.front.adaptor.SensorAdaptor;
-import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.DeviceRequest;
-import live.databo3.front.admin.dto.request.SensorRequest;
+import live.databo3.front.dto.*;
+import live.databo3.front.dto.request.DeviceRequest;
+import live.databo3.front.dto.request.SensorRequest;
 import live.databo3.front.owner.dto.SensorListDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

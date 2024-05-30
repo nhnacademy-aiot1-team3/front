@@ -1,10 +1,12 @@
 package live.databo3.front.admin.controller;
 
+import live.databo3.front.adaptor.MemberAdaptor;
 import live.databo3.front.adaptor.OrganizationAdaptor;
 import live.databo3.front.adaptor.PlaceAdaptor;
 import live.databo3.front.adaptor.SensorAdaptor;
-import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.*;
+import live.databo3.front.dto.*;
+import live.databo3.front.dto.request.*;
+import live.databo3.front.member.dto.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,7 @@ public class AdminOrganizationController {
     private final OrganizationAdaptor organizationAdaptor;
     private final SensorAdaptor sensorAdaptor;
     private final PlaceAdaptor placeAdaptor;
+    private final MemberAdaptor memberAdaptor;
 
     private void alertHandler(Model model, String message, String url) {
         model.addAttribute("message", message);
@@ -41,6 +44,24 @@ public class AdminOrganizationController {
     @GetMapping("/admin/my-page")
     public String getAdminMyPage(){
         return "admin/my_page";
+    }
+
+    @PostMapping("/admin/modifyPassword")
+    public String modifyPassword(Model model, String memberId, String currentPassword, String checkPassword, String modifyPassword){
+        try{
+            if(!checkPassword.equals(modifyPassword)){
+                alertHandler(model, "New Password와 Confirm Password가 다릅니다", "/admin/my-page");
+                return ALERT;
+            }
+            memberAdaptor.doLogin(new MemberRequestDto(memberId, currentPassword));
+            memberAdaptor.modifyPassword(memberId, new UpdatePasswordRequest(modifyPassword));
+            return "admin/my_page";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getStatusText(), "/admin/my-page");
+        } catch (Exception e) {
+            alertHandler(model, "비밀번호 변경에 실패하였습니다", "/admin/my-page");
+        }
+        return ALERT;
     }
 
     @GetMapping("/admin/organization-list")

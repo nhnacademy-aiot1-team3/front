@@ -1,16 +1,16 @@
-package live.databo3.front.admin.dto;
+package live.databo3.front.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class GeneralConfigDto {
-    private Long recordNumber;
+public class ConfigsDto {
     private Long functionId;
-    private LocalDateTime lastUpdateDate;
+    private String functionName;
     private String deviceSn;
     private String deviceName;
+    private List<ValueEntryDto> value;
 }
