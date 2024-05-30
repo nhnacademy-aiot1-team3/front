@@ -57,7 +57,7 @@ public class AdminMemberController {
     @PostMapping("/admin/owner-register-request")
     public String modifyOwnerState(Model model, MemberModifyStateRequest request){
         try{
-            memberAdaptor.modifyMember(request);
+            memberAdaptor.modifyMemberState(request);
             return "redirect:/admin/owner-register-request";
         }catch(HttpClientErrorException e){
             alertHandler(model, e.getMessage(), "/");

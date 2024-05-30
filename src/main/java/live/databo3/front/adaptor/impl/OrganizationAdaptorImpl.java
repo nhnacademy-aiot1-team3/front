@@ -92,13 +92,13 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
     }
 
     @Override
-    public List<OrganizationDto> getOrganizationsByMember() {
+    public List<OrganizationListDto> getOrganizationsByMember() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        ResponseEntity<List<OrganizationDto>> exchange = restTemplate.exchange(
+        ResponseEntity<List<OrganizationListDto>> exchange = restTemplate.exchange(
                 gatewayDomain + ORGANIZATION_URL +"/members/me",
                 HttpMethod.GET,
                 request,

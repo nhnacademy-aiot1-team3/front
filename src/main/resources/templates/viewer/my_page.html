@@ -58,121 +58,39 @@
         </div>
       </div>
 
-      <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
-             aria-labelledby="pills-profile-tab" tabindex="0">
-
           <div class="row">
-            <div class="col-lg-6 d-flex align-items-stretch">
-              <div class="card w-100 position-relative overflow-hidden">
-                <div class="card-body p-4">
-                  <h5 class="card-title fw-semibold">Change Profile</h5>
-                  <p class="card-subtitle mb-4">Change your profile picture from here</p>
-                  <div class="text-center">
-                    <img src="../assets/images/profile/user-1.jpg" alt=""
-                         class="img-fluid rounded-circle" width="120" height="120">
-                    <div class="d-flex align-items-center justify-content-center my-4 gap-6">
-                      <button class="btn btn-primary">Upload</button>
-                      <button class="btn bg-danger-subtle text-danger">Reset</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 d-flex align-items-stretch">
-              <div class="card w-100 position-relative overflow-hidden">
-                <div class="card-body p-4">
-                  <h5 class="card-title fw-semibold">Change Password</h5>
-                  <p class="card-subtitle mb-4">To change your password please confirm here</p>
-                  <form>
-                    <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Current Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1">
-                    </div>
-                    <div class="mb-3">
-                      <label for="exampleInputPassword2" class="form-label">New Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword2">
-                    </div>
-                    <div>
-                      <label for="exampleInputPassword3" class="form-label">Confirm Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword3">
-                    </div>
-                    <div class="d-flex align-items-center justify-content-center my-4 gap-6">
-                      <button class="btn btn-primary">Save</button>
-                      <button class="btn bg-danger-subtle text-danger">Cancel</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-      <div class="tab-pane fade" id="pills-gallery" role="tabpanel" aria-labelledby="pills-gallery-tab"
-           tabindex="0">
-        <div class="widget-content searchable-container list">
-          <div class="card card-body">
-            <div class="table-responsive">
-              <table class="table search-table align-middle text-nowrap">
-                <thead class="header-item">
-                <th></th>
-                <th>Document</th>
-                <th>Role</th>
-                </thead>
-                <tbody>
-                <tr class="search-items">
-                  <td>
-                  </td>
-                  <td>
-                    <span>NHNACADEMY 서울</span>
-                  </td>
-                  <td>
-                    <span>VIEWER</span>
-                  </td>
-                </tr>
-
-                <tr class="search-items">
-                  <td>
-                  </td>
-                  <td>
-                    <span>NHNACADEMY 뉴욕</span>
-                  </td>
-                  <td>
-                    <span>VIEWER</span>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-
+            <div class="card w-100 position-relative overflow-hidden">
               <div class="card-body p-4">
-                <h5 class="card-title fw-semibold">조직 추가 삭제</h5>
-                <p class="card-subtitle mb-4">추가하거나 삭제하고 싶은 조직명을 적고 추가나 삭제 요청을 보내세요.</p>
-                <form>
-                  <div class="row">
-                    <div class="col-12">
-                      <div>
-                        <input type="text" class="form-control" id="document"
-                               placeholder="조직명">
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                        <button class="btn btn-primary">추가</button>
-                        <button class="btn bg-danger-subtle text-danger">삭제</button>
-                      </div>
-                    </div>
+                <h5 class="card-title fw-semibold">Change Password</h5>
+                <p class="card-subtitle mb-4">To change your password please confirm here</p>
+                <form action="/viewer/modifyPassword" method="post">
+
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Current Password</label>
+                    <input name="currentPassword" type="password" class="form-control" id="exampleInputPassword1">
                   </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword2" class="form-label">New Password</label>
+                    <input name="checkPassword" type="password" class="form-control" id="exampleInputPassword2">
+                  </div>
+                  <div>
+                    <label for="exampleInputPassword3" class="form-label">Confirm Password</label>
+                    <input name="modifyPassword" type="password" class="form-control" id="exampleInputPassword3">
+                  </div>
+                  <span id="id-languages"></span>
+                  <div class="d-flex align-items-center justify-content-center my-4 gap-6">
+                    <button class="btn btn-primary">Save</button>
+                  </div>
+                  <input type="hidden" name="memberId" th:value="${#authentication.getName()}"/>
+                  <input type="hidden" name="id" th:value="${#authentication.getName()}"/>
                 </form>
               </div>
             </div>
-          </div>
-            </div>
+
           </div>
         </div>
-      </div>
 
-      </div>
-    </div>
   </div>
   </body>
 </th:block>
