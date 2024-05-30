@@ -1,5 +1,0 @@
-### 센서타입에따른 본인이 속한 조직의 조직리스트, 센서리스트, 센서리스트, 장소리스트를 가져옴
-GET http://localhost:8099/api/sensor/sensorList?sensorTypeId=2
-Content-Type: application/json
-X-USER-ID: owner
-
