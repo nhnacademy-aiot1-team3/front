@@ -1,14 +1,20 @@
 package live.databo3.front.owner.controller;
 
 import live.databo3.front.adaptor.*;
+ 
 import live.databo3.front.dto.*;
 import live.databo3.front.dto.request.GeneralConfigRequest;
 import live.databo3.front.dto.request.UpdatePasswordRequest;
 import live.databo3.front.dto.request.ValueConfigRequest;
 import live.databo3.front.member.dto.MemberRequestDto;
 import live.databo3.front.owner.dto.DeviceLogResponseDto;
+
 import live.databo3.front.owner.dto.ErrorLogResponseDto;
+import live.databo3.front.owner.dto.MainConfigurationCreateDto;
+import live.databo3.front.owner.dto.MainConfigurationDto;
 import live.databo3.front.owner.dto.SensorListDto;
+
+
 
 import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -25,7 +32,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import java.util.Objects;
 import java.util.stream.Collectors;
+
 
 
 /**
@@ -49,9 +59,11 @@ public class OwnerController {
     private final SettingFunctionTypeAdaptor settingFunctionTypeAdaptor;
     private final PlaceAdaptor placeAdaptor;
     private final ErrorLogAdaptor errorLogAdaptor;
+    private final MainConfigurationAdaptor mainConfigurationAdaptor;
     private final DeviceLogAdaptor deviceLogAdaptor;
     private final GeneralConfigAdaptor generalConfigAdaptor;
     private final ValueConfigAdaptor valueConfigAdaptor;
+
 
     private void alertHandler(Model model, String message, String url) {
         model.addAttribute(ALERT_MESSAGE, message);
@@ -302,6 +314,42 @@ public class OwnerController {
         return ALERT;
     }
 
+
+
+    @GetMapping("/owner/mainConfigurations")
+    public String getMainConfigurationInfo(Model model, HttpServletRequest request) {
+        String accessToken = Objects.requireNonNull(CookieUtil.findCookie(request, "access_token")).getValue();
+        try {
+
+            List<OrganizationDto> organizationDtoList = organizationAdaptor.getOrganizationsByMember();
+            model.addAttribute("organizationList", organizationDtoList);
+            model.addAttribute("get_access_token", accessToken);
+
+            List<MainConfigurationDto> mainConfigurationDtoList = mainConfigurationAdaptor.getMainConfiguration();
+            model.addAttribute("mainConfigurationList", mainConfigurationDtoList);
+
+            return "/owner/main_configuration";
+        } catch (HttpClientErrorException e) {
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "홈 설정 불러오기를 실패했습니다.", "/");
+        }
+
+        return ALERT;
+    }
+
+    @PostMapping("/owner/mainConfigurations")
+    public String createMainConfigurationInfo(MainConfigurationCreateDto mainConfigurationCreateDto, Model model) {
+
+        String result = mainConfigurationAdaptor.createMainConfiguration(mainConfigurationCreateDto);
+
+        if (result.contains("success")) {
+            alertHandler(model, "추가 성공!", "/owner/mainConfigurations");
+        } else {
+            alertHandler(model, "추가 실패!", "/owner/mainConfigurations");
+        }
+
+
     @PostMapping("/owner/modifyGeneralConfig")
     public String modifyGeneralConfig(Model model, RedirectAttributes redirectAttributes, GeneralConfigRequest request, int organizationId, String sensorSn, int sensorTypeId, String organizationName, String placeName){
         redirectAttributes.addAttribute("organizationId", organizationId);
@@ -359,6 +407,7 @@ public class OwnerController {
             model.addAttribute(ALERT_MESSAGE, "설정변경에 실패하였습니다");
             model.addAttribute(ALERT_URL,"/owner/setting");
         }
+
         return ALERT;
     }
 
