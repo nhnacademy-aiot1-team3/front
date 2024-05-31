@@ -99,12 +99,12 @@
                                 <div class="row mt-4"> <!-- 그래프 윗 줄 (2개) -->
                                     <div class="col-xl-8"> <!-- 첫 번째 그래프 영역 -->
                                         <div class="box mt-4">
-                                            <div class="hourChart" style="min-height: 365px;"></div>
+                                            <div class="hourChart" id="1" style="min-height: 365px;"></div>
                                         </div>
                                     </div>
                                     <div class="col-xl-4">
                                         <div class="box mt-4">
-                                            <div class="realTimeGauge"></div>
+                                            <div class="realTimeGauge" id="2"></div>
                                             <div class="realTime" style="text-align: center"></div>
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@
                                 <div class="row">
                                     <div class="col-xl-12"> <!-- 두 번째 그래프 영역 시작 -->
                                         <div class="box mt-4">
-                                            <div class="dayChart" style="min-height: 365px;"></div>
+                                            <div class="dayChart" style="min-height: 365px;" id="3"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -130,11 +130,11 @@
                                     <div class="col-xl-12">
                                         <div th:if="${type == 'temperature' || type == 'humidity'}" class="box mt-4">
 <!--                                            <div id="weekChart"></div>-->
-                                            <div class="weekChart" id="1"></div>
+                                            <div class="weekChart" id="4"></div>
 
                                         </div>
                                         <div th:if="${type} == 'co2'" class="box mt-4">
-                                            <div class="weekCo2Chart"></div>
+                                            <div class="weekCo2Chart" id="5"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -170,25 +170,25 @@
 
                 console.log(branchName, placeName, sensorName, sensorType);
 
-                fetchDataOfRealTime(branchName, placeName, sensorName, sensorType);
-                fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType);
-                fetchDataOfHourChart(branchName, placeName, sensorName, sensorType);
+                fetchDataOfHourChart(branchName, placeName, sensorName, sensorType, 1);
+                fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, 2);
+                fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType, 3);
 
-                readTime1 = setInterval(fetchDataOfRealTime, 60000, branchName, placeName, sensorName, sensorType);
-                updateChart1 = setInterval(fetchDataAndUpdateChart, 1800000, branchName, placeName, sensorName, sensorType);
-                hourChart1 = setInterval(fetchDataOfHourChart, 60000, branchName, placeName, sensorName, sensorType);
+                hourChart1 = setInterval(fetchDataOfHourChart, 60000, branchName, placeName, sensorName, sensorType, 1);
+                readTime1 = setInterval(fetchDataOfRealTime, 60000, branchName, placeName, sensorName, sensorType, 2);
+                updateChart1 = setInterval(fetchDataAndUpdateChart, 1800000, branchName, placeName, sensorName, sensorType, 3);
 
                 // hourChart.render();
                 // dayChart.render();
                 // gaugeChart.render();
 
                 if (sensorType === 'temperature' || sensorType === 'humidity') {
-                    fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType, 1);
-                    weekChart1 = setInterval(fetchDataOfWeekChart, 86400000, branchName, placeName, sensorName, sensorType, 1);
+                    fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType, 4);
+                    weekChart1 = setInterval(fetchDataOfWeekChart, 86400000, branchName, placeName, sensorName, sensorType, 4);
                     // weekChart.render();
                 } else if (sensorType === 'co2') {
-                    fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType);
-                    weekCo2Chart1 = setInterval(fetchDataOfWeekCo2Chart, 86400000, branchName, placeName, sensorName, sensorType);
+                    fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType, 5);
+                    weekCo2Chart1 = setInterval(fetchDataOfWeekCo2Chart, 86400000, branchName, placeName, sensorName, sensorType, 5);
                     // weekChartCo2.render();
                 }
 

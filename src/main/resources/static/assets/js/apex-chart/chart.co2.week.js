@@ -28,7 +28,7 @@ function drawWeekChartCo2(sequenceNumber) {
             text: '최근 24시간, 48시간 평균 Co2(1시간 단위)',
             align: 'left',
             style: {
-                fontSize: '25px'
+                fontSize: '20px'
             }
         },
         xaxis: {
@@ -73,7 +73,7 @@ function fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType, 
     let oneWeekBegin = dayjs().utc().subtract(8, 'day').format();
     let oneWeekEnd = dayjs().utc().subtract(1, 'day').format();
 
-    const baseUrl = `http://localhost:8888/api/sensor/co2/fields/co2_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/mean`;
+    const baseUrl = `http://databo3.live/api/sensor/co2/fields/co2_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/mean`;
 
     const twoWeekUrl = `${baseUrl}?begin=${twoWeekBegin}&end=${twoWeekEnd}`;
     const oneWeekUrl = `${baseUrl}?begin=${oneWeekBegin}&end=${oneWeekEnd}`;

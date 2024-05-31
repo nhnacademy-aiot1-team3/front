@@ -43,7 +43,7 @@ function drawGaugeChart(sequenceNumber) {
             text: '현재 ' + gaugeSensorType,
             align: 'left',
             style: {
-                fontSize: '25px'
+                fontSize: '20px'
             }
         },
         plotOptions: {
@@ -142,7 +142,7 @@ function drawGaugeChart(sequenceNumber) {
 
 function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
-    const url = `http://localhost:8888/api/sensor/${sensorType}/fields/value/branches/${branchName}/places/${placeName}/sensors/${sensorName}/last`;
+    const url = `http://databo3.live:8888/api/sensor/${sensorType}/fields/value/branches/${branchName}/places/${placeName}/sensors/${sensorName}/last`;
 
     fetch(url, {
         headers:{

@@ -2,7 +2,7 @@
 <html lang="ko" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme"
       data-layout="vertical" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/owner_layout}" xmlns="http://www.w3.org/1999/html">
+      layout:decorate="~{layout/viewer_layout}" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -33,7 +33,7 @@
         let m = [[${mainConfigurationList}]]
         console.log("main List : ",m);
         let removeConfigList = [];
-        const thisUrl = "http://localhost:8080/owner/mainConfigurations";
+        const thisUrl = "http://localhost:8080/viewer/mainConfigurations";
     </script>
     <script>
         let dataList = null;
@@ -451,7 +451,7 @@
                 <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4" id="buttonRow">
                     <div class="card-body px-4 py-3">
                         <div class="row" style="display: flex; justify-content: center">
-                            <form action=/owner/mainConfigurations method="post">
+                            <form action=/viewer/mainConfigurations method="post">
                                 <input type="hidden" id="recordNumberInput" name="recordNumber">
                                 <input type="hidden" id="sequenceNumberInput" name="sequenceNumber">
                                 <input type="hidden" id="chartTypeInput" name="chartType">

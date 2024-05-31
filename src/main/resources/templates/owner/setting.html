@@ -214,7 +214,7 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <div>
-                                                    <label for="settingTypeList" class="form-label">Sensor SettingType</label>
+                                                    <label for="settingTypeList" class="form-label">센서 설정 방법</label>
                                                     <select id="settingTypeList" name="functionId" class="form-select">
                                                         <option th:if="${generalConfig == null}">Select a SettingType</option>
                                                         <option th:value="1" th:if="${generalConfig.getFunctionId() == 1}">READ_ONLY</option>
@@ -226,10 +226,10 @@
                                                     </select>
                                                 </div>
                                                 <div>
-                                                    <label for="deviceList" class="form-label">Device</label>
+                                                    <label for="deviceList" class="form-label">디바이스</label>
                                                     <select id="deviceList" name="deviceSn" class="form-select">
                                                         <option th:if="${generalConfig.getDeviceSn() == null}"
-                                                                value="">Select a SettingType</option>
+                                                                value="">설정 방법을 고르세요</option>
                                                         <option th:if="${generalConfig.getDeviceSn() != null}"
                                                                 th:value="${generalConfig.getDeviceSn()}"
                                                                 th:text="${generalConfig.getDeviceName() + '(' + generalConfig.getDeviceSn() + ')'}"></option>
