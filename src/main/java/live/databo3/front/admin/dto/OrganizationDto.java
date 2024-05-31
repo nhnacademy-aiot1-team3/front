@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class OrganizationDto {
+    private Integer state;
+    private String roleName;
     private Integer organizationId;
     private String organizationName;
-    private String gatewaySn;
-    private String controllerSn;
 }

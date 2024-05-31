@@ -123,8 +123,8 @@ function fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType) {
     const minBaseUrl = `http://localhost:8888/api/sensor/${sensorType}/fields/${sensorType}_min/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/min`;
     const maxBaseUrl = `http://localhost:8888/api/sensor/${sensorType}/fields/${sensorType}_max/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/max`;
 
-    let begin = dayjs().utc().subtract(1, 'week').format();
-    let end = dayjs.utc().format();
+    let begin = dayjs().utc().subtract(8, 'day').format();
+    let end = dayjs.utc().subtract(1,'day').format();
 
     const minUrl = `${minBaseUrl}?begin=${begin}&end=${end}`;
 
@@ -169,7 +169,7 @@ function fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType) {
 
                             //월-일
                             const date = item.time.split('T')[0].split('-'); // 시간을 잘라내기
-                            const formattedDate = `${date[1]}:${date[2]}`
+                            const formattedDate = `${date[1]}/${date[2]}`
                             const roundedValue = Math.round(item.value * 100) / 100;
                             return {
                                 x: `${formattedDate}` + "(" + `${weekday}` + ")",
