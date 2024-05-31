@@ -26,7 +26,7 @@ if(sensorTypeLast ==='temperature'){
     maxValue = 2000;
 }
 
-$(document).ready(function() {
+function drawGaugeChart(sequenceNumber) {
     'use strict'
     // console.log(gaugeValue + symbol);
 
@@ -132,15 +132,15 @@ $(document).ready(function() {
     //     gaugeChart.render();
     // });
 
-    gaugeChart = new ApexCharts(document.querySelector(".realTimeGauge"), options);
+    gaugeChart = new ApexCharts(document.getElementById(sequenceNumber), options);
     gaugeChart.render();
 
     // fetchDataOfRealTime();
 
     // setInterval(await fetchDataOfRealTime, 10000, branchName, placeName, sensorName, sensorType);
-});
+}
 
-function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType) {
+function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
     const url = `http://localhost:8888/api/sensor/${sensorType}/fields/value/branches/${branchName}/places/${placeName}/sensors/${sensorName}/last`;
 
@@ -158,14 +158,14 @@ function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType) {
         .then(async data => {
                 gaugeValue = (data && data.data && typeof data.data.value !== 'undefined' && data.data.value !== null) ? data.data.value : 0;
 
-                // gaugeValue = data.data.value;
                 let time = dayjs().format('HH:mm:ss A');
                 console.log("가져온 값 : "+gaugeValue+symbol);
 
                 let normalizedValue = ((gaugeValue - minValue) / (maxValue - minValue)) * 100;
                 console.log(normalizedValue);
 
-                // gaugeChart.updateSeries([normalizedValue]);
+                drawGaugeChart(sequenceNumber);
+
                 gaugeChart.updateOptions({
                     series: [normalizedValue],
                     labels: [Number.isInteger(gaugeValue) ? parseInt(gaugeValue)+ symbol : gaugeValue.toFixed(1)+ symbol]

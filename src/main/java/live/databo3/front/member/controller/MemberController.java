@@ -56,7 +56,7 @@ public class MemberController {
     public String getMain(Authentication authentication, Model model, HttpServletRequest request){
         String access_token = CookieUtil.findCookie(request, "access_token").getValue();
         List <DashboardConfigDto> dashboardConfigList = dashboardConfigAdaptor.dashboardConfigDtoList();
-        long electCharge = electChargeAdaptor.getElectCharge("");
+//        long electCharge = electChargeAdaptor.getElectCharge("");
         model.addAttribute("dashboardConfigList", dashboardConfigList);
         model.addAttribute("get_access_token", access_token);
         if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){

@@ -2,7 +2,8 @@
 
 let weekChartCo2 = null;
 
-$(document).ready(function () {
+function drawWeekChartCo2(sequenceNumber) {
+
    'use strict'
 
     var options = {
@@ -53,17 +54,17 @@ $(document).ready(function () {
 
     };
 
-    weekChartCo2 = new ApexCharts(document.querySelector(".weekCo2Chart"), options);
+    weekChartCo2 = new ApexCharts(document.getElementById(sequenceNumber), options);
     weekChartCo2.render();
 
     // fetchDataOfWeekCo2Chart();
 
     // setInterval(fetchDataOfWeekCo2Chart, 86400000);
 
-});
+}
 
 
-function fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType) {
+function fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
 
     let twoWeekBegin = dayjs().utc().subtract(16, 'day').format();
@@ -139,6 +140,8 @@ function fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType) 
                             };
                         });
                         console.log("변환된 1주 전 데이터 : ", oneWeekSeriesData);
+
+                        drawWeekChartCo2(sequenceNumber);
 
                         weekChartCo2.updateSeries([{
                             name: '2주 전 데이터',
