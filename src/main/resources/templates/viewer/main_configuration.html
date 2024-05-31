@@ -19,7 +19,7 @@
             cursor: move;
         }
     </style>
-    <script>
+    <script defer>
         $(document).ready(function() {
             $("#sortable-tbody").sortable({
                 update: function(event, ui) {
@@ -27,7 +27,7 @@
             });
         });
     </script>
-    <script th:inline="javascript">
+    <script th:inline="javascript" defer>
         let g = [[${organizationList}]];
         console.log(g);
         let m = [[${mainConfigurationList}]]
@@ -35,7 +35,7 @@
         let removeConfigList = [];
         const thisUrl = "https://databo3.live/viewer/mainConfigurations";
     </script>
-    <script>
+    <script defer>
         let dataList = null;
         let typeSensors = null;
         const chartTypesMap = new Map();
@@ -266,7 +266,7 @@
     </script>
 
 
-    <script>
+    <script defer>
         function removeConfig(button) {
             let tr = button.closest('tr');
             let id = tr.getAttribute('id');
