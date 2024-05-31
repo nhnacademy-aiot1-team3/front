@@ -66,11 +66,11 @@ $(document).ready(function () {
 function fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType) {
     const access_token = document.getElementById("access_token").value;
 
-    let twoWeekBegin = dayjs().utc().subtract(2, 'week').format();
-    let twoWeekEnd = dayjs().utc().subtract(1, 'week').format();
+    let twoWeekBegin = dayjs().utc().subtract(16, 'day').format();
+    let twoWeekEnd = dayjs().utc().subtract(8, 'day').format();
 
-    let oneWeekBegin = dayjs().utc().subtract(1, 'week').format();
-    let oneWeekEnd = dayjs().utc().format();
+    let oneWeekBegin = dayjs().utc().subtract(8, 'day').format();
+    let oneWeekEnd = dayjs().utc().subtract(1, 'day').format();
 
     const baseUrl = `http://localhost:8888/api/sensor/co2/fields/co2_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/mean`;
 
@@ -115,7 +115,7 @@ function fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType) 
 
                             //월-일
                             const date = item.time.split('T')[0].split('-'); // 시간을 잘라내기
-                            const formattedDate = `${date[1]}:${date[2]}`
+                            const formattedDate = `${date[1]}/${date[2]}`
                             const roundedValue = Math.round(item.value * 100) / 100;
                             return {
                                 x: `${formattedDate}` + "(" + `${weekday}` + ")",

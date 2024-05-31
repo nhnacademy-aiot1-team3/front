@@ -10,4 +10,6 @@ public class OrganizationDto {
     private String organizationName;
     private String gatewaySn;
     private String controllerSn;
+    private Integer state;
+    private String roleName;
 }
