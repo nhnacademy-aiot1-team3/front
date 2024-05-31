@@ -96,7 +96,7 @@ public class ViewerController {
      */
     @GetMapping("/viewer/notification")
     public String getNotification(){
-        return "/viewer/notification";
+        return "viewer/notification";
     }
 
     @GetMapping("/viewer/organization-list")
@@ -172,7 +172,7 @@ public class ViewerController {
             List<MainConfigurationDto> mainConfigurationDtoList = mainConfigurationAdaptor.getMainConfiguration();
             model.addAttribute("mainConfigurationList", mainConfigurationDtoList);
 
-            return "/viewer/main_configuration";
+            return "viewer/main_configuration";
         } catch (HttpClientErrorException e) {
             alertHandler(model, e.getMessage(), "/");
         } catch (Exception e) {
