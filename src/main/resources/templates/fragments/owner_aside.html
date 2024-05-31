@@ -31,67 +31,57 @@
                         <span class="hide-menu">Menu</span>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/owner/notification" aria-expanded="false">
+                        <a class="sidebar-link" href="/owner/notifications" aria-expanded="false">
                             <span>
                                 <i class="ti ti-notification"></i>
                             </span>
-                            <span class="hide-menu">notification</span>
+                            <span class="hide-menu">공지사항</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/owner/sensor-list" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-list-check"></i>
-                            </span>
-                            <span class="hide-menu">SensorList</span>
-                        </a>
+                        <form id="temperatureForm" action="/owner/sensor-page" method="get">
+                            <input type="hidden" name="sensorType" value="1">
+                            <input type="hidden" name="type" value="temperature">
+                            <a class="sidebar-link" href="#" onclick="document.getElementById('temperatureForm').submit();" aria-expanded="false">
+                                <i class="ti ti-temperature"></i>
+                                <span class="hide-menu">온도</span>
+                            </a>
+                        </form>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/owner/temperature" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-temperature"></i>
-                            </span>
-                            <span class="hide-menu">Temperature</span>
-                        </a>
+                        <form id="humidityForm" action="/owner/sensor-page" method="get">
+                            <input type="hidden" name="sensorType" value="2">
+                            <input type="hidden" name="type" value="humidity">
+                            <a class="sidebar-link" href="#" onclick="document.getElementById('humidityForm').submit();" aria-expanded="false">
+                                <i class="ti ti-droplet-half-2"></i>
+                                <span class="hide-menu">습도</span>
+                            </a>
+                        </form>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/owner/humidity" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-droplet-half-2"></i>
-                            </span>
-                            <span class="hide-menu">Humidity</span>
-                        </a>
+                        <form id="CO2Form" action="/owner/sensor-page" method="get">
+                            <input type="hidden" name="sensorType" value="3">
+                            <input type="hidden" name="type" value="co2">
+                            <a class="sidebar-link" href="#" onclick="document.getElementById('CO2Form').submit();" aria-expanded="false">
+                                <i class="ti ti-wind"></i>
+                                <span class="hide-menu">CO2</span>
+                            </a>
+                        </form>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/owner/co2" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-wind"></i>
-                            </span>
-                            <span class="hide-menu">CO2</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/owner/power" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-circuit-resistor"></i>
-                            </span>
-                            <span class="hide-menu">Power</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/owner/area-people" aria-expanded="false">
-                            <span>
-                              <i class="ti ti-users"></i>
-                            </span>
-                            <span class="hide-menu">Area People</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/owner/battery-level" aria-expanded="false">
+                        <a class="sidebar-link" href="/owner/battery-levels" aria-expanded="false">
                             <span>
                               <i class="ti ti-battery-3"></i>
                             </span>
-                            <span class="hide-menu">Battery</span>
+                            <span class="hide-menu">배터리</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/owner/setting" aria-expanded="false">
+                            <span>
+                              <i class="ti ti-settings"></i>
+                            </span>
+                            <span class="hide-menu">디바이스/센서 설정</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -103,19 +93,28 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/owner/setting" aria-expanded="false">
+                        <a class="sidebar-link" href="/owner/mainConfigurations" aria-expanded="false">
                             <span>
-                              <i class="ti ti-settings"></i>
+                              <i class="ti ti-home-star"></i>
                             </span>
-                            <span class="hide-menu">Setting</span>
+                            <span class="hide-menu">홈 설정</span>
                         </a>
                     </li>
+<!--                    <li class="sidebar-item">-->
+<!--                        <a class="sidebar-link" href="/owner/setting" aria-expanded="false">-->
+<!--                            <span>-->
+<!--                              <i class="ti ti-settings"></i>-->
+<!--                            </span>-->
+<!--                            <span class="hide-menu">Setting</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/owner/my-page" aria-expanded="false">
+                        <a class="sidebar-link" href="/owner/device-log" aria-expanded="false">
                             <span>
-                              <i class="ti ti-man"></i>
+                              <i class="ti ti-clipboard-list"></i>
                             </span>
-                            <span class="hide-menu">MyPage</span>
+                            <span class="hide-menu">디바이스 로그</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -123,7 +122,15 @@
                             <span>
                               <i class="ti ti-bug"></i>
                             </span>
-                            <span class="hide-menu">Error</span>
+                            <span class="hide-menu">에러 로그</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/owner/my-page" aria-expanded="false">
+                            <span>
+                              <i class="ti ti-man"></i>
+                            </span>
+                            <span class="hide-menu">마이페이지</span>
                         </a>
                     </li>
                 </ul>
@@ -132,7 +139,7 @@
                 <div class="hstack gap-3">
                     <div class="john-img">
                         <img
-                                src="../assets/images/profile/user-1.jpg"
+                                src="/assets/images/profile/user-1.jpg"
                                 class="rounded-circle"
                                 width="40"
                                 height="40"

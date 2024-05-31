@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme"
+      data-layout="vertical" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/owner_layout}" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- jQuery 먼저 로드 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <!-- 그 다음 jQuery UI 로드 -->
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js" defer></script>
+    <!-- jQuery UI CSS 로드 -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/smoothness/jquery-ui.css">
+    <style>
+        table, th, td { border:1px solid #000000;width:650px;border-collapse:collapse;padding:5px;text-align:center; }
+        .selected { background-color:#FFFFDF; }
+        .sortable-table tbody {
+            cursor: move;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $("#sortable-tbody").sortable({
+                update: function(event, ui) {
+                }
+            });
+        });
+    </script>
+    <script th:inline="javascript">
+        let g = [[${organizationList}]];
+        console.log(g);
+        let m = [[${mainConfigurationList}]]
+        console.log("main List : ",m);
+        let removeConfigList = [];
+        const thisUrl = "http://localhost:8080/owner/mainConfigurations";
+    </script>
+    <script>
+        let dataList = null;
+        let typeSensors = null;
+        const chartTypesMap = new Map();
+        chartTypesMap.set('REAL_TIME', '실시간');
+        chartTypesMap.set('ONE_HOUR', '한시간');
+        chartTypesMap.set('DAILY', '일 별');
+        chartTypesMap.set('WEEKLY', '주 별');
+
+        //선택한 조직 span 태그에 표시, 선택한 조직에 속한 정보들 비동기 요청
+        function printSelectedOrganization() {
+            // select 요소 가져오기
+            let selectElement = document.getElementById('organizationSelect');
+            // 선택된 옵션의 텍스트 가져오기
+            let selectedOptionText = selectElement.options[selectElement.selectedIndex].text;
+            // span 요소 가져오기
+            let spanElement = document.getElementById('selectedOrganization');
+            spanElement.textContent = selectedOptionText;
+
+            // 선택한 조직의 정보들 요청
+            fetchToSensorTypeMapping(selectElement.options[selectElement.selectedIndex].value);
+        }
+        //선택한 장소 span 태그에 표시, type Row 안에 내용 만들고 show
+        function printSelectedPlace() {
+            // select 요소 가져오기
+            let selectElement = document.getElementById('placeSelect');
+            // 선택된 옵션의 텍스트 가져오기
+            let selectedOptionText = selectElement.options[selectElement.selectedIndex].text;
+            // span 요소 가져오기
+            let spanElement = document.getElementById('selectedPlace');
+            spanElement.textContent = selectedOptionText;
+
+            // type Row 보여주기
+            // 1. 중복 제거된 type 리스트 생성 <- 이 리스트가 아니라 선택한 장소에서의 중복되지 않은 센서 타입 목록들
+            // 선택한 장소에 해당하는 센서 타입 목록을 필터링
+            const placeFilteredData = dataList.filter(item => item.placeName === selectedOptionText);
+            // 중복 제거된 센서 타입 리스트 생성
+            const uniqueType = [...new Set(placeFilteredData.map(item => item.sensorType))];
+            console.log("타입 : ", uniqueType);
+
+            // 2. type 리스트를 typeSelect 요소에 옵션 추가
+            const typeSelect = document.getElementById('typeSelect');
+            typeSelect.innerHTML = '<option value="">타입을 골라주세요</option>';
+            uniqueType.forEach(sensorType => {
+               const option = document.createElement('option');
+               option.value = sensorType;
+               option.textContent = sensorType;
+               typeSelect.appendChild(option);
+            });
+
+            // 3. typeRow display none -> block;
+            document.getElementById('typeRow').style.display = 'block';
+        }
+
+        // 선택한 Type span 태그에 표시, 해당 type에 속하는 센서 리스트 만들어서 Row 보여주기
+        function printSelectedType() {
+            // select 요소 가져오기
+            let selectElement = document.getElementById('typeSelect');
+            // 선택된 옵션의 텍스트 가져오기
+            let selectedOptionText = selectElement.options[selectElement.selectedIndex].text;
+            // span 요소 가져오기
+            let spanElement = document.getElementById('selectedType');
+            spanElement.textContent = selectedOptionText;
+
+            // 선택했던 장소 가져오기 -> sensor 리스트 만들 때 filter 용도 -> place, type
+            let placeSelectElement = document.getElementById('placeSelect');
+            // 선택된 옵션의 텍스트 가져오기
+            let placeSelectedOptionText = placeSelectElement.options[placeSelectElement.selectedIndex].text;
+
+            // 센서 row 보여주기
+            // type sensorSn 리스트 생성
+            const placeAndTypeFilterData = dataList.filter(item => item.placeName === placeSelectedOptionText).filter(item => item.sensorType === selectedOptionText);
+            const uniqueSensors = [...new Set(placeAndTypeFilterData.map(item => item.sensorSn))];
+            console.log("센서 목록 : ", uniqueSensors)
+
+            // select 요소에 옵션 추가
+            const sensorSelect = document.getElementById('sensorSelect');
+            sensorSelect.innerHTML = '<option value="">센서를 골라주세요</option>'; // 기본 옵션 추가
+            uniqueSensors.forEach(sensorSn => {
+                const option = document.createElement('option');
+                option.value = sensorSn;
+                option.textContent = sensorSn;
+                sensorSelect.appendChild(option);
+            });
+
+            // sensor row 보여주기
+            document.getElementById('sensorRow').style.display = 'block';
+        }
+
+        //선택한 센서 span 태그에 표시, chartType 리스트로 드롭박스 그려주기
+        function printSelectedSensor() {
+            // select 요소 가져오기
+            let selectElement = document.getElementById('sensorSelect');
+            // 선택된 옵션의 텍스트 가져오기
+            let selectedOptionText = selectElement.options[selectElement.selectedIndex].text;
+            // span 요소 가져오기
+            let spanElement = document.getElementById('selectedSensor');
+            spanElement.textContent = selectedOptionText;
+
+            // chartType 드롭박스 그려주기
+            const chartTypeSelect = document.getElementById('chartTypeSelect');
+            chartTypeSelect.innerHTML = '<option value="">차트를 골라주세요</option>'; // 기본 옵션 추가
+            chartTypesMap.forEach((value, key) => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = value;
+                chartTypeSelect.appendChild(option);
+            });
+
+            // chartType row 보여주기
+            document.getElementById('chartTypeRow').style.display = 'block';
+        }
+
+        function printSelectedChartType() {
+            // select 요소 가져오기
+            let selectElement = document.getElementById('chartTypeSelect');
+            // 선택된 옵션의 텍스트 가져오기
+            let selectedOptionText = selectElement.options[selectElement.selectedIndex].value;
+            console.log('선택한 차트의 key : ', selectedOptionText);
+            // span 요소 가져오기
+            let spanElement = document.getElementById('selectedChartType');
+            spanElement.textContent = selectedOptionText;
+
+            // hidden input 값 넣기
+            console.log("동작");
+
+            let placeSelectElement = document.getElementById('placeSelect');
+            let place = placeSelectElement.options[placeSelectElement.selectedIndex].value;
+            console.log(place);
+
+            let sensorSelectElement = document.getElementById('sensorSelect');
+            let sensor = sensorSelectElement.options[sensorSelectElement.selectedIndex].value;
+            console.log(sensor);
+
+            let sensorTypeSelectElement = document.getElementById('typeSelect');
+            let sensorType = sensorTypeSelectElement.options[sensorTypeSelectElement.selectedIndex].value;
+            console.log(sensorType);
+
+            let chartTypeSelectElement = document.getElementById('chartTypeSelect');
+            let chartType = chartTypeSelectElement.options[chartTypeSelectElement.selectedIndex].value;
+            console.log(chartType);
+
+            let record = dataList.find(item => item.placeName === place && item.sensorSn === sensor && item.sensorType === sensorType);
+            let recordNumber = record ? record.recordNumber : null;
+
+            console.log('Record Number:', recordNumber);
+
+            // id 값 설정
+            $('#recordNumberInput').val(recordNumber);
+            $('#sequenceNumberInput').val(m.length + 1);
+            $('#chartTypeInput').val(chartType);
+
+
+            document.getElementById('buttonRow').style.display = 'block';
+        }
+
+        function fetchToSensorTypeMapping(orgNumber) {
+            const access_token = document.getElementById("access_token").value;
+            console.log(orgNumber);
+            const url = `http://databo3.live:8888/api/sensor/org/` + orgNumber +`/sensorTypeMapping`;
+
+            fetch(url,{
+                headers: {
+                    Authorization:access_token
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // 데이터를 변환하는 부분
+                    const transformedData = data.map(item => {
+                        return {
+                            recordNumber: item.recordNumber,
+                            placeName: item.sensor.place.placeName,
+                            sensorSn: item.sensor.sensorSn,
+                            sensorName: item.sensor.sensorName,
+                            sensorTypeId: item.sensorType.sensorTypeId,
+                            sensorType: item.sensorType.sensorType
+                        };
+                    });
+                    console.log(transformedData);
+                    dataList = transformedData;
+                    // 중복 제거된 placeName 리스트 생성
+                    const uniquePlaces = [...new Set(transformedData.map(item => item.placeName))];
+
+                    // select 요소에 옵션 추가
+                    const placeSelect = document.getElementById('placeSelect');
+                    placeSelect.innerHTML = '<option value="">장소를 골라주세요</option>'; // 기본 옵션 추가
+                    uniquePlaces.forEach(placeName => {
+                        const option = document.createElement('option');
+                        option.value = placeName;
+                        option.textContent = placeName;
+                        placeSelect.appendChild(option);
+                    });
+
+                    // place row 보여주기
+                    document.getElementById('placeRow').style.display = 'block';
+
+                    let spanElement = document.getElementById('selectedOrganization');
+
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('organizationSelect').addEventListener('change',printSelectedOrganization);
+            //페이지 로드 시 place row 숨기기
+            document.getElementById('placeRow').style.display='none';
+            document.getElementById('placeSelect').addEventListener('change',printSelectedPlace);
+            //페이지 로드 시 type row 숨기기
+            document.getElementById('typeRow').style.display='none';
+            document.getElementById('typeSelect').addEventListener('change',printSelectedType);
+            //페이지 로드 시 sensor row 숨기기
+            document.getElementById('sensorRow').style.display='none';
+            document.getElementById('sensorSelect').addEventListener('change',printSelectedSensor);
+            //페이지 로드 시 chartType row 숨기기
+            document.getElementById('chartTypeRow').style.display='none';
+            document.getElementById('chartTypeSelect').addEventListener('change',printSelectedChartType);
+            //페이지 로드 시 추가 button 숨기기
+            document.getElementById('buttonRow').style.display='none';
+        });
+    </script>
+
+
+    <script>
+        function removeConfig(button) {
+            let tr = button.closest('tr');
+            let id = tr.getAttribute('id');
+
+            let config = {};
+            config.configId = id;
+
+            removeConfigList.push(config);
+            console.log(removeConfigList);
+
+            // 방금 선택한거 숨기기
+            $(`#${id}`).remove();
+        }
+
+        function modifyConfig() {
+            const access_token = document.getElementById("access_token").value;
+
+            // 삭제
+            if (removeConfigList.length !== 0) {
+                const url = "http://databo3.live:8888/api/account/config/dashboard/delete";
+
+                fetch(url, {
+                    headers: {
+                        Authorization: access_token,
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(removeConfigList)
+                })
+                    .then(response => {
+
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+            // 테이블 순서 수정 하고 redirect or get
+
+            // 모든 tr 요소 선택
+            let trElements = document.querySelectorAll('#sortable-tbody tr');
+
+            let i = 1;
+            let modifyList = [];
+
+            // 각 tr 요소의 id 값을 리스트에 추가
+            trElements.forEach(tr => {
+                let obj = {};
+                obj.configId = tr.id;
+                obj.sequenceNumber = i++;
+                modifyList.push(obj)
+            });
+
+            // 리스트 출력 (디버깅용)
+            console.log(modifyList);
+
+            const modifyUrl = "http://databo3.live:8888/api/account/config/dashboard/modify"
+
+            fetch(modifyUrl,{
+                headers: {
+                    Authorization: access_token,
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(modifyList)
+            })
+                .then(response => {
+                })
+                .catch(error => {
+                    console.error('삭제 fetch:', error);
+                });
+
+            location.replace(thisUrl);
+
+        }
+
+    </script>
+</head>
+<th:block layout:fragment="content">
+    <body>
+    <input type="hidden" id="access_token" th:value="${get_access_token}"/>
+        <div class="body-wrapper">
+            <div class="container-fluid">
+                <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                    <div class="card-body px-4 py-3">
+                        <div class="row">
+                            <!-- 조직 드롭박스 -->
+                            <div class="col-6">
+                                <select id="organizationSelect" th:field="*{organizationList}" class="form-check">
+                                    <option value="">조직을 골라주세요</option>
+
+                                    <option th:if="${organization.getState() == 2}" th:each="organization:${organizationList}" th:value="${organization.getOrganizationId()}"
+                                            th:text="${organization.getOrganizationName()}"></option>
+                                </select>
+                            </div>
+                            <!-- 조직 드롭박스에서 선택한거 보이기 -->
+                            <div class="col-6">
+                                🗂️ 선택된 조직 : <span id="selectedOrganization"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <!-- 띄어쓰기 용 -->
+                </div>
+                <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4" id="placeRow">
+                    <div class="card-body px-4 py-3">
+                        <div class="row">
+                            <!-- 장소 드롭박스 -->
+                            <div class="col-6">
+                                <select id="placeSelect">
+
+                                </select>
+                            </div>
+                            <!-- 장소 드롭박스에서 선택한거 보이기 -->
+                            <div class="col-6">
+                                🚪 선택된 장소 : <span id="selectedPlace"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <!-- 띄어쓰기 용 -->
+                </div>
+                <!-- 타입 먼저 -->
+                <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4" id="typeRow">
+                    <div class="card-body px-4 py-3">
+                        <div class="row">
+                            <!-- 타입 드롭박스 -->
+                            <div class="col-6">
+                                <select id="typeSelect">
+
+                                </select>
+                            </div>
+                            <!-- 타입 드롭박스에서 선택한거 보이기 -->
+                            <div class="col-6">
+                                🔥 선택된 타입 : <span id="selectedType"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <!-- 띄어쓰기 용 -->
+                </div>
+                <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4" id="sensorRow">
+                    <div class="card-body px-4 py-3">
+                        <div class="row">
+                            <!-- 센서 드롭박스 -->
+                            <div class="col-6">
+                                <select id="sensorSelect">
+
+                                </select>
+                            </div>
+                            <!-- 센서 드롭박스에서 선택한 거 보이기 -->
+                            <div class="col-6">
+                                🚨 선택된 센서 : <span id="selectedSensor"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <!-- 띄어쓰기 용 -->
+                </div>
+                <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4" id="chartTypeRow">
+                    <div class="card-body px-4 py-3">
+                        <div class="row">
+                            <!-- 차트타입 드롭박스 -->
+                            <div class="col-6">
+                                <select id="chartTypeSelect">
+
+                                </select>
+                            </div>
+                            <!-- 차트타입 드롭박스에서 선택한 거 보이기 -->
+                            <div class="col-6">
+                                📊 선택된 차트 : <span id="selectedChartType"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+
+                </div>
+                <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4" id="buttonRow">
+                    <div class="card-body px-4 py-3">
+                        <div class="row" style="display: flex; justify-content: center">
+                            <form action=/owner/mainConfigurations method="post">
+                                <input type="hidden" id="recordNumberInput" name="recordNumber">
+                                <input type="hidden" id="sequenceNumberInput" name="sequenceNumber">
+                                <input type="hidden" id="chartTypeInput" name="chartType">
+                                <button type="submit" class="btn-primary">추가</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <!-- 띄어쓰기 용 -->
+                </div>
+                <div class="row mt-5">
+                    <!-- 띄어쓰기 용 -->
+                </div>
+                <div class="row mt-5">
+                    <!-- 띄어쓰기 용 -->
+                </div>
+                <h1>저장한 Main 설정</h1>
+                <table class="sortable-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>등록된 순서</th>
+                            <th>조직</th>
+                            <th>장소</th>
+                            <th>센서 ( 타입 )</th>
+                            <th>차트 종류</th>
+                            <th>삭제하기</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sortable-tbody">
+                        <tr th:id="${config.getConfigId()}" th:each="config, status : ${mainConfigurationList}">
+                            <td th:text="${config.getSequenceNumber()}" th:name="configId" th:value="${config.getConfigId()}"></td>
+                            <td th:text="${config.organization}"></td>
+                            <td th:text="${config.place}"></td>
+                            <td>
+                                <span th:text="${config.getSensorSn()}"></span> (
+                                <span th:text="${config.getSensorType()}"></span> )
+                            </td>
+                            <td th:text="${config.getChartType()}"></td>
+                            <td><button type="button" onclick="removeConfig(this)">삭제</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row" style="display: flex; justify-content: right">
+                    <button type="button" onclick="modifyConfig()" class="btn-primary" style="width:5%;" >수정</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</th:block>
+</html>

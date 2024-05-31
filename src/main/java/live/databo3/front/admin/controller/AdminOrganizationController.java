@@ -1,10 +1,12 @@
 package live.databo3.front.admin.controller;
 
-import live.databo3.front.admin.adaptor.OrganizationAdaptor;
-import live.databo3.front.admin.adaptor.PlaceAdaptor;
-import live.databo3.front.admin.adaptor.SensorAdaptor;
-import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.*;
+import live.databo3.front.adaptor.MemberAdaptor;
+import live.databo3.front.adaptor.OrganizationAdaptor;
+import live.databo3.front.adaptor.PlaceAdaptor;
+import live.databo3.front.adaptor.SensorAdaptor;
+import live.databo3.front.dto.*;
+import live.databo3.front.dto.request.*;
+import live.databo3.front.member.dto.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -28,21 +30,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminOrganizationController {
     private static final String ALERT="alert";
-    private static final String ALERT_MESSAGE="message";
-    private static final String ALERT_URL="searchUrl";
 
     private final OrganizationAdaptor organizationAdaptor;
     private final SensorAdaptor sensorAdaptor;
     private final PlaceAdaptor placeAdaptor;
+    private final MemberAdaptor memberAdaptor;
 
     private void alertHandler(Model model, String message, String url) {
-        model.addAttribute(ALERT_MESSAGE, message);
-        model.addAttribute(ALERT_URL, url);
+        model.addAttribute("message", message);
+        model.addAttribute("searchUrl", url);
     }
 
     @GetMapping("/admin/my-page")
     public String getAdminMyPage(){
         return "admin/my_page";
+    }
+
+    @PostMapping("/admin/modifyPassword")
+    public String modifyPassword(Model model, String memberId, String currentPassword, String checkPassword, String modifyPassword){
+        try{
+            if(!checkPassword.equals(modifyPassword)){
+                alertHandler(model, "New Password와 Confirm Password가 다릅니다", "/admin/my-page");
+                return ALERT;
+            }
+            memberAdaptor.doLogin(new MemberRequestDto(memberId, currentPassword));
+            memberAdaptor.modifyPassword(memberId, new UpdatePasswordRequest(modifyPassword));
+            return "admin/my_page";
+        } catch(HttpClientErrorException e){
+            alertHandler(model, e.getStatusText(), "/admin/my-page");
+        } catch (Exception e) {
+            alertHandler(model, "비밀번호 변경에 실패하였습니다", "/admin/my-page");
+        }
+        return ALERT;
     }
 
     @GetMapping("/admin/organization-list")
@@ -103,11 +122,9 @@ public class AdminOrganizationController {
             organizationAdaptor.createOrganization(request);
             return "redirect:/admin/organization-list";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-list");
+            alertHandler(model, e.getMessage(), "/admin/organization-list");
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "조직 생성에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-list");
+            alertHandler(model, "조직 생성에 실패하였습니다", "/admin/organization-list");
         }
         return ALERT;
     }
@@ -119,11 +136,9 @@ public class AdminOrganizationController {
             organizationAdaptor.modifyOrganization(organizationId, request);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "부서명 변경에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "부서명 변경에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -135,11 +150,9 @@ public class AdminOrganizationController {
             organizationAdaptor.modifySerialNumber(organizationId, request);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "SN 변경에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "SN 변경에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -150,48 +163,26 @@ public class AdminOrganizationController {
             organizationAdaptor.deleteOrganization(organizationId);
             return "redirect:/admin/organization-list";
         }catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "조직 삭제에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "조직 삭제에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
 
-    @PostMapping("/admin/deleteOrganizationOwner")
+    @PostMapping("/admin/deleteOrganizationMember")
     public String deleteOrganizationOwner(Model model, RedirectAttributes redirectAttributes, int organizationId, String memberId){
         redirectAttributes.addAttribute("organizationId", organizationId);
         try{
-            organizationAdaptor.deleteOrganizationOwner(organizationId, memberId);
+            organizationAdaptor.deleteOrganizationMember(organizationId, memberId);
             return "redirect:/admin/organization-management";
         }catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "owner 조직에서 삭제에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "조직에서 멤버 삭제에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
-
-    @PostMapping("/admin/deleteOrganizationViewer")
-    public String deleteOrganizationViewer(Model model, RedirectAttributes redirectAttributes, int organizationId, String memberId){
-        redirectAttributes.addAttribute("organizationId", organizationId);
-        try{
-            organizationAdaptor.deleteOrganizationOwner(organizationId, memberId);
-            return "redirect:/admin/organization-management";
-        }catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
-        } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "viewer를 조직에서 삭제에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
-        }
-        return ALERT;
-    }
-
-
 
     @PostMapping("/admin/modifyMemberState")
     public String modifyMemberState(Model model, RedirectAttributes redirectAttributes, int organizationId, String memberId){
@@ -200,11 +191,9 @@ public class AdminOrganizationController {
             organizationAdaptor.modifyMemberState(organizationId, memberId, 2);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "OWNER 수락에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "OWNER 수락에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -216,11 +205,9 @@ public class AdminOrganizationController {
             sensorAdaptor.createSensor(request, organizationId);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         }catch(Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "센서 생성에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "센서 생성에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -232,11 +219,9 @@ public class AdminOrganizationController {
             sensorAdaptor.modifySensor(organizationId, sensorSn, request);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "센서 변경에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "센서 변경에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -248,11 +233,9 @@ public class AdminOrganizationController {
             sensorAdaptor.deleteSensor(organizationId, sensorSn);
             return "redirect:/admin/organization-management";
         }catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         }catch(Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "센서 삭제에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "센서 삭제에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -264,11 +247,9 @@ public class AdminOrganizationController {
             sensorAdaptor.createSensorType(organizationId, sensorSn, sensorTypeId);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         }catch(Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "센서 type 추가에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "센서 type 추가에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -280,11 +261,9 @@ public class AdminOrganizationController {
             sensorAdaptor.deleteSensorType(organizationId, sensorSn, sensorTypeId);
             return "redirect:/admin/organization-management";
         }catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         }catch(Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "센서 type 삭제에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "Sensor Type 삭제에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -296,11 +275,9 @@ public class AdminOrganizationController {
             sensorAdaptor.createDevice(request, organizationId);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         }catch(Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "디바이스 생성에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "Device 생성에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -312,11 +289,9 @@ public class AdminOrganizationController {
             sensorAdaptor.modifyDevice(organizationId, deviceId, request);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "디바이스 변경에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "Device 변경에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -328,11 +303,9 @@ public class AdminOrganizationController {
             sensorAdaptor.deleteDevice(organizationId, deviceSn);
             return "redirect:/admin/organization-management";
         }catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         }catch(Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "디바이스 삭제에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "Device 삭제에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -344,11 +317,9 @@ public class AdminOrganizationController {
             placeAdaptor.createPlace(request, organizationId);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         }catch(Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "Place 생성에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "Place 생성에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -360,11 +331,9 @@ public class AdminOrganizationController {
             placeAdaptor.modifyPlace(organizationId, placeId, request);
             return "redirect:/admin/organization-management";
         } catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         } catch (Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "place 변경에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "Place 변경에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }
@@ -376,11 +345,9 @@ public class AdminOrganizationController {
             placeAdaptor.deletePlace(organizationId, placeId);
             return "redirect:/admin/organization-management";
         }catch(HttpClientErrorException e){
-            model.addAttribute(ALERT_MESSAGE, e.getStatusText());
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, e.getMessage(), "/admin/organization-management?organizationId=" + organizationId);
         }catch(Exception e) {
-            model.addAttribute(ALERT_MESSAGE, "Place 삭제에 실패하였습니다");
-            model.addAttribute(ALERT_URL,"/admin/organization-management?organizationId=" + organizationId);
+            alertHandler(model, "Place 삭제에 실패하였습니다", "/admin/organization-management?organizationId=" + organizationId);
         }
         return ALERT;
     }

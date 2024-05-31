@@ -4,314 +4,154 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/viewer_layout}">
 
+
+<head>
+    <title>메인</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+    <script>dayjs.extend(window.dayjs_plugin_utc);</script>
+    <script src="/assets/js/apex-chart/chart.sensor.last.js" defer></script>
+    <script src="/assets/js/apex-chart/chart.sensor.hour.js" defer></script>
+    <script src="/assets/js/apex-chart/chart.sensor.day.js" defer></script>
+    <script src="/assets/js/apex-chart/chart.sensor.week.js" defer></script>
+    <script src="/assets/js/apex-chart/chart.co2.week.js" defer></script>
+</head>
+
 <th:block layout:fragment="content">
-<body>
+    <body>
+    <input type="hidden" id="access_token" th:value="${get_access_token}"/>
+    <div class="body-wrapper">
+        <div class="container-fluid">
+            <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                <div class="card-body px-4 py-3">
+                    <div class="row align-items-center">
+                        <div class="col-9">
+                            <h4 class="fw-semibold mb-8">메인</h4>
+                        </div>
+                        <div class="col-3">
+                            <div class="text-center mb-n5">
+                                <img
+                                        src="/assets/images/breadcrumb/ChatBc.png"
+                                        alt=""
+                                        class="img-fluid mb-n4"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<div class="body-wrapper">
-    <div class="container-fluid">
-        <div>
-            <select class="form-select">
-                <option value="1">March 2023</option>
-                <option value="2">April 2023</option>
-                <option value="3">May 2023</option>
-                <option value="4">June 2023</option>
-            </select>
-        </div>
-        <!-- -------------------------------------------------------------- -->
-        <!-- Start Page Content -->
-        <!-- -------------------------------------------------------------- -->
-        <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body analytics-info">
-                        <h4 class="card-title">Total Visit</h4>
-                        <div class="row">
-                            <div class="col-4">
-                                <div id="sparklinedash"></div>
-                            </div>
-                            <div
-                                    class="
-                        col-8
-                        text-end
-                        d-flex
-                        align-items-center
-                        justify-content-end
-                      "
-                            >
-                                <i
-                                        data-feather="arrow-up"
-                                        class="fill-white feather-sm text-success"
-                                ></i>
-                                <span class="counter text-success font-weight-medium"
-                                >1659</span
-                                >
+            <div class="card overflow-hidden chat-application">
+
+                <div class="container-fluid">
+                    <div class="col-12">
+                        <h2 th:if="${electChargeList.size() != 0 }">AI가 예측한 조직별 당월 예상 전기요금</h2>
+                        <div class="row" th:each="electCharge : ${electChargeList}">
+                            <div class="col-lg-6" th:if="${electCharge.value != null}" >
+                                <div class="text-right mt-3 mb-3 d-fixed"></div>
+                                <div class="hstack mb-4 pb-1">
+                                    <div class="p-8 bg-primary-subtle rounded-1 me-3 d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-grid-dots text-primary fs-6"></i>
+                                    </div>
+                                    <div>
+                                        <h4 th:text="${'&#8361;' + electCharge.value}"></h4>
+                                        <p class="fs-3 mb-0" th:text="${electCharge.key}"></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body analytics-info">
-                        <h4 class="card-title">Total Page Views</h4>
-                        <div class="row">
-                            <div class="col-4">
-                                <div id="sparklinedash2"></div>
-                            </div>
-                            <div
-                                    class="
-                        col-8
-                        text-end
-                        d-flex
-                        align-items-center
-                        justify-content-end
-                      "
-                            >
-                                <i
-                                        data-feather="arrow-up"
-                                        class="fill-white feather-sm text-primary"
-                                ></i>
-                                <span class="font-weight-medium text-primary">7469</span>
+                <div class="card overflow-hidden chat-application">
+                    <div class="container-fluid">
+
+                        <div class="d-flex w-100">
+
+                            <div class="text-right mt-3 mb-3 d-fixed"></div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-6" id="dashboardConfig" th:each="dashboardConfig : ${dashboardConfigList}">
+                                        <input type="hidden" id="organization-name" th:value="${dashboardConfig.getOrganization()}"/>
+                                        <input type="hidden" id="place-name" th:value="${dashboardConfig.getPlace()}"/>
+                                        <input type="hidden" id="sensor-sn" th:value="${dashboardConfig.getSensorSn()}"/>
+                                        <input type="hidden" id="sensor-type" th:value="${dashboardConfig.getSensorType()}"/>
+                                        <input type="hidden" id="chart-type" th:value="${dashboardConfig.getChartType()}"/>
+                                        <input type="hidden" id="sequenceNumber" th:value="${dashboardConfig.getSequenceNumber()}"/>
+                                        <h4 th:text="${'조직 : ' + dashboardConfig.organization + '/ 장소 : ' + dashboardConfig.place + '/ 차트 타입 : ' + dashboardConfig.chartType}"></h4>
+                                        <h4 th:text="${'센서 타입 : ' + dashboardConfig.sensorType + '/ 센서 시리얼 : ' + dashboardConfig.sensorSn}"></h4>
+                                        <div class="row mt-5"></div>
+                                        <div th:if="${dashboardConfig.chartType == 'REAL_TIME'}">
+                                            <div class="realTimeGauge" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
+                                            <div class="realTime" style="text-align: center"></div>
+                                        </div>
+                                        <div th:if="${dashboardConfig.chartType == 'ONE_HOUR'}">
+                                            <div class="hourChart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
+                                        </div>
+                                        <div th:if="${dashboardConfig.chartType == 'DAILY'}">
+                                            <div class="dayChart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
+                                        </div>
+                                        <div th:if="${dashboardConfig.chartType == 'WEEKLY' && dashboardConfig.sensorType != 'co2'}">
+                                            <div class="weekChart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
+                                        </div>
+                                        <div th:if="${dashboardConfig.chartType == 'WEEKLY' && dashboardConfig.sensorType == 'co2'}">
+                                            <div class="weekCo2Chart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
+                                        </div>
+                                        <div class="row mt-5"></div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body analytics-info">
-                        <h4 class="card-title">Unique Visitor</h4>
-                        <div class="row">
-                            <div class="col-4">
-                                <div id="sparklinedash3"></div>
-                            </div>
-                            <div
-                                    class="
-                        col-8
-                        text-end
-                        d-flex
-                        align-items-center
-                        justify-content-end
-                      "
-                            >
-                                <i
-                                        data-feather="arrow-up"
-                                        class="fill-white feather-sm text-warning"
-                                ></i>
-                                <span class="font-weight-medium text-warning">6011</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body analytics-info">
-                        <h4 class="card-title">Bounce Rate</h4>
-                        <div class="row">
-                            <div class="col-4">
-                                <div id="sparklinedash4"></div>
-                            </div>
-                            <div
-                                    class="
-                        col-8
-                        text-end
-                        d-flex
-                        align-items-center
-                        justify-content-end
-                      "
-                            >
-                                <i
-                                        data-feather="arrow-up"
-                                        class="fill-white feather-sm text-danger"
-                                ></i>
-                                <span class="text-danger font-weight-medium">18%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body analytics-info">
-                        <div class="d-flex align-items-center mb-3">
-                            <h4 class="card-title mb-0">Total Visit</h4>
-                            <div class="ms-auto">
-                                <small class="text-success"
-                                ><i
-                                        data-feather="arrow-up"
-                                        class="fill-white text-success feather-sm"
-                                ></i>
-                                    18% High then last month</small
-                                >
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <div class="border-end pe-3">
-                                <h6 class="text-muted fw-normal">Overall Growth</h6>
-                                <b>80.40%</b>
-                            </div>
-                            <div class="ms-3 border-end pe-3">
-                                <h6 class="text-muted fw-normal">Montly</h6>
-                                <b>15.40%</b>
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="text-muted fw-normal">Day</h6>
-                                <b>5.50%</b>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="sparkline8"></div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body analytics-info">
-                        <h4 class="card-title">Site Traffic</h4>
-                        <div class="d-flex align-items-center">
-                            <div class="border-end pe-3">
-                                <h6 class="text-muted fw-normal">Overall Growth</h6>
-                                <b>80.40%</b>
-                            </div>
-                            <div class="ms-3 border-end pe-3">
-                                <h6 class="text-muted fw-normal">Montly</h6>
-                                <b>15.40%</b>
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="text-muted fw-normal">Day</h6>
-                                <b>5.50%</b>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="sparkline9"></div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body analytics-info">
-                        <h4 class="card-title">Site Visit</h4>
-                        <div class="d-flex align-items-center">
-                            <div class="border-end pe-3">
-                                <h6 class="text-muted fw-normal">Overall Growth</h6>
-                                <b>80.40%</b>
-                            </div>
-                            <div class="ms-3 border-end pe-3">
-                                <h6 class="text-muted fw-normal">Montly</h6>
-                                <b>15.40%</b>
-                            </div>
-                            <div class="ms-3">
-                                <h6 class="text-muted fw-normal">Day</h6>
-                                <b>5.50%</b>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="sparkline10"></div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="title-part-padding border-bottom">
-                        <h4 class="card-title mb-0">Bar Chart</h4>
-                    </div>
-                    <div class="card-body analytics-info">
-                        <div id="sparkline12" class="text-center"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="title-part-padding border-bottom">
-                        <h4 class="card-title mb-0">Line Chart</h4>
-                    </div>
-                    <div class="card-body analytics-info">
-                        <div id="sparkline11" class="text-center"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="title-part-padding border-bottom">
-                        <h4 class="card-title mb-0">Line Chart</h4>
-                    </div>
-                    <div class="card-body analytics-info">
-                        <div id="sparkline13" class="text-center"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="title-part-padding border-bottom">
-                        <h4 class="card-title mb-0">Line Chart</h4>
-                    </div>
-                    <div class="card-body analytics-info">
-                        <div id="sparkline14" class="text-center"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="title-part-padding border-bottom">
-                        <h4 class="card-title mb-0">Line Chart</h4>
-                    </div>
-                    <div class="card-body analytics-info">
-                        <div id="sparkline15" class="text-center"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="title-part-padding border-bottom">
-                        <h4 class="card-title mb-0">Line Chart</h4>
-                    </div>
-                    <div class="card-body analytics-info">
-                        <div id="sparkline16" class="text-center"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="title-part-padding border-bottom">
-                        <h4 class="card-title mb-0">Line Chart</h4>
-                    </div>
-                    <div class="card-body analytics-info">
-                        <div id="sparkline17" class="text-center"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="title-part-padding border-bottom">
-                        <h4 class="card-title mb-0">Line Chart</h4>
-                    </div>
-                    <div class="card-body analytics-info">
-                        <div id="sparkline18" class="text-center"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="title-part-padding border-bottom">
-                        <h4 class="card-title mb-0">Line Chart</h4>
-                    </div>
-                    <div class="card-body analytics-info">
-                        <div id="sparkline19" class="text-center"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-    </div>
-</div>
 
-</body>
+    </body>
+    <script>
+        function initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, sequenceNumber) {
+
+            if (chartType === 'REAL_TIME') {
+                fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequenceNumber);
+                setInterval(fetchDataOfRealTime, 60000, branchName, placeName, sensorName, sensorType, sequenceNumber);
+            } else if (chartType === 'ONE_HOUR') {
+                fetchDataOfHourChart(branchName, placeName, sensorName, sensorType, sequenceNumber);
+                setInterval(fetchDataOfHourChart, 60000, branchName, placeName, sensorName, sensorType, sequenceNumber);
+            } else if (chartType === 'DAILY') {
+                fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType, sequenceNumber);
+                setInterval(fetchDataAndUpdateChart, 1800000, branchName, placeName, sensorName, sensorType, sequenceNumber);
+            } else if (chartType === 'WEEKLY' && sensorType !== 'co2') {
+                fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType, sequenceNumber);
+                setInterval(fetchDataOfWeekChart, 86400000, branchName, placeName, sensorName, sensorType, sequenceNumber);
+            } else if (chartType === 'WEEKLY' && sensorType === 'co2') {
+                fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType, sequenceNumber);
+                setInterval(fetchDataOfWeekCo2Chart, 86400000, branchName, placeName, sensorName, sensorType, sequenceNumber);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const configs = document.querySelectorAll('#dashboardConfig');
+            configs.forEach((config, index) => {
+                const branchName = config.querySelector("#organization-name").value;
+                const placeName = config.querySelector("#place-name").value;
+                const sensorName = config.querySelector("#sensor-sn").value;
+                const sensorType = config.querySelector("#sensor-type").value;
+                const chartType = config.querySelector("#chart-type").value;
+                const sequenceNumber = config.querySelector("#sequenceNumber").value;
+
+                // 해당 차트의 업데이트 함수를 호출합니다.
+                initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, sequenceNumber);
+
+                // initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, index);
+            });
+        });
+    </script>
 </th:block>
 
 </html>

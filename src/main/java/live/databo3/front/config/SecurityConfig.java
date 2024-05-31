@@ -2,7 +2,7 @@ package live.databo3.front.config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import live.databo3.front.auth.adaptor.AuthAdaptor;
+import live.databo3.front.adaptor.AuthAdaptor;
 import live.databo3.front.auth.filter.ExceptionHandlingFilter;
 import live.databo3.front.auth.filter.JwtAuthenticationFilter;
 import live.databo3.front.auth.filter.TokenRenewalFilter;
@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
@@ -96,9 +97,11 @@ public class SecurityConfig {
         return new String[]{
                 "/login",
                 "/logout",
+                "/register",
                 "/pre-login/.*",
                 "/oauth/.*",
                 "/static/.*",
+                "/errors/.*",
                 "/error",
                 "/assets/.*",
                 "/favicon.ico/*"

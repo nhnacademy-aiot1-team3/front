@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme"
+      data-layout="vertical" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_layout}">
+
+<th:block layout:fragment="content">
+    <body>
+        <div class="page-wrapper">
+            <div class="body-wrapper">
+                <div class="container-fluid">
+                    <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                        <div class="card-body px-4 py-3">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <h4 class="fw-semibold mb-8">공지사항</h4>
+                                </div>
+                                <div class="col-3">
+                                    <div class="text-center mb-n5">
+                                        <img
+                                                src="/assets/images/breadcrumb/ChatBc.png"
+                                                alt=""
+                                                class="img-fluid mb-n4"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notification-list">
+                        <div class="card">
+                            <div class="card card-body">
+                                <div class="d-flex justify-content-between align-items-center gap-6 mb-9">
+                                    <form class="position-relative"></form>
+                                    <a href="/admin/notifications/add-page" class="btn btn-primary d-flex align-items-center px-3 gap-6">
+                                        <i class="ti ti-file fs-4"></i>
+                                        <span class="d-none d-md-block font-weight-medium fs-3">Add Notes</span>
+                                    </a>
+                                </div>
+                                <div class="table-responsive">
+                                    <h5 class="card-title fw-semibold">공지사항</h5>
+                                    <table id="notificationTable" class="datatable">
+                                        <thead>
+                                        <tr>
+                                            <th>title</th>
+                                            <th>author</th>
+                                            <th>date</th>
+                                            <th>delete</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="notification : ${notificationList}">
+                                            <td th:text="${notification.title}" th:onclick="'location.href=\'/admin/notifications/'+${notification.notificationId}+'\''"></td>
+                                            <td th:text="${notification.author}"></td>
+                                            <td th:text="${notification.date}"></td>
+                                            <td>
+                                                <form th:action="@{/admin/notifications/{notificationId}/delete(notificationId=${notification.notificationId})}" method="post">
+                                                    <button type="submit" class="btn btn-outline-primary">삭제</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</th:block>
+
+</html>

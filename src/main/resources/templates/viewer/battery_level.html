@@ -6,32 +6,41 @@
 
 <th:block layout:fragment="content">
     <body>
-        <div class="body-wrapper">
-            <div class="container-fluid">
+    <div class="body-wrapper">
+        <div class="container-fluid">
+            <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                <div class="card-body px-4 py-3">
+                    <div class="row align-items-center">
+                        <div class="col-9">
+                            <h4 class="fw-semibold mb-8">배터리</h4>
+                        </div>
+                        <div class="col-3">
+                            <div class="text-center mb-n5">
+                                <img
+                                        src="/assets/images/breadcrumb/ChatBc.png"
+                                        alt=""
+                                        class="img-fluid mb-n4"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:each="batteryLevelList : ${batteryLevelLists}">
+                <div class="row">
+                    <div style="margin-bottom: 20px">
+                        <h2 th:text="${batteryLevelList.get(0).branch}"></h2>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-4" th:each="batteryLevel : ${batteryLevelList}">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="d-flex align-items-start">
                                             <div>
-                                                <h4 class="card-title">온도 센서 배터리</h4>
-                                            </div>
-                                            <div class="ms-auto">
-                                                <div class="dropdown">
-                                                    <a href="#" class="link" id="new" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="feather-sm"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu" aria-labelledby="new">
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Action</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Another action</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                                <h3 class="card-title" th:text="${batteryLevel.place}"></h3>
                                             </div>
                                         </div>
                                     </div>
@@ -40,363 +49,24 @@
                                         <div class="row pb-3 border-bottom">
                                             <div class="col-3">
                                                 <div class="bg-primary-subtle text-primary text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-dribbble fs-8"></i>
+                                                    <i class="ti ti-barcode fs-8"></i>
                                                 </div>
                                             </div>
                                             <div class="col-9 d-flex align-items-center">
                                                 <div>
-                                                    <h5 class="card-title mb-1">Sensor ID</h5>
+                                                    <h5 class="card-title mb-1" th:text="${batteryLevel.device}">Battery Level Serial Number</h5>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row py-3 border-bottom">
                                             <div class="col-3">
                                                 <div class="bg-danger-subtle text-danger text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-youtube fs-8"></i>
+                                                    <i class="ti ti-recharging fs-8"></i>
                                                 </div>
                                             </div>
                                             <div class="col-9 d-flex align-items-center">
                                                 <div>
-                                                    <h5 class="card-title mb-1">Sensor_name</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row pt-3">
-                                            <div class="col-3">
-                                                <div class="bg-info-subtle text-info text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-messenger fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_place</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-start">
-                                            <div>
-                                                <h4 class="card-title">습도 센서 베터리</h4>
-                                            </div>
-                                            <div class="ms-auto">
-                                                <div class="dropdown">
-                                                    <a href="#" class="link" id="new" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="feather-sm"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu" aria-labelledby="new">
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Action</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Another action</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="earnings-month2 mt-1"></div>
-                                    <div class="card-body">
-                                        <div class="row pb-3 border-bottom">
-                                            <div class="col-3">
-                                                <div class="bg-info-subtle text-info text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-drops fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_id</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row py-3 border-bottom">
-                                            <div class="col-3">
-                                                <div class="bg-warning-subtle text-warning text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-google-drive fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_name</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row pt-3">
-                                            <div class="col-3">
-                                                <div class="bg-secondary-subtle text-secondary text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-soundcloud fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_place</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-start">
-                                            <div>
-                                                <h4 class="card-title">온도 센서 베터리</h4>
-                                            </div>
-                                            <div class="ms-auto">
-                                                <div class="dropdown">
-                                                    <a href="#" class="link" id="new" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="feather-sm"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu" aria-labelledby="new">
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Action</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Another action</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="earnings-month3 mt-1"></div>
-                                    <div class="card-body">
-                                        <div class="row pb-3 border-bottom">
-                                            <div class="col-3">
-                                                <div class="bg-primary-subtle text-primary text-center py-2 rounded-1">
-                                                    <i class="ti ti-users fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_id</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row py-3 border-bottom">
-                                            <div class="col-3">
-                                                <div class="bg-info-subtle text-info text-center py-2 rounded-1">
-                                                    <i class="ti ti-chart-pie fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_name</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row pt-3">
-                                            <div class="col-3">
-                                                <div class="bg-success-subtle text-success text-center py-2 rounded-1">
-                                                    <i class="ti ti-message fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_place</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-start">
-                                            <div>
-                                                <h4 class="card-title">온도 센서 배터리</h4>
-                                            </div>
-                                            <div class="ms-auto">
-                                                <div class="dropdown">
-                                                    <a href="#" class="link" id="new" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="feather-sm"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu" aria-labelledby="new">
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Action</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Another action</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="earnings-month mt-1"></div>
-                                    <div class="card-body">
-                                        <div class="row pb-3 border-bottom">
-                                            <div class="col-3">
-                                                <div class="bg-primary-subtle text-primary text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-dribbble fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_id</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row py-3 border-bottom">
-                                            <div class="col-3">
-                                                <div class="bg-danger-subtle text-danger text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-youtube fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_name</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row pt-3">
-                                            <div class="col-3">
-                                                <div class="bg-info-subtle text-info text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-messenger fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_place</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-start">
-                                            <div>
-                                                <h4 class="card-title">온도 센서 배터리</h4>
-                                            </div>
-                                            <div class="ms-auto">
-                                                <div class="dropdown">
-                                                    <a href="#" class="link" id="new" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="feather-sm"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu" aria-labelledby="new">
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Action</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Another action</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="earnings-month2 mt-1"></div>
-                                    <div class="card-body">
-                                        <div class="row pb-3 border-bottom">
-                                            <div class="col-3">
-                                                <div class="bg-info-subtle text-info text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-drops fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_id</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row py-3 border-bottom">
-                                            <div class="col-3">
-                                                <div class="bg-warning-subtle text-warning text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-google-drive fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_name</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row pt-3">
-                                            <div class="col-3">
-                                                <div class="bg-secondary-subtle text-secondary text-center py-2 rounded-1">
-                                                    <i class="ti ti-brand-soundcloud fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_place</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-start">
-                                            <div>
-                                                <h4 class="card-title">온도 센서 배터리</h4>
-                                            </div>
-                                            <div class="ms-auto">
-                                                <div class="dropdown">
-                                                    <a href="#" class="link" id="new" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="feather-sm"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu" aria-labelledby="new">
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Action</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="#">Another action</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="earnings-month3 mt-1"></div>
-                                    <div class="card-body">
-                                        <div class="row pb-3 border-bottom">
-                                            <div class="col-3">
-                                                <div class="bg-primary-subtle text-primary text-center py-2 rounded-1">
-                                                    <i class="ti ti-users fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_id</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row py-3 border-bottom">
-                                            <div class="col-3">
-                                                <div class="bg-info-subtle text-info text-center py-2 rounded-1">
-                                                    <i class="ti ti-chart-pie fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_name</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row pt-3">
-                                            <div class="col-3">
-                                                <div class="bg-success-subtle text-success text-center py-2 rounded-1">
-                                                    <i class="ti ti-message fs-8"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-9 d-flex align-items-center">
-                                                <div>
-                                                    <h5 class="card-title mb-1">Sensor_place</h5>
+                                                    <h5 class="card-title mb-1" th:text="${batteryLevel.value} + ' %'">Battery Level Value</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -407,7 +77,9 @@
                     </div>
                 </div>
             </div>
+
         </div>
+    </div>
     </body>
 </th:block>
 

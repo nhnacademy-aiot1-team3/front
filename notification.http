@@ -1,0 +1,29 @@
+### GET request to example server
+POST localhost:8888/api/account/notifications
+Content-Type: application/json
+Accept: application/json
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJtZW1iZXJJZCI6ImFkbWluIiwibWVtYmVyRW1haWwiOiJhMDEwNjI3MDQzMTJAZ21haWwuY29tIiwicm9sZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifV0sImlhdCI6MTcxNTg1Njg5NiwiZXhwIjoxNzE1ODYwNDk2fQ.sO6G4q3W3tv4UoSB_JqAi8XymwEvx3Nxnvmt0jmmpxDiR5HRZAMSLYXR2VtnTpmVPV5k-__FoOBCaueXFUeX2w
+
+{
+  "title": "ㅇㅇㅇㅇ",
+  "content": "DDDDD",
+  "file": null
+}
+
+### 조직 추가
+POST localhost:8888/api/account/organizations
+Content-Type: application/json
+Accept: application/json
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyZWZyZXNoLXRva2VuIiwibWVtYmVySWQiOiJhZG1pbiIsIm1lbWJlckVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE3MTU5MDUzNDUsImV4cCI6MTcxNTk5MTc0NX0.zQKRZae4oyVXd8FdaNs3pfmWh8ACzHd5NUaI3K5vCyYLkZ9BdJgHoKBzvVX3HuDibv5yHBX21JbDDWqnmUBK0w
+
+{
+"organizationName": "nhn 경남",
+"gatewaySn": "dsfsfsfs",
+"controllerSn": null
+}
+
+###
+GET localhost:8888/api/account/notifications/6
+Content-Type: application/json
+Accept: application/json
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyZWZyZXNoLXRva2VuIiwibWVtYmVySWQiOiJhZG1pbiIsIm1lbWJlckVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE3MTU5MDUzNDUsImV4cCI6MTcxNTk5MTc0NX0.zQKRZae4oyVXd8FdaNs3pfmWh8ACzHd5NUaI3K5vCyYLkZ9BdJgHoKBzvVX3HuDibv5yHBX21JbDDWqnmUBK0w

@@ -13,7 +13,7 @@
                 <div class="card-body px-4 py-3">
                     <div class="row align-items-center">
                         <div class="col-9">
-                            <h4 class="fw-semibold mb-8">조직 관리 Page</h4>
+                            <h4 class="fw-semibold mb-8">조직 관리</h4>
                         </div>
                         <div class="col-3">
                             <div class="text-center mb-n5">
@@ -36,7 +36,7 @@
                                 id="pills-information-tab" data-bs-toggle="pill" data-bs-target="#pills-information" type="button" role="tab"
                                 aria-controls="pills-information" aria-selected="true">
                             <i class="ti ti-info-circle me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Main</span>
+                            <span class="d-none d-md-block">메인</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -45,7 +45,7 @@
                                 id="pills-sensors-tab" data-bs-toggle="pill" data-bs-target="#pills-sensors" type="button"
                                 role="tab" aria-controls="pills-sensors" aria-selected="false">
                             <i class="ti ti-router me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Sensor 관리</span>
+                            <span class="d-none d-md-block">센서 관리</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -54,7 +54,7 @@
                                 id="pills-devices-tab" data-bs-toggle="pill" data-bs-target="#pills-devices" type="button"
                                 role="tab" aria-controls="pills-devices" aria-selected="false">
                             <i class="ti ti-router me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Device 관리</span>
+                            <span class="d-none d-md-block">디바이스 관리</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -63,7 +63,7 @@
                                 id="pills-member-list-tab" data-bs-toggle="pill" data-bs-target="#pills-member-list" type="button"
                                 role="tab" aria-controls="pills-member-list" aria-selected="false">
                             <i class="ti ti-list me-2 fs-6"></i>
-                            <span class="d-none d-md-block">조직회원 List</span>
+                            <span class="d-none d-md-block">조직 회원 리스트</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -72,7 +72,7 @@
                                 id="pills-gateway-controller-tab" data-bs-toggle="pill" data-bs-target="#pills-gateway-controller" type="button"
                                 role="tab" aria-controls="pills-gateway-controller" aria-selected="false">
                             <i class="ti ti-access-point me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Gateway, Controller 관리</span>
+                            <span class="d-none d-md-block">게이트웨이, 컨트롤러 관리</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -90,7 +90,7 @@
                                 id="pills-place-tab" data-bs-toggle="pill" data-bs-target="#pills-place" type="button"
                                 role="tab" aria-controls="pills-place" aria-selected="false">
                             <i class="ti ti-home me-2 fs-6"></i>
-                            <span class="d-none d-md-block">place 관리</span>
+                            <span class="d-none d-md-block">장소 관리</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -99,7 +99,7 @@
                                 id="pills-bills-tab" data-bs-toggle="pill" data-bs-target="#pills-bills" type="button" role="tab"
                                 aria-controls="pills-bills" aria-selected="false">
                             <i class="ti ti-user-plus me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Owner 조직 신청 요청</span>
+                            <span class="d-none d-md-block">오너 조직 신청 요청</span>
                         </button>
                     </li>
                 </ul>
@@ -117,17 +117,17 @@
                                                 <div class="text-center">
                                                     <i class="ti ti-user-check fs-6 d-block mb-2"></i>
                                                     <h4 class="mb-0 fw-semibold lh-1" th:text="${ownerMemberAmount}"></h4>
-                                                    <p class="mb-0 fs-4">Owner</p>
+                                                    <p class="mb-0 fs-4">오너</p>
                                                 </div>
                                                 <div class="text-center">
                                                     <i class="ti ti-eye fs-6 d-block mb-2"></i>
                                                     <h4 class="mb-0 fw-semibold lh-1" th:text="${viewerMemberAmount}"></h4>
-                                                    <p class="mb-0 fs-4">Viewer</p>
+                                                    <p class="mb-0 fs-4">뷰어</p>
                                                 </div>
                                                 <div class="text-center">
                                                     <i class="ti ti-router fs-6 d-block mb-2"></i>
                                                     <h4 class="mb-0 fw-semibold lh-1" th:text="${sensorAmount}"></h4>
-                                                    <p class="mb-0 fs-4">Sensor</p>
+                                                    <p class="mb-0 fs-4">센서</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -139,7 +139,6 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-4 order-last">
-
                                         </div>
                                     </div>
                                 </div>
@@ -155,23 +154,23 @@
                                             <div class="d-flex flex-wrap">
                                                 <div class="col-lg-6 d-flex align-items-stretch">
                                                     <div>
-                                                        <h5 class="card-title fw-semibold">sensor 추가</h5>
+                                                        <h5 class="card-title fw-semibold">센서 추가</h5>
                                                         <form action="/admin/createSensor" method="post">
                                                             <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                             <div class="row">
                                                                 <div class="col-12">
                                                                     <div>
-                                                                        <label for="sensorSn1" class="form-label">Sensor Sn</label>
+                                                                        <label for="sensorSn1" class="form-label">센서 시리얼넘버</label>
                                                                         <input type="text" class="form-control" id="sensorSn1" name="sensorSn">
                                                                     </div>
                                                                     <div>
-                                                                        <label for="sensorName1" class="form-label">Sensor Name</label>
+                                                                        <label for="sensorName1" class="form-label">센서 이름</label>
                                                                         <input type="text" class="form-control" id="sensorName1" name="sensorName">
                                                                     </div>
                                                                     <div>
-                                                                        <label for="placeId1" class="form-label">Sensor Place</label>
+                                                                        <label for="placeId1" class="form-label">센서 장소</label>
                                                                         <select id="placeId1" name="placeId" class="form-select">
-                                                                            <option value="">Select a place</option>
+                                                                            <option value="">장소를 고르세요</option>
                                                                             <option th:each="place: ${placeList}" th:value="${place.getPlaceId()}" th:text="${place.getPlaceName()}"></option>
                                                                         </select>
                                                                     </div>
@@ -187,26 +186,26 @@
                                                 </div>
                                                 <div class="col-lg-6 d-flex align-items-stretch">
                                                     <div>
-                                                        <h5 class="card-title fw-semibold">sensor 변경</h5>
+                                                        <h5 class="card-title fw-semibold">센서 변경</h5>
                                                         <form action="/admin/modifySensor" method="post">
                                                             <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                             <div class="row">
                                                                 <div class="col-12">
                                                                     <div>
-                                                                        <label for="sensorSn2" class="form-label">Sensor</label>
+                                                                        <label for="sensorSn2" class="form-label">센서</label>
                                                                         <select id="sensorSn2" name="sensorSn" class="form-select">
-                                                                            <option value="">Select a sensor</option>
+                                                                            <option value="">센서를 고르세요</option>
                                                                             <option th:each="sensor: ${sensorList}" th:value="${sensor.getSensorSn()}" th:text="${sensor.getSensorSn()}"></option>
                                                                         </select>
                                                                     </div>
                                                                     <div>
-                                                                        <label for="sensorName2" class="form-label">Sensor Name</label>
+                                                                        <label for="sensorName2" class="form-label">센서 이름</label>
                                                                         <input type="text" class="form-control" id="sensorName2" name="sensorName">
                                                                     </div>
                                                                     <div>
-                                                                        <label for="placeId2" class="form-label">Sensor Place</label>
+                                                                        <label for="placeId2" class="form-label">센서 장소</label>
                                                                         <select id="placeId2" name="placeId" class="form-select">
-                                                                            <option value="">Select a place</option>
+                                                                            <option value="">장소를 고르세요</option>
                                                                             <option th:each="place: ${placeList}" th:value="${place.getPlaceId()}" th:text="${place.getPlaceName()}"></option>
                                                                         </select>
                                                                     </div>
@@ -228,15 +227,15 @@
                                             <div class="d-flex flex-wrap">
                                                 <div class="col-lg-6 d-flex align-items-stretch">
                                                     <div>
-                                                        <h5 class="card-title fw-semibold">sensor 삭제</h5>
+                                                        <h5 class="card-title fw-semibold">센서 삭제</h5>
                                                         <form action="/admin/deleteSensor" method="post">
                                                             <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                             <div class="row">
                                                                 <div class="col-12">
                                                                     <div>
-                                                                        <label for="sensorSn3" class="form-label">Sensor</label>
+                                                                        <label for="sensorSn3" class="form-label">센서</label>
                                                                         <select id="sensorSn3" name="sensorSn" class="form-select">
-                                                                            <option value="">Select a sensor</option>
+                                                                            <option value="">센서를 고르세요</option>
                                                                             <option th:each="sensor: ${sensorList}" th:value="${sensor.getSensorSn()}" th:text="${sensor.getSensorSn()}"></option>
                                                                         </select>
                                                                     </div>
@@ -252,22 +251,22 @@
                                                 </div>
                                                 <div class="col-lg-6 d-flex align-items-stretch">
                                                     <div>
-                                                        <h5 class="card-title fw-semibold">sensor type 추가</h5>
+                                                        <h5 class="card-title fw-semibold">센서 타입 추가</h5>
                                                         <form action="/admin/createSensorTypeMapping" method="post">
                                                             <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                             <div class="row">
                                                                 <div class="col-12">
                                                                     <div>
-                                                                        <label for="sensorSn4" class="form-label">Sensor</label>
+                                                                        <label for="sensorSn4" class="form-label">센서</label>
                                                                         <select id="sensorSn4" name="sensorSn" class="form-select">
-                                                                            <option value="">Select a sensor</option>
+                                                                            <option value="">센서를 고르세요</option>
                                                                             <option th:each="sensor: ${sensorList}" th:value="${sensor.getSensorSn()}" th:text="${sensor.getSensorSn()}"></option>
                                                                         </select>
                                                                     </div>
                                                                     <div>
-                                                                        <label for="sensorTypeId" class="form-label">Sensor Type</label>
+                                                                        <label for="sensorTypeId" class="form-label">센서 타입</label>
                                                                         <select id="sensorTypeId" name="sensorTypeId" class="form-select">
-                                                                            <option value="">Select a type</option>
+                                                                            <option value="">타입을 고르세요</option>
                                                                             <option th:each="sensor: ${sensorTypeList}" th:value="${sensor.getSensorTypeId()}" th:text="${sensor.getSensorType()}"></option>
                                                                         </select>
                                                                     </div>
@@ -290,10 +289,10 @@
                                         <table id="sensorTable" class="datatable">
                                             <thead>
                                             <tr>
-                                                <th>SensorSn</th>
-                                                <th>SensorName</th>
-                                                <th>SensorPlace</th>
-                                                <th>SensorType</th>
+                                                <th>센서 시리얼 넘버</th>
+                                                <th>센서 이름</th>
+                                                <th>센서 장소</th>
+                                                <th>센서 타입</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -308,7 +307,7 @@
                                                         <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                         <input type="hidden" name="sensorSn" th:value="${sensor.getSensor().getSensorSn()}"/>
                                                         <input type="hidden" name="sensorTypeId" th:value="${sensor.getSensorType().getSensorTypeId()}"/>
-                                                        <button class="btn btn-danger" type="submit">Sensor Type 삭제</button>
+                                                        <button class="btn btn-danger" type="submit">삭제</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -325,23 +324,23 @@
                             <div class="col-12">
                                 <div class="card w-100 position-relative overflow-hidden mb-0">
                                     <div class="card-body p-4">
-                                        <h5 class="card-title fw-semibold">device 추가</h5>
+                                        <h5 class="card-title fw-semibold">디바이스 추가</h5>
                                         <form action=/admin/createDevice method="post">
                                             <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div>
-                                                        <label for="deviceSn" class="form-label">Device Sn</label>
+                                                        <label for="deviceSn" class="form-label">디바이스 시리얼 넘버</label>
                                                         <input type="text" class="form-control" id="deviceSn" name="deviceSn">
                                                     </div>
                                                     <div>
-                                                        <label for="deviceName" class="form-label">Device Name</label>
+                                                        <label for="deviceName" class="form-label">디바이스 이름</label>
                                                         <input type="text" class="form-control" id="deviceName" name="deviceName">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                        <button class="btn btn-primary" type="submit">create</button>
+                                                        <button class="btn btn-primary" type="submit">생성</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -359,21 +358,13 @@
                                             </thead>
                                             <tbody>
                                             <tr th:each="device: ${deviceList}">
-                                                <td th:text="${device.getDeviceSn()}">DeviceSn</td>
-                                                <td th:text="${device.getDeviceName()}">DeviceName</td>
-<!--                                                <td>-->
-<!--                                                    <form action=/admin/modifyDevice method="post">-->
-<!--                                                        <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>-->
-<!--                                                        <input type="hidden" name="placeId" th:value="${device.getDeviceSn()}"/>-->
-<!--                                                        <input type="text" class="form-control" id="deviceModify" name="deviceName">-->
-<!--                                                        <button class="btn btn-success" type="submit">place 수정</button>-->
-<!--                                                    </form>-->
-<!--                                                </td>-->
+                                                <td th:text="${device.getDeviceSn()}">디바이스 시리얼 넘버</td>
+                                                <td th:text="${device.getDeviceName()}">디바이스 이름</td>
                                                 <td>
                                                     <form action=/admin/deleteDevice method="post">
                                                         <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                         <input type="hidden" name="sensorSn" th:value="${device.getDeviceSn()}"/>
-                                                        <button class="btn btn-danger" type="submit">Device 삭제</button>
+                                                        <button class="btn btn-danger" type="submit">삭제</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -387,14 +378,14 @@
                         <div class="tab-pane fade" id="pills-member-list" role="tabpanel"
                              aria-labelledby="pills-member-list-tab" tabindex="0">
                             <div class="card-body p-4">
-                                <h5 class="card-title fw-semibold">OWNER 목록</h5>
+                                <h5 class="card-title fw-semibold">오너 목록</h5>
                                 <table id="ownerTable" class="datatable">
                                     <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>State</th>
+                                        <th>아이디</th>
+                                        <th>이메일</th>
+                                        <th>역할</th>
+                                        <th>상태</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -405,23 +396,23 @@
                                         <td th:text="${owner.getRoleName()}">ownerRole</td>
                                         <td th:text="${owner.getState()}">ownerState</td>
                                         <td>
-                                            <form action=/admin/deleteOrganizationOwner method="post">
+                                            <form action=/admin/deleteOrganizationMember method="post">
                                                 <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                 <input type="hidden" name="memberId" th:value="${owner.getMemberId()}"/>
-                                                <button class="btn btn-danger" type="submit">Owner 삭제</button>
+                                                <button class="btn btn-danger" type="submit">탈퇴</button>
                                             </form>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <h5 class="card-title fw-semibold">VIEWER 목록</h5>
+                                <h5 class="card-title fw-semibold">뷰어 목록</h5>
                                 <table id="viewerTable" class="datatable">
                                     <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>State</th>
+                                        <th>아이디</th>
+                                        <th>이메일</th>
+                                        <th>역할</th>
+                                        <th>상태</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -432,10 +423,10 @@
                                         <td th:text="${viewer.getRoleName()}">viewerRole</td>
                                         <td th:text="${viewer.getState()}">viewerState</td>
                                         <td>
-                                            <form action=/admin/deleteOrganizationViewer method="post">
+                                            <form action=/admin/deleteOrganizationMember method="post">
                                                 <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                 <input type="hidden" name="memberId" th:value="${viewer.getMemberId()}"/>
-                                                <button class="btn btn-danger" type="submit">Viewer 삭제</button>
+                                                <button class="btn btn-danger" type="submit">탈퇴</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -469,7 +460,7 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                        <button class="btn btn-primary">Save</button>
+                                                        <button class="btn btn-primary">저장</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -497,7 +488,7 @@
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                            <button class="btn btn-primary">Save</button>
+                                                            <button class="btn btn-primary">저장</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -529,13 +520,13 @@
                             <div class="col-12">
                                 <div class="card w-100 position-relative overflow-hidden mb-0">
                                     <div class="card-body p-4">
-                                        <h5 class="card-title fw-semibold">Place 추가</h5>
+                                        <h5 class="card-title fw-semibold">장소 추가</h5>
                                         <form action=/admin/createPlace method="post">
                                             <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div>
-                                                        <label for="placeName" class="form-label">추가할 place</label>
+                                                        <label for="placeName" class="form-label">추가할 장소</label>
                                                         <input type="text" class="form-control" id="placeName" name="placeName">
                                                     </div>
                                                 </div>
@@ -552,11 +543,11 @@
                             <div class="col-12">
                                 <div class="card w-100 position-relative overflow-hidden mb-0">
                                     <div class="card-body p-4">
-                                        <h5 class="card-title fw-semibold">Place 목록</h5>
+                                        <h5 class="card-title fw-semibold">장소 목록</h5>
                                         <table id="placeTable" class="datatable">
                                             <thead>
                                             <tr>
-                                                <th>PlaceName</th>
+                                                <th>장소 이름</th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>
@@ -569,14 +560,14 @@
                                                         <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                         <input type="hidden" name="placeId" th:value="${place.getPlaceId()}"/>
                                                         <input type="text" class="form-control" id="placeModify" name="placeName">
-                                                        <button class="btn btn-success" type="submit">place 수정</button>
+                                                        <button class="btn btn-success" type="submit">수정</button>
                                                     </form>
                                                 </td>
                                                 <td>
                                                     <form action=/admin/deletePlace method="post">
                                                         <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
                                                         <input type="hidden" name="placeId" th:value="${place.getPlaceId()}"/>
-                                                        <button class="btn btn-danger" type="submit">place 삭제</button>
+                                                        <button class="btn btn-danger" type="submit">삭제</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -592,14 +583,14 @@
                             <div class="widget-content searchable-container list">
                                 <div class="card card-body">
                                     <div class="table-responsive">
-                                        <h5 class="card-title fw-semibold">OWNER 부서 신청 목록</h5>
+                                        <h5 class="card-title fw-semibold">오너 부서 신청 목록</h5>
                                         <table id="ownerRequestTable" class="datatable">
                                             <thead>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                                <th>State</th>
+                                                <th>아이디</th>
+                                                <th>이메일</th>
+                                                <th>역할</th>
+                                                <th>상태</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
