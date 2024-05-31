@@ -51,9 +51,11 @@ public class MemberController {
      * @since 1.0.2
      */
     @GetMapping("/")
-    public String getMain(Authentication authentication, Model model){
+    public String getMain(Authentication authentication, Model model, HttpServletRequest request){
+        String access_token = CookieUtil.findCookie(request, "access_token").getValue();
         List <DashboardConfigDto> dashboardConfigList = dashboardConfigAdaptor.dashboardConfigDtoList();
         model.addAttribute("dashboardConfigList", dashboardConfigList);
+        model.addAttribute("get_access_token", access_token);
         if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
             return "admin/main";
         }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))){

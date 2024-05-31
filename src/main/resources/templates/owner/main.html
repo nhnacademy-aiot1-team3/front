@@ -4,36 +4,78 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/owner_layout}">
 
+
+<head>
+  <title>메인</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+  <script>dayjs.extend(window.dayjs_plugin_utc);</script>
+  <script src="/assets/js/apex-chart/chart.sensor.last.js" defer></script>
+  <script src="/assets/js/apex-chart/chart.sensor.hour.js" defer></script>
+  <script src="/assets/js/apex-chart/chart.sensor.day.js" defer></script>
+  <script src="/assets/js/apex-chart/chart.sensor.week.js" defer></script>
+  <script src="/assets/js/apex-chart/chart.co2.week.js" defer></script>
+</head>
+
 <th:block layout:fragment="content">
   <body>
   <input type="hidden" id="access_token" th:value="${get_access_token}"/>
   <div class="body-wrapper">
     <div class="container-fluid">
+      <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+        <div class="card-body px-4 py-3">
+          <div class="row align-items-center">
+            <div class="col-9">
+              <h4 class="fw-semibold mb-8">메인</h4>
+            </div>
+            <div class="col-3">
+              <div class="text-center mb-n5">
+                <img
+                        src="/assets/images/breadcrumb/ChatBc.png"
+                        alt=""
+                        class="img-fluid mb-n4"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card overflow-hidden chat-application">
         <div class="d-flex w-100">
-
             <div class="text-right mt-3 mb-3 d-fixed">
             </div>
-
             <div class="main"> <!-- 그래프 영역 4개 -->
-              <div th:each="dashboardConfig : ${dashboardConfigList}">
-                <h4 th:text="${dashboardConfig.organization + dashboardConfig.place + dashboardConfig.sensorType + dashboardConfig.sensorSn}"></h4>
-                <h4 th:text="${dashboardConfig.sequenceNumber + dashboardConfig.chartType}"></h4>
+              <div id="dashboardConfig" th:each="dashboardConfig : ${dashboardConfigList}">
+                <input type="hidden" id="organization-name" th:value="${dashboardConfig.getOrganization()}"/>
+                <input type="hidden" id="place-name" th:value="${dashboardConfig.getPlace()}"/>
+                <input type="hidden" id="sensor-sn" th:value="${dashboardConfig.getSensorSn()}"/>
+                <input type="hidden" id="sensor-type" th:value="${dashboardConfig.getSensorType()}"/>
+                <input type="hidden" id="chart-type" th:value="${dashboardConfig.getChartType()}"/>
+                <h4 th:text="${'조직 : ' + dashboardConfig.organization + '장소 : ' + dashboardConfig.place + '차트 타입 : ' + dashboardConfig.chartType}"></h4>
+                <h4 th:text="${'센서타입 : ' + dashboardConfig.sensorType + '센서 시리얼 : ' + dashboardConfig.sensorSn}"></h4>
                 <div class="row">
-                  <div class="box mt-4">
-                    <div th:if="${dashboardConfig.chartType == 'REAL_TIME'}" id="realTimeGauge" style="min-height: 365px;"></div>
-                    <div th:if="${dashboardConfig.chartType == 'ONE_HOUR'}" id="hourChart" style="min-height: 365px;"></div>
-                    <div th:if="${dashboardConfig.chartType == 'DAILY'}" id="dayChart" style="min-height: 365px;"></div>
-                    <div th:if="${dashboardConfig.chartType == 'WEEKLY' || dashboardConfig.sensorType != 'co2'}" id="weekChart" style="min-height: 365px;"></div>
-                    <div th:if="${dashboardConfig.chartType == 'REAL_TIME' || dashboardConfig.sensorType == 'co2'}" id="weekCo2Chart" style="min-height: 365px;"></div>
+                  <div th:if="${dashboardConfig.chartType == 'REAL_TIME'}" class="box mt-4">
+                    <div class="realTimeGauge" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
+                    <div class="realTime" style="text-align: center"></div>
+                  </div>
+                  <div th:if="${dashboardConfig.chartType == 'ONE_HOUR'}" class="box mt-4">
+                    <div class="hourChart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
+                  </div>
+                  <div th:if="${dashboardConfig.chartType == 'DAILY'}" class="box mt-4">
+                    <div class="dayChart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
+                  </div>
+                  <div th:if="${dashboardConfig.chartType == 'WEEKLY' && dashboardConfig.sensorType != 'co2'}" class="box mt-4">
+                    <div class="weekChart"  th:id="${dashboardConfig.getSequenceNumber()}"style="min-height: 365px;"></div>
+                  </div>
+                  <div th:if="${dashboardConfig.chartType == 'REAL_TIME' && dashboardConfig.sensorType == 'co2'}" class="box mt-4">
+                    <div class="weekCo2Chart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
                   </div>
                 </div>
                 <div class="row mt-5">
                 </div>
-
               </div>
-
-
 
             </div>
 
@@ -43,18 +85,48 @@
   </div>
 
 
-
   </body>
+  <script>
+    function initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, chartId) {
+      console.log(branchName, placeName, sensorName, sensorType);
+
+      if (chartType === 'REAL_TIME') {
+        fetchDataOfRealTime(branchName, placeName, sensorName, sensorType);
+        setInterval(fetchDataOfRealTime, 60000, branchName, placeName, sensorName, sensorType);
+      } else if (chartType === 'ONE_HOUR') {
+        fetchDataOfHourChart(branchName, placeName, sensorName, sensorType);
+        setInterval(fetchDataOfHourChart, 60000, branchName, placeName, sensorName, sensorType);
+      } else if (chartType === 'DAILY') {
+        fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType);
+        setInterval(fetchDataAndUpdateChart, 1800000, branchName, placeName, sensorName, sensorType);
+      } else if (chartType === 'WEEKLY' && sensorType !== 'co2') {
+        fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType);
+        setInterval(fetchDataOfWeekChart, 86400000, branchName, placeName, sensorName, sensorType);
+        // weekChart.render();
+      } else if (chartType === 'REAL_TIME' && sensorType === 'co2') {
+        fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType);
+        setInterval(fetchDataOfWeekCo2Chart, 86400000, branchName, placeName, sensorName, sensorType);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const configs = document.querySelectorAll('#dashboardConfig');
+      configs.forEach((config, index) => {
+        const branchName = config.querySelector("#organization-name").value;
+        const placeName = config.querySelector("#place-name").value;
+        const sensorName = config.querySelector("#sensor-sn").value;
+        const sensorType = config.querySelector("#sensor-type").value;
+        const chartType = config.querySelector("#chart-type").value;
+        const chartId = `${branchName}-${placeName}-${sensorName}-${sensorType}-${chartType}`;
+
+        // 해당 차트의 업데이트 함수를 호출합니다.
+        initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, chartId);
+
+        // initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, index);
+      });
+    });
+  </script>
 </th:block>
 
 </html>
-<!--              <div class="row">-->
-<!--                <div class="col-xl-12">-->
-<!--                  <div th:if="${type == 'temperature' || type == 'humidity'}" class="box mt-4">-->
-<!--                    <div id="weekChart"></div>-->
-<!--                  </div>-->
-<!--                  <div th:if="${type} == 'co2'" class="box mt-4">-->
-<!--                    <div id="weekCo2Chart"></div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->

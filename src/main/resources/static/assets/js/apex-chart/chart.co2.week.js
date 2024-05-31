@@ -53,8 +53,8 @@ $(document).ready(function () {
 
     };
 
-    weekChartCo2 = new ApexCharts(document.querySelector("#weekCo2Chart"), options);
-    // weekChartCo2.render();
+    weekChartCo2 = new ApexCharts(document.querySelector(".weekCo2Chart"), options);
+    weekChartCo2.render();
 
     // fetchDataOfWeekCo2Chart();
 

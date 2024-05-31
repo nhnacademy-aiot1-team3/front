@@ -100,8 +100,8 @@ $(document).ready(function () {
 
     };
 
-    hourChart = new ApexCharts(document.querySelector("#hourChart"), options);
-    // hourChart.render();
+    hourChart = new ApexCharts(document.querySelector(".hourChart"), options);
+    hourChart.render();
 
     // 페이지 로딩 후 데이터 가져오기
     // fetchDataOfHourChart();

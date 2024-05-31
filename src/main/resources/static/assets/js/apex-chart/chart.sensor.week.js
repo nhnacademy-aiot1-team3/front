@@ -106,8 +106,14 @@ $(document).ready(function () {
         }
     };
 
-    weekChart = new ApexCharts(document.querySelector("#weekChart"), options);
-    // weekChart.render();
+    // document.querySelectorAll(".dayChart").forEach(function(element) {
+    //     console.log(element)
+    //     gaugeChart = new ApexCharts(element, options);
+    //     gaugeChart.render();
+    // });
+
+    weekChart = new ApexCharts(document.querySelector(".weekChart"), options);
+    weekChart.render();
 
     // 페이지 로딩 후 데이터 가져오기
     // fetchDataOfWeekChart();
