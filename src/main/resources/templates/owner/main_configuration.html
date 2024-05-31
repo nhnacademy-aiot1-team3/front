@@ -4,7 +4,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/owner_layout}" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <meta charset="UTF-8">
     <title>Title</title>
     <!-- jQuery 먼저 로드 -->
@@ -339,7 +338,7 @@
                     console.error('삭제 fetch:', error);
                 });
 
-            location.replace(thisUrl);
+            // location.replace(thisUrl);
 
         }
 
