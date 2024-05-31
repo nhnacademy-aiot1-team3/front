@@ -22,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -321,7 +320,7 @@ public class OwnerController {
         String accessToken = Objects.requireNonNull(CookieUtil.findCookie(request, "access_token")).getValue();
         try {
 
-            List<OrganizationDto> organizationDtoList = organizationAdaptor.getOrganizationsByMember();
+            List<OrganizationListDto> organizationDtoList = organizationAdaptor.getOrganizationsByMember();
             model.addAttribute("organizationList", organizationDtoList);
             model.addAttribute("get_access_token", accessToken);
 
@@ -348,6 +347,8 @@ public class OwnerController {
         } else {
             alertHandler(model, "추가 실패!", "/owner/mainConfigurations");
         }
+        return ALERT;
+    }
 
 
     @PostMapping("/owner/modifyGeneralConfig")

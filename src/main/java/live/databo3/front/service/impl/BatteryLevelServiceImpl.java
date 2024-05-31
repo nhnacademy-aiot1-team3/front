@@ -2,7 +2,7 @@ package live.databo3.front.service.impl;
 
 import live.databo3.front.adaptor.BatteryLevelAdaptor;
 import live.databo3.front.adaptor.OrganizationAdaptor;
-import live.databo3.front.admin.dto.OrganizationListDto;
+import live.databo3.front.dto.OrganizationListDto;
 import live.databo3.front.owner.dto.BatteryLevelDto;
 import live.databo3.front.owner.dto.BatteryLevelListDto;
 import live.databo3.front.service.BatteryLevelService;

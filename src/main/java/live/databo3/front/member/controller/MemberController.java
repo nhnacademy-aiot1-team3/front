@@ -1,6 +1,7 @@
 package live.databo3.front.member.controller;
 
 import live.databo3.front.adaptor.DashboardConfigAdaptor;
+import live.databo3.front.adaptor.ElectChargeAdaptor;
 import live.databo3.front.adaptor.MemberAdaptor;
 import live.databo3.front.dto.DashboardConfigDto;
 import live.databo3.front.member.dto.*;
@@ -43,6 +44,7 @@ public class MemberController {
 
     private final MemberAdaptor memberAdaptor;
     private final DashboardConfigAdaptor dashboardConfigAdaptor;
+    private final ElectChargeAdaptor electChargeAdaptor;
 
     /**
      * main 페이지로 이동
@@ -54,6 +56,7 @@ public class MemberController {
     public String getMain(Authentication authentication, Model model, HttpServletRequest request){
         String access_token = CookieUtil.findCookie(request, "access_token").getValue();
         List <DashboardConfigDto> dashboardConfigList = dashboardConfigAdaptor.dashboardConfigDtoList();
+        long electCharge = electChargeAdaptor.getElectCharge("");
         model.addAttribute("dashboardConfigList", dashboardConfigList);
         model.addAttribute("get_access_token", access_token);
         if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
