@@ -71,7 +71,7 @@ public class MemberController {
                 }
             });
         } catch (Exception e) {
-
+            log.error("전력량 조회중 에러 발생");
         }
         model.addAttribute("dashboardConfigList", dashboardConfigList);
         model.addAttribute("get_access_token", access_token);
