@@ -127,8 +127,13 @@ $(document).ready(function() {
         }
     };
 
-    gaugeChart = new ApexCharts(document.querySelector("#realTimeGauge"), options);
-    // gaugeChart.render();
+    // document.querySelectorAll(".realTimeGauge").forEach(function(element) {
+    //     gaugeChart = new ApexCharts(document.querySelector(element), options);
+    //     gaugeChart.render();
+    // });
+
+    gaugeChart = new ApexCharts(document.querySelector(".realTimeGauge"), options);
+    gaugeChart.render();
 
     // fetchDataOfRealTime();
 
@@ -166,7 +171,7 @@ function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType) {
                     labels: [Number.isInteger(gaugeValue) ? parseInt(gaugeValue)+ symbol : gaugeValue.toFixed(1)+ symbol]
                 });
 
-                document.getElementById("realTime").innerText = `${time}`;
+                document.querySelector(".realTime").innerText = `${time}`;
         })
         .catch(error => {
             console.error('Fetch error:', error);

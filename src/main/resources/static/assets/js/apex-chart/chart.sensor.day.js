@@ -77,8 +77,8 @@ $(document).ready(function () {
         }
     };
 
-    dayChart = new ApexCharts(document.querySelector("#dayChart"), options);
-    // dayChart.render();
+    dayChart = new ApexCharts(document.querySelector(".dayChart"), options);
+    dayChart.render();
 
     // 페이지 로딩 후 데이터 가져오기
     // fetchDataAndUpdateChart(branchName, placeName, sensorName);
