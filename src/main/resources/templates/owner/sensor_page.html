@@ -6,23 +6,42 @@
 
 
 <head>
-    <title>온도 차트</title>
+    <title>차트</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
     <script>dayjs.extend(window.dayjs_plugin_utc);</script>
-    <script src="/assets/js/chart.sensor.last.js" defer></script>
-    <script src="/assets/js/chart.sensor.hour.js" defer></script>
-    <script src="/assets/js/chart.sensor.day.js" defer></script>
-    <script src="/assets/js/chart.sensor.week.js" defer></script>
-    <script src="/assets/js/chart.co2.week.js" defer></script>
+    <script src="/assets/js/apex-chart/chart.sensor.last.js" defer></script>
+    <script src="/assets/js/apex-chart/chart.sensor.hour.js" defer></script>
+    <script src="/assets/js/apex-chart/chart.sensor.day.js" defer></script>
+    <script src="/assets/js/apex-chart/chart.sensor.week.js" defer></script>
+    <script src="/assets/js/apex-chart/chart.co2.week.js" defer></script>
 </head>
 <th:block layout:fragment="content">
     <body>
     <input type="hidden" id="access_token" th:value="${get_access_token}"/>
     <div class="body-wrapper">
         <div class="container-fluid">
+                <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                    <div class="card-body px-4 py-3">
+                        <div class="row align-items-center">
+                            <div class="col-9">
+                                <h4 class="fw-semibold mb-8">센서 차트</h4>
+                            </div>
+                            <div class="col-3">
+                                <div class="text-center mb-n5">
+                                    <img
+                                            src="/assets/images/breadcrumb/ChatBc.png"
+                                            alt=""
+                                            class="img-fluid mb-n4"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             <div class="card overflow-hidden chat-application">
                     <div class="d-flex w-100">
                         <!-- 센서 장비 장소별 네비게이션 바 -->
@@ -51,7 +70,7 @@
                                                     <ul class="dropdown-menu" th:if="${place.getSensors().size() > 0}">
                                                         <li class="dropdown-item" th:each="sensor : ${place.getSensors()}">
                                                             <a class="sensor-link" id="sensor-link">
-                                                                <span th:text="${sensor.getSensorSn()}"></span>
+                                                                <span th:text="${sensor.getSensorName() + '(' + sensor.getSensorSn() + ')'}"></span>
                                                                 <input type="hidden" id="organization-name" th:value="${organization.getOrganizationName()}"/>
                                                                 <input type="hidden" id="place-name" th:value="${place.getPlaceName()}"/>
                                                                 <input type="hidden" id="sensor-sn" th:value="${sensor.getSensorSn()}"/>
@@ -71,21 +90,22 @@
                         <div class="container-fluid">
 
                             <div class="text-right mt-3 mb-3 d-fixed">
-                                <h2>기기를 선택해주세요</h2>
-                                <span id="selected-info"></span>
+                                <h2 id="selectSensor">기기를 선택해주세요</h2>
+
+                                <h3 id="selected-info"></h3>
                             </div>
 
                             <div class="main"> <!-- 그래프 영역 4개 -->
                                 <div class="row mt-4"> <!-- 그래프 윗 줄 (2개) -->
                                     <div class="col-xl-8"> <!-- 첫 번째 그래프 영역 -->
                                         <div class="box mt-4">
-                                            <div id="hourChart" style="min-height: 365px;"></div>
+                                            <div class="hourChart" style="min-height: 365px;"></div>
                                         </div>
                                     </div>
                                     <div class="col-xl-4">
                                         <div class="box mt-4">
-                                            <div id="realTimeGauge"></div>
-                                            <div id="realTime" style="text-align: center"></div>
+                                            <div class="realTimeGauge"></div>
+                                            <div class="realTime" style="text-align: center"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -97,8 +117,7 @@
                                 <div class="row">
                                     <div class="col-xl-12"> <!-- 두 번째 그래프 영역 시작 -->
                                         <div class="box mt-4">
-                                            <div id="dayChart" style="min-height: 365px;">
-                                            </div>
+                                            <div class="dayChart" style="min-height: 365px;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -110,41 +129,39 @@
                                 <div class="row">
                                     <div class="col-xl-12">
                                         <div th:if="${type == 'temperature' || type == 'humidity'}" class="box mt-4">
-                                            <div id="weekChart"></div>
+<!--                                            <div id="weekChart"></div>-->
+                                            <div class="weekChart"></div>
+
                                         </div>
                                         <div th:if="${type} == 'co2'" class="box mt-4">
-                                            <div id="weekCo2Chart"></div>
+                                            <div class="weekCo2Chart"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-<!--                        -->
-<!--                        <div class="d-flex w-100">-->
-<!--                            &lt;!&ndash; 선택한 브렌치, 장소, 센서 이름 표시 &ndash;&gt;-->
-<!--                            <div class="px-9 pt-4 pb-3">-->
-<!--                                <h4 class="fw-semibold mb-8">-->
-<!--                                    <span id="selected-info"></span>-->
-<!--                                </h4>-->
-<!--                            </div>-->
-<!--                            &lt;!&ndash; 가로 네비게이션 탭 (현황) -> 흠...&ndash;&gt;-->
-<!--                            <div></div>-->
-<!--                            &lt;!&ndash; 예측값 &ndash;&gt;-->
-<!--                            <div></div>-->
-<!--                            &lt;!&ndash; 그래프 (실시간, 최근 24시간, 최근 1시간)&ndash;&gt;-->
-<!--                            <div></div>-->
-<!--                        </div>-->
                     </div>
-
             </div>
         </div>
     </div>
 
 
     <script>
+        let readTime1;
+        let updateChart1;
+        let hourChart1;
+        let weekChart1;
+        let weekCo2Chart1;
+
         const sensorLinks = document.querySelectorAll(".sensor-link");
         sensorLinks.forEach(link => {
             link.addEventListener("click", async function () {
+
+                clearInterval(readTime1);
+                clearInterval(updateChart1);
+                clearInterval(hourChart1);
+                clearInterval(weekChart1);
+                clearInterval(weekCo2Chart1);
 
                 const branchName = this.parentElement.querySelector("#organization-name").value;
                 const placeName = this.parentElement.querySelector("#place-name").value;
@@ -157,25 +174,26 @@
                 fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType);
                 fetchDataOfHourChart(branchName, placeName, sensorName, sensorType);
 
-                setInterval(fetchDataOfRealTime, 60000, branchName, placeName, sensorName, sensorType);
-                setInterval(fetchDataAndUpdateChart, 1800000, branchName, placeName, sensorName, sensorType);
-                setInterval(fetchDataOfHourChart, 60000, branchName, placeName, sensorName, sensorType);
+                readTime1 = setInterval(fetchDataOfRealTime, 60000, branchName, placeName, sensorName, sensorType);
+                updateChart1 = setInterval(fetchDataAndUpdateChart, 1800000, branchName, placeName, sensorName, sensorType);
+                hourChart1 = setInterval(fetchDataOfHourChart, 60000, branchName, placeName, sensorName, sensorType);
 
-                hourChart.render();
-                dayChart.render();
-                gaugeChart.render();
+                // hourChart.render();
+                // dayChart.render();
+                // gaugeChart.render();
 
                 if (sensorType === 'temperature' || sensorType === 'humidity') {
-                    setInterval(fetchDataOfWeekChart, 86400000, branchName, placeName, sensorName, sensorType);
                     fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType);
-                    weekChart.render();
+                    weekChart1 = setInterval(fetchDataOfWeekChart, 86400000, branchName, placeName, sensorName, sensorType);
+                    // weekChart.render();
                 } else if (sensorType === 'co2') {
                     fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType);
-                    setInterval(fetchDataOfWeekCo2Chart, 86400000, branchName, placeName, sensorName, sensorType);
-                    weekChartCo2.render();
+                    weekCo2Chart1 = setInterval(fetchDataOfWeekCo2Chart, 86400000, branchName, placeName, sensorName, sensorType);
+                    // weekChartCo2.render();
                 }
 
-                document.getElementById("selected-info").textContent = `Organization: ${branchName}, Place: ${placeName}, Sensor SN: ${sensorType}, Sensor Type: ${sensorType}`;
+                document.getElementById("selected-info").innerHTML = `조직: ${branchName} / 장소: ${placeName}<br> 센서: ${sensorName} / 타입: ${sensorType}`;
+                document.getElementById("selectSensor").style.display ='none';
                 });
             });
     </script>

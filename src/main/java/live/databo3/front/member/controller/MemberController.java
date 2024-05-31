@@ -1,6 +1,8 @@
 package live.databo3.front.member.controller;
 
+import live.databo3.front.adaptor.DashboardConfigAdaptor;
 import live.databo3.front.adaptor.MemberAdaptor;
+import live.databo3.front.dto.DashboardConfigDto;
 import live.databo3.front.member.dto.*;
 import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -39,6 +42,7 @@ public class MemberController {
     private static final String ALERT_URL="searchUrl";
 
     private final MemberAdaptor memberAdaptor;
+    private final DashboardConfigAdaptor dashboardConfigAdaptor;
 
     /**
      * main 페이지로 이동
@@ -47,7 +51,11 @@ public class MemberController {
      * @since 1.0.2
      */
     @GetMapping("/")
-    public String getMain(Authentication authentication){
+    public String getMain(Authentication authentication, Model model, HttpServletRequest request){
+        String access_token = CookieUtil.findCookie(request, "access_token").getValue();
+        List <DashboardConfigDto> dashboardConfigList = dashboardConfigAdaptor.dashboardConfigDtoList();
+        model.addAttribute("dashboardConfigList", dashboardConfigList);
+        model.addAttribute("get_access_token", access_token);
         if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
             return "admin/main";
         }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))){

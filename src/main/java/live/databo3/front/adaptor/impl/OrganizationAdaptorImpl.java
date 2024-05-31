@@ -1,8 +1,10 @@
 package live.databo3.front.adaptor.impl;
 
 import live.databo3.front.adaptor.OrganizationAdaptor;
-import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.OrganizationRequest;
+import live.databo3.front.dto.MemberOrganizationDto;
+import live.databo3.front.dto.OrganizationDto;
+import live.databo3.front.dto.OrganizationListDto;
+import live.databo3.front.dto.request.OrganizationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -92,13 +94,13 @@ public class OrganizationAdaptorImpl implements OrganizationAdaptor {
     }
 
     @Override
-    public List<OrganizationDto> getOrganizationsByMember() {
+    public List<OrganizationListDto> getOrganizationsByMember() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        ResponseEntity<List<OrganizationDto>> exchange = restTemplate.exchange(
+        ResponseEntity<List<OrganizationListDto>> exchange = restTemplate.exchange(
                 gatewayDomain + ORGANIZATION_URL +"/members/me",
                 HttpMethod.GET,
                 request,

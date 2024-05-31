@@ -1,8 +1,8 @@
 package live.databo3.front.adaptor.impl;
 
 import live.databo3.front.adaptor.PlaceAdaptor;
-import live.databo3.front.admin.dto.PlaceDto;
-import live.databo3.front.admin.dto.request.PlaceRequest;
+import live.databo3.front.dto.PlaceDto;
+import live.databo3.front.dto.request.PlaceRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

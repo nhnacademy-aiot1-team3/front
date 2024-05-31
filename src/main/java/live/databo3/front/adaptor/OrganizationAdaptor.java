@@ -1,7 +1,9 @@
 package live.databo3.front.adaptor;
 
-import live.databo3.front.admin.dto.*;
-import live.databo3.front.admin.dto.request.OrganizationRequest;
+import live.databo3.front.dto.MemberOrganizationDto;
+import live.databo3.front.dto.OrganizationDto;
+import live.databo3.front.dto.OrganizationListDto;
+import live.databo3.front.dto.request.OrganizationRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,7 +19,7 @@ public interface OrganizationAdaptor {
 
     List<OrganizationDto> getOrganizationsWithoutMember();
 
-    List<OrganizationDto> getOrganizationsByMember();
+    List<OrganizationListDto> getOrganizationsByMember();
 
     String modifyMemberState(int organizationId, String memberId, int stateId);
 
