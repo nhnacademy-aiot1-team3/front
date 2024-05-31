@@ -12,7 +12,7 @@ if(sensorTypeHour ==='temperature'){
 }else if(sensorTypeHour === 'co2'){
     hourSensorType = 'CO2';
 }
-$(document).ready(function () {
+function drawHourChart(sequenceNumber) {
     var options = {
 
         series: [{
@@ -100,7 +100,7 @@ $(document).ready(function () {
 
     };
 
-    hourChart = new ApexCharts(document.querySelector(".hourChart"), options);
+    hourChart = new ApexCharts(document.getElementById(sequenceNumber), options);
     hourChart.render();
 
     // 페이지 로딩 후 데이터 가져오기
@@ -109,10 +109,10 @@ $(document).ready(function () {
     // 1분마다 데이터 가져오기
     // setInterval(fetchDataOfHourChart, 60000); // 60000ms = 1분
 
-});
+}
 
 
-function fetchDataOfHourChart(branchName, placeName, sensorName, sensorType) {
+function fetchDataOfHourChart(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
 
     const baseUrl = `http://localhost:8888/api/sensor/${sensorType}/fields/${sensorType}_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/hour/mean`;
@@ -146,6 +146,8 @@ function fetchDataOfHourChart(branchName, placeName, sensorName, sensorType) {
                         y: item.value
                     };
                 });
+
+                drawHourChart(sequenceNumber);
 
                 hourChart.updateSeries([{
                     name: hourSensorType,

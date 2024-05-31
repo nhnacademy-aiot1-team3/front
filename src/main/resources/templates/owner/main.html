@@ -46,40 +46,72 @@
         <div class="d-flex w-100">
             <div class="text-right mt-3 mb-3 d-fixed">
             </div>
-            <div class="main"> <!-- 그래프 영역 4개 -->
-              <div id="dashboardConfig" th:each="dashboardConfig : ${dashboardConfigList}">
+<!--            <div class="col-12">-->
+<!--              <div class="col-lg-6" id="dashboardConfig" th:each="dashboardConfig : ${dashboardConfigList}">-->
+<!--                <input type="hidden" id="organization-name" th:value="${dashboardConfig.getOrganization()}"/>-->
+<!--                <input type="hidden" id="place-name" th:value="${dashboardConfig.getPlace()}"/>-->
+<!--                <input type="hidden" id="sensor-sn" th:value="${dashboardConfig.getSensorSn()}"/>-->
+<!--                <input type="hidden" id="sensor-type" th:value="${dashboardConfig.getSensorType()}"/>-->
+<!--                <input type="hidden" id="chart-type" th:value="${dashboardConfig.getChartType()}"/>-->
+<!--                <input type="hidden" id="sequenceNumber" th:value="${dashboardConfig.getSequenceNumber()}"/>-->
+<!--                <h4 th:text="${'조직 : ' + dashboardConfig.organization + '장소 : ' + dashboardConfig.place + '차트 타입 : ' + dashboardConfig.chartType}"></h4>-->
+<!--                <h4 th:text="${'센서타입 : ' + dashboardConfig.sensorType + '센서 시리얼 : ' + dashboardConfig.sensorSn}"></h4>-->
+<!--                <div class="row">-->
+<!--                  <div th:if="${dashboardConfig.chartType == 'REAL_TIME'}" class="box mt-4">-->
+<!--                    <div class="realTimeGauge" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>-->
+<!--                    <div class="realTime" style="text-align: center"></div>-->
+<!--                  </div>-->
+<!--                  <div th:if="${dashboardConfig.chartType == 'ONE_HOUR'}" class="box mt-4">-->
+<!--                    <div class="hourChart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>-->
+<!--                  </div>-->
+<!--                  <div th:if="${dashboardConfig.chartType == 'DAILY'}" class="box mt-4">-->
+<!--                    <div class="dayChart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>-->
+<!--                  </div>-->
+<!--                  <div th:if="${dashboardConfig.chartType == 'WEEKLY' && dashboardConfig.sensorType != 'co2'}" class="box mt-4">-->
+<!--                    <div class="weekChart"  th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>-->
+<!--                  </div>-->
+<!--                  <div th:if="${dashboardConfig.chartType == 'WEEKLY' && dashboardConfig.sensorType == 'co2'}" class="box mt-4">-->
+<!--                    <div class="weekCo2Chart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="row mt-5">-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+          <div class="col-12">
+            <div class="row">
+              <div class="col-lg-6" id="dashboardConfig" th:each="dashboardConfig : ${dashboardConfigList}">
                 <input type="hidden" id="organization-name" th:value="${dashboardConfig.getOrganization()}"/>
                 <input type="hidden" id="place-name" th:value="${dashboardConfig.getPlace()}"/>
                 <input type="hidden" id="sensor-sn" th:value="${dashboardConfig.getSensorSn()}"/>
                 <input type="hidden" id="sensor-type" th:value="${dashboardConfig.getSensorType()}"/>
                 <input type="hidden" id="chart-type" th:value="${dashboardConfig.getChartType()}"/>
                 <input type="hidden" id="sequenceNumber" th:value="${dashboardConfig.getSequenceNumber()}"/>
-                <h4 th:text="${'조직 : ' + dashboardConfig.organization + '장소 : ' + dashboardConfig.place + '차트 타입 : ' + dashboardConfig.chartType}"></h4>
-                <h4 th:text="${'센서타입 : ' + dashboardConfig.sensorType + '센서 시리얼 : ' + dashboardConfig.sensorSn}"></h4>
-                <div class="row">
-                  <div th:if="${dashboardConfig.chartType == 'REAL_TIME'}" class="box mt-4">
+                <h4 th:text="${'조직 : ' + dashboardConfig.organization + ' 장소 : ' + dashboardConfig.place + ' 차트 타입 : ' + dashboardConfig.chartType}"></h4>
+                <h4 th:text="${'센서타입 : ' + dashboardConfig.sensorType + ' 센서 시리얼 : ' + dashboardConfig.sensorSn}"></h4>
+                <div class="row mt-5"></div>
+                  <div th:if="${dashboardConfig.chartType == 'REAL_TIME'}">
                     <div class="realTimeGauge" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
                     <div class="realTime" style="text-align: center"></div>
                   </div>
-                  <div th:if="${dashboardConfig.chartType == 'ONE_HOUR'}" class="box mt-4">
+                  <div th:if="${dashboardConfig.chartType == 'ONE_HOUR'}">
                     <div class="hourChart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
                   </div>
-                  <div th:if="${dashboardConfig.chartType == 'DAILY'}" class="box mt-4">
+                  <div th:if="${dashboardConfig.chartType == 'DAILY'}">
                     <div class="dayChart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
                   </div>
-                  <div th:if="${dashboardConfig.chartType == 'WEEKLY' && dashboardConfig.sensorType != 'co2'}" class="box mt-4">
-                    <div class="weekChart"  th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
+                  <div th:if="${dashboardConfig.chartType == 'WEEKLY' && dashboardConfig.sensorType != 'co2'}">
+                    <div class="weekChart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
                   </div>
-                  <div th:if="${dashboardConfig.chartType == 'WEEKLY' && dashboardConfig.sensorType == 'co2'}" class="box mt-4">
+                  <div th:if="${dashboardConfig.chartType == 'WEEKLY' && dashboardConfig.sensorType == 'co2'}">
                     <div class="weekCo2Chart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
                   </div>
-                </div>
-                <div class="row mt-5">
-                </div>
+                <div class="row mt-5"></div>
               </div>
 
             </div>
-
+          </div>
         </div>
       </div>
     </div>
@@ -88,23 +120,23 @@
 
   </body>
   <script>
-    function initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, serialNum) {
+    function initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, sequenceNumber) {
 
       if (chartType === 'REAL_TIME') {
-        fetchDataOfRealTime(branchName, placeName, sensorName, sensorType);
-        setInterval(fetchDataOfRealTime, 60000, branchName, placeName, sensorName, sensorType);
+        fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequenceNumber);
+        setInterval(fetchDataOfRealTime, 60000, branchName, placeName, sensorName, sensorType, sequenceNumber);
       } else if (chartType === 'ONE_HOUR') {
-        fetchDataOfHourChart(branchName, placeName, sensorName, sensorType);
-        setInterval(fetchDataOfHourChart, 60000, branchName, placeName, sensorName, sensorType);
+        fetchDataOfHourChart(branchName, placeName, sensorName, sensorType, sequenceNumber);
+        setInterval(fetchDataOfHourChart, 60000, branchName, placeName, sensorName, sensorType, sequenceNumber);
       } else if (chartType === 'DAILY') {
-        fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType);
-        setInterval(fetchDataAndUpdateChart, 1800000, branchName, placeName, sensorName, sensorType);
+        fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType, sequenceNumber);
+        setInterval(fetchDataAndUpdateChart, 1800000, branchName, placeName, sensorName, sensorType, sequenceNumber);
       } else if (chartType === 'WEEKLY' && sensorType !== 'co2') {
-        fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType, serialNum);
-        setInterval(fetchDataOfWeekChart, 86400000, branchName, placeName, sensorName, sensorType, serialNum);
-      } else if (chartType === 'REAL_TIME' && sensorType === 'co2') {
-        fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType);
-        setInterval(fetchDataOfWeekCo2Chart, 86400000, branchName, placeName, sensorName, sensorType);
+        fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType, sequenceNumber);
+        setInterval(fetchDataOfWeekChart, 86400000, branchName, placeName, sensorName, sensorType, sequenceNumber);
+      } else if (chartType === 'WEEKLY' && sensorType === 'co2') {
+        fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType, sequenceNumber);
+        setInterval(fetchDataOfWeekCo2Chart, 86400000, branchName, placeName, sensorName, sensorType, sequenceNumber);
       }
     }
 
@@ -117,11 +149,10 @@
         const sensorName = config.querySelector("#sensor-sn").value;
         const sensorType = config.querySelector("#sensor-type").value;
         const chartType = config.querySelector("#chart-type").value;
-        // const chartId = `${branchName}-${placeName}-${sensorName}-${sensorType}-${chartType}`;
-        const serialNum = config.querySelector("#sequenceNumber").value;
+        const sequenceNumber = config.querySelector("#sequenceNumber").value;
 
         // 해당 차트의 업데이트 함수를 호출합니다.
-        initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, serialNum);
+        initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, sequenceNumber);
 
         // initializeDashboard(branchName, placeName, sensorName, sensorType, chartType, index);
       });

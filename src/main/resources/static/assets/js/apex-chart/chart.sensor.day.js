@@ -13,7 +13,7 @@ if(sensorTypeGetDay ==='temperature'){
     daySensorType = 'CO2';
 }
 
-$(document).ready(function () {
+function drawDayChart(sequenceNumber) {
     var options = {
         series: [{
             name: '현재',
@@ -77,17 +77,11 @@ $(document).ready(function () {
         }
     };
 
-    dayChart = new ApexCharts(document.querySelector(".dayChart"), options);
+    dayChart = new ApexCharts(document.getElementById(sequenceNumber), options);
     dayChart.render();
+}
 
-    // 페이지 로딩 후 데이터 가져오기
-    // fetchDataAndUpdateChart(branchName, placeName, sensorName);
-
-    // 30분마다 데이터 가져오기
-    // setInterval(fetchDataAndUpdateChart, 1800000); // 60000ms = 1분
-});
-
-function fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType) {
+function fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
 
     const baseUrl = `http://localhost:8888/api/sensor/${sensorType}/fields/${sensorType}_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/day/mean`;
@@ -166,6 +160,7 @@ function fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType) 
                             alignedTodayData.push(todayItem);
                             alignedYesterdayData.push(yesterdayItem);
                         });
+                        drawDayChart(sequenceNumber);
 
                         dayChart.updateSeries([{
                             name: '현재',
