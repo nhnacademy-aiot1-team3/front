@@ -194,7 +194,7 @@
         function fetchToSensorTypeMapping(orgNumber) {
             const access_token = document.getElementById("access_token").value;
             console.log(orgNumber);
-            const url = `https://databo3.live:8888/api/sensor/org/` + orgNumber +`/sensorTypeMapping`;
+            const url = `https://databo3.live/api/sensor/org/` + orgNumber +`/sensorTypeMapping`;
 
             fetch(url,{
                 headers: {
@@ -286,7 +286,7 @@
 
             // 삭제
             if (removeConfigList.length !== 0) {
-                const url = "https://databo3.live:8888/api/account/config/dashboard/delete";
+                const url = "https://databo3.live/api/account/config/dashboard/delete";
 
                 fetch(url, {
                     headers: {
@@ -322,7 +322,7 @@
             // 리스트 출력 (디버깅용)
             console.log(modifyList);
 
-            const modifyUrl = "https://databo3.live:8888/api/account/config/dashboard/modify"
+            const modifyUrl = "https://databo3.live/api/account/config/dashboard/modify"
 
             fetch(modifyUrl,{
                 headers: {
