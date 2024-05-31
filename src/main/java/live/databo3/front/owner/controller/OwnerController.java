@@ -327,7 +327,7 @@ public class OwnerController {
             List<MainConfigurationDto> mainConfigurationDtoList = mainConfigurationAdaptor.getMainConfiguration();
             model.addAttribute("mainConfigurationList", mainConfigurationDtoList);
 
-            return "/owner/main_configuration";
+            return "owner/main_configuration";
         } catch (HttpClientErrorException e) {
             alertHandler(model, e.getMessage(), "/");
         } catch (Exception e) {
