@@ -3,7 +3,9 @@ package live.databo3.front.member.controller;
 import live.databo3.front.adaptor.DashboardConfigAdaptor;
 import live.databo3.front.adaptor.ElectChargeAdaptor;
 import live.databo3.front.adaptor.MemberAdaptor;
+import live.databo3.front.adaptor.OrganizationAdaptor;
 import live.databo3.front.dto.DashboardConfigDto;
+import live.databo3.front.dto.OrganizationListDto;
 import live.databo3.front.member.dto.*;
 import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -45,6 +49,7 @@ public class MemberController {
     private final MemberAdaptor memberAdaptor;
     private final DashboardConfigAdaptor dashboardConfigAdaptor;
     private final ElectChargeAdaptor electChargeAdaptor;
+    private final OrganizationAdaptor organizationAdaptor;
 
     /**
      * main 페이지로 이동
@@ -55,10 +60,22 @@ public class MemberController {
     @GetMapping("/")
     public String getMain(Authentication authentication, Model model, HttpServletRequest request){
         String access_token = CookieUtil.findCookie(request, "access_token").getValue();
-        List <DashboardConfigDto> dashboardConfigList = dashboardConfigAdaptor.dashboardConfigDtoList();
-//        long electCharge = electChargeAdaptor.getElectCharge("");
+        List<DashboardConfigDto> dashboardConfigList = dashboardConfigAdaptor.dashboardConfigDtoList();
+        List<OrganizationListDto> organizationList = organizationAdaptor.getOrganizationsByMember();
+        Map<String, String> electChargeList = new HashMap<>();
+        try {
+            organizationList.forEach(org -> {
+                if (org.getState() == 2) {
+                    String organizationName = org.getOrganizationName();
+                    electChargeList.put(organizationName, electChargeAdaptor.getElectCharge(organizationName));
+                }
+            });
+        } catch (Exception e) {
+            log.error("전력량 조회중 에러 발생");
+        }
         model.addAttribute("dashboardConfigList", dashboardConfigList);
         model.addAttribute("get_access_token", access_token);
+        model.addAttribute("electChargeList", electChargeList);
         if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
             return "admin/main";
         }else if(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_OWNER"))){

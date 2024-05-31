@@ -6,9 +6,7 @@ import live.databo3.front.dto.OrganizationListDto;
 import live.databo3.front.dto.request.UpdatePasswordRequest;
 import live.databo3.front.dto.SettingFunctionTypeDto;
 import live.databo3.front.member.dto.MemberRequestDto;
-import live.databo3.front.owner.dto.DeviceLogResponseDto;
-import live.databo3.front.owner.dto.ErrorLogResponseDto;
-import live.databo3.front.owner.dto.SensorListDto;
+import live.databo3.front.owner.dto.*;
 import live.databo3.front.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -41,6 +40,7 @@ public class ViewerController {
     private final MemberAdaptor memberAdaptor;
     private final SettingFunctionTypeAdaptor settingFunctionTypeAdaptor;
     private final OrganizationAdaptor organizationAdaptor;
+    private final MainConfigurationAdaptor mainConfigurationAdaptor;
     private final SensorAdaptor sensorAdaptor;
     private final PlaceAdaptor placeAdaptor;
     private final ErrorLogAdaptor errorLogAdaptor;
@@ -156,6 +156,42 @@ public class ViewerController {
             alertHandler(model, e.getMessage(), "/");
         } catch (Exception e) {
             alertHandler(model, "센서 페이지를 불러오지 못하였습니다", "/");
+        }
+        return ALERT;
+    }
+
+    @GetMapping("/viewer/mainConfigurations")
+    public String getMainConfigurationInfo(Model model, HttpServletRequest request) {
+        String accessToken = Objects.requireNonNull(CookieUtil.findCookie(request, "access_token")).getValue();
+        try {
+
+            List<OrganizationListDto> organizationDtoList = organizationAdaptor.getOrganizationsByMember();
+            model.addAttribute("organizationList", organizationDtoList);
+            model.addAttribute("get_access_token", accessToken);
+
+            List<MainConfigurationDto> mainConfigurationDtoList = mainConfigurationAdaptor.getMainConfiguration();
+            model.addAttribute("mainConfigurationList", mainConfigurationDtoList);
+
+            return "/viewer/main_configuration";
+        } catch (HttpClientErrorException e) {
+            alertHandler(model, e.getMessage(), "/");
+        } catch (Exception e) {
+            alertHandler(model, "홈 설정 불러오기를 실패했습니다.", "/");
+        }
+
+        return ALERT;
+    }
+
+
+    @PostMapping("/viewer/mainConfigurations")
+    public String createMainConfigurationInfo(MainConfigurationCreateDto mainConfigurationCreateDto, Model model) {
+
+        String result = mainConfigurationAdaptor.createMainConfiguration(mainConfigurationCreateDto);
+
+        if (result.contains("success")) {
+            alertHandler(model, "추가 성공!", "/viewer/mainConfigurations");
+        } else {
+            alertHandler(model, "추가 실패!", "/viewer/mainConfigurations");
         }
         return ALERT;
     }

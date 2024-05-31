@@ -35,32 +35,32 @@
               </a>
               <form action=/register method="post" id="form">
                 <div class="mb-3">
-                  <label for="id" class="form-label">Id</label>
+                  <label for="id" class="form-label">아이디</label>
                   <input type="text" class="form-control" id="id" name="id" aria-describedby="textHelp" required>
                   <span id="id-languages"></span>
                 </div>
                 <div class="mb-3">
-                  <label for="email" class="form-label">Email address</label>
+                  <label for="email" class="form-label">이메일</label>
                   <input type="email" class="form-control" id="email" name ="email" aria-describedby="emailHelp" required>
                   <span id="email-languages"></span>
                 </div>
-                <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" type="submit" id="email-button">Email 인증</button>
+                <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" type="submit" id="email-button">이메일 인증</button>
                 <div id="email-check-div" class="mb-4"></div>
                 <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
+                  <label for="password" class="form-label">비밀번호</label>
                   <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <div class="mb-4">
                   <input type="checkbox" id="ownerCheckbox" name="roles" value=2 onclick="checkOnlyOne(this)"/>
-                  <label for="ownerCheckbox">OWNER</label><br/>
+                  <label for="ownerCheckbox">오너</label><br/>
 
                   <input type="checkbox" id="viewerCheckbox" name="roles" value=3 onclick="checkOnlyOne(this)"/>
-                  <label for="viewerCheckbox">VIEWER</label><br/>
+                  <label for="viewerCheckbox">뷰어</label><br/>
                 </div>
                 <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" disabled='disabled' id= "sign-up-button" type="submit" data-submit-type="search" onclick="return validateForm();">회원가입</button>
                 <div class="d-flex align-items-center">
-                  <p class="fs-4 mb-0 text-dark">Already have an Account?</p>
-                  <a class="text-primary fw-medium ms-2" href="/login">Sign In</a>
+                  <p class="fs-4 mb-0 text-dark">이미 회원가입 되어 있나?</p>
+                  <a class="text-primary fw-medium ms-2" href="/login">로그인</a>
                 </div>
               </form>
             </div>

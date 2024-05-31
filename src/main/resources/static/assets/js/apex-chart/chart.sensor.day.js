@@ -36,7 +36,7 @@ function drawDayChart(sequenceNumber) {
             text: '최근 24시간, 48시간 평균 ' + daySensorType + '(1시간 단위)',
             align: 'left',
             style: {
-                fontSize: '25px'
+                fontSize: '20px'
             }
         },
         dataLabels: {
@@ -84,7 +84,7 @@ function drawDayChart(sequenceNumber) {
 function fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
 
-    const baseUrl = `http://localhost:8888/api/sensor/${sensorType}/fields/${sensorType}_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/day/mean`;
+    const baseUrl = `http://databo3.live:8888/api/sensor/${sensorType}/fields/${sensorType}_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/day/mean`;
     // 현재
     let todayBegin = dayjs().utc().subtract(24, 'hour').format();
     let todayEnd = dayjs().utc().format();

@@ -41,7 +41,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="organization : ${state2Organizations}">
-                                <td th:text="${organization.getOrganizationName()}">organizationName</td>
+                                <td th:text="${organization.getOrganizationName()}">조직 이름</td>
                                 <td>
                                     <form action=/owner/organization-management method="get">
                                         <input type="hidden" name="organizationId" th:value="${organization.getOrganizationId()}"/>
@@ -68,7 +68,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="organization : ${state1Organizations}">
-                                <td th:text="${organization.getOrganizationName()}">organizationName</td>
+                                <td th:text="${organization.getOrganizationName()}">조직 이름</td>
                                 <td>
                                     승인 대기중인 조직
                                 </td>
@@ -86,7 +86,7 @@
                         <table id="withoutMeOrganizationTable" class="datatable">
                             <thead>
                             <tr>
-                                <th>organizationName</th>
+                                <th>조직 이름</th>
                                 <th>신청</th>
                             </tr>
                             </thead>

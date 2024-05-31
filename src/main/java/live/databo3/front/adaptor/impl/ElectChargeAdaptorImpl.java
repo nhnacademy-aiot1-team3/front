@@ -18,18 +18,18 @@ public class ElectChargeAdaptorImpl implements ElectChargeAdaptor {
     String gatewayDomain;
 
     @Override
-    public long getElectCharge(String organizationName) {
+    public String getElectCharge(String organizationName) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setContentType(MediaType.TEXT_PLAIN);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
-
         HttpEntity<String> request = new HttpEntity<>(httpHeaders);
-        ResponseEntity<Long> exchange = restTemplate.exchange(
-                gatewayDomain + "/api/ruleengine/{organizationId}/electchage",
+
+        ResponseEntity<String> exchange = restTemplate.exchange(
+                gatewayDomain + "/api/ruleengine/{organizationName}/electcharge",
                 HttpMethod.GET,
                 request,
                 new ParameterizedTypeReference<>() {
                 },organizationName);
-        return exchange.getBody();
+        return exchange.getBody() ;
     }
 }

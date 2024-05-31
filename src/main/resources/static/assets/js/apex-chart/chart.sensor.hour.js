@@ -52,7 +52,7 @@ function drawHourChart(sequenceNumber) {
             text: '최근 한시간 평균 ' + hourSensorType,
             align: 'left',
             style: {
-                fontSize: '25px'
+                fontSize: '20px'
             }
         },
         grid: {
@@ -115,7 +115,7 @@ function drawHourChart(sequenceNumber) {
 function fetchDataOfHourChart(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
 
-    const baseUrl = `http://localhost:8888/api/sensor/${sensorType}/fields/${sensorType}_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/hour/mean`;
+    const baseUrl = `http://databo3.live:8888/api/sensor/${sensorType}/fields/${sensorType}_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/hour/mean`;
 
     let begin = dayjs().utc().subtract(1, 'hour').format();
     let end = dayjs().utc().format();

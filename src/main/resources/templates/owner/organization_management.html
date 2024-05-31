@@ -36,7 +36,7 @@
                                 id="pills-information-tab" data-bs-toggle="pill" data-bs-target="#pills-information" type="button" role="tab"
                                 aria-controls="pills-information" aria-selected="true">
                             <i class="ti ti-info-circle me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Main</span>
+                            <span class="d-none d-md-block">메인</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -45,7 +45,7 @@
                                 id="pills-notification-tab" data-bs-toggle="pill" data-bs-target="#pills-notifications" type="button"
                                 role="tab" aria-controls="pills-notifications" aria-selected="false">
                             <i class="ti ti-router me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Sensor Device 리스트</span>
+                            <span class="d-none d-md-block">센서/디바이스 리스트</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -54,7 +54,7 @@
                                 id="pills-settings-tab" data-bs-toggle="pill" data-bs-target="#pills-settings" type="button"
                                 role="tab" aria-controls="pills-settings" aria-selected="false">
                             <i class="ti ti-list me-2 fs-6"></i>
-                            <span class="d-none d-md-block">조직멤버 리스트</span>
+                            <span class="d-none d-md-block">조직 멤버 리스트</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -63,7 +63,7 @@
                                 id="pills-place-tab" data-bs-toggle="pill" data-bs-target="#pills-place" type="button"
                                 role="tab" aria-controls="pills-place" aria-selected="false">
                             <i class="ti ti-home me-2 fs-6"></i>
-                            <span class="d-none d-md-block">place 리스트</span>
+                            <span class="d-none d-md-block">장소 리스트</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -72,7 +72,7 @@
                                 id="pills-bills-tab" data-bs-toggle="pill" data-bs-target="#pills-bills" type="button" role="tab"
                                 aria-controls="pills-bills" aria-selected="false">
                             <i class="ti ti-user-plus me-2 fs-6"></i>
-                            <span class="d-none d-md-block">Viewer 조직 신청 요청</span>
+                            <span class="d-none d-md-block">뷰어 조직 신청 요청</span>
                         </button>
                     </li>
                 </ul>
@@ -90,17 +90,17 @@
                                                 <div class="text-center">
                                                     <i class="ti ti-user-check fs-6 d-block mb-2"></i>
                                                     <h4 class="mb-0 fw-semibold lh-1" th:text="${ownerMemberAmount}"></h4>
-                                                    <p class="mb-0 fs-4">Owner</p>
+                                                    <p class="mb-0 fs-4">오너</p>
                                                 </div>
                                                 <div class="text-center">
                                                     <i class="ti ti-eye fs-6 d-block mb-2"></i>
                                                     <h4 class="mb-0 fw-semibold lh-1" th:text="${viewerMemberAmount}"></h4>
-                                                    <p class="mb-0 fs-4">Viewer</p>
+                                                    <p class="mb-0 fs-4">뷰어</p>
                                                 </div>
                                                 <div class="text-center">
                                                     <i class="ti ti-router fs-6 d-block mb-2"></i>
                                                     <h4 class="mb-0 fw-semibold lh-1" th:text="${sensorAmount}"></h4>
-                                                    <p class="mb-0 fs-4">Sensor</p>
+                                                    <p class="mb-0 fs-4">센서</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -146,10 +146,10 @@
                                         <table id="sensorTable" class="datatable">
                                             <thead>
                                             <tr>
-                                                <th>SensorSn</th>
-                                                <th>SensorName</th>
-                                                <th>SensorPlace</th>
-                                                <th>SensorType</th>
+                                                <th>센서 시리얼 넘버</th>
+                                                <th>센서 이름</th>
+                                                <th>센서 장소</th>
+                                                <th>센서 타입</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -171,8 +171,8 @@
                                         <table id="deviceTable" class="datatable">
                                             <thead>
                                             <tr>
-                                                <th>DeviceSn</th>
-                                                <th>DeviceName</th>
+                                                <th>디바이스 시리얼 넘버</th>
+                                                <th>디바이스 이름</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -190,14 +190,14 @@
                         <div class="tab-pane fade" id="pills-settings" role="tabpanel" aria-labelledby="pills-settings-tab"
                              tabindex="0">
                             <div class="card-body p-4">
-                                <h5 class="card-title fw-semibold">OWNER 목록</h5>
+                                <h5 class="card-title fw-semibold">오너 목록</h5>
                                 <table id="ownerTable" class="datatable">
                                     <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>State</th>
+                                        <th>아이디</th>
+                                        <th>이메일</th>
+                                        <th>역할</th>
+                                        <th>상태</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -209,14 +209,14 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <h5 class="card-title fw-semibold">VIEWER 목록</h5>
+                                <h5 class="card-title fw-semibold">뷰어 목록</h5>
                                 <table id="viewerTable" class="datatable">
                                     <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>State</th>
+                                        <th>아이디</th>
+                                        <th>이메일</th>
+                                        <th>역할</th>
+                                        <th>상태</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -238,11 +238,11 @@
                             <div class="col-12">
                                 <div class="card w-100 position-relative overflow-hidden mb-0">
                                     <div class="card-body p-4">
-                                        <h5 class="card-title fw-semibold">Place 목록</h5>
+                                        <h5 class="card-title fw-semibold">장소 목록</h5>
                                         <table id="placeTable" class="datatable">
                                             <thead>
                                             <tr>
-                                                <th>PlaceName</th>
+                                                <th>장소 이름</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -261,14 +261,14 @@
                             <div class="widget-content searchable-container list">
                                 <div class="card card-body">
                                     <div class="table-responsive">
-                                        <h5 class="card-title fw-semibold">VIEWER 부서 신청 목록</h5>
+                                        <h5 class="card-title fw-semibold">뷰어 부서 신청 목록</h5>
                                         <table id="ownerRequestTable" class="datatable">
                                             <thead>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                                <th>State</th>
+                                                <th>아이디</th>
+                                                <th>이메일</th>
+                                                <th>역할</th>
+                                                <th>상태</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
