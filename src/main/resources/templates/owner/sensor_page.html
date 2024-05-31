@@ -130,7 +130,7 @@
                                     <div class="col-xl-12">
                                         <div th:if="${type == 'temperature' || type == 'humidity'}" class="box mt-4">
 <!--                                            <div id="weekChart"></div>-->
-                                            <div class="weekChart"></div>
+                                            <div class="weekChart" id="1"></div>
 
                                         </div>
                                         <div th:if="${type} == 'co2'" class="box mt-4">
@@ -183,8 +183,8 @@
                 // gaugeChart.render();
 
                 if (sensorType === 'temperature' || sensorType === 'humidity') {
-                    fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType);
-                    weekChart1 = setInterval(fetchDataOfWeekChart, 86400000, branchName, placeName, sensorName, sensorType);
+                    fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType, 1);
+                    weekChart1 = setInterval(fetchDataOfWeekChart, 86400000, branchName, placeName, sensorName, sensorType, 1);
                     // weekChart.render();
                 } else if (sensorType === 'co2') {
                     fetchDataOfWeekCo2Chart(branchName, placeName, sensorName, sensorType);
