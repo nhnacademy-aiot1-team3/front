@@ -12,8 +12,8 @@ if(sensorTypeWeek ==='temperature'){
 }else if(sensorTypeWeek === 'co2'){
     weekSensorType = 'CO2';
 }
-$(document).ready(function () {
 
+function draw(serialNum) {
     var options = {
         series: [
             {
@@ -106,13 +106,7 @@ $(document).ready(function () {
         }
     };
 
-    // document.querySelectorAll(".dayChart").forEach(function(element) {
-    //     console.log(element)
-    //     gaugeChart = new ApexCharts(element, options);
-    //     gaugeChart.render();
-    // });
-
-    weekChart = new ApexCharts(document.querySelector(".weekChart"), options);
+    weekChart = new ApexCharts(document.getElementById(serialNum), options);
     weekChart.render();
 
     // 페이지 로딩 후 데이터 가져오기
@@ -121,10 +115,9 @@ $(document).ready(function () {
     // 24시간마다 데이터 가져오기
     // setInterval(fetchDataOfWeekChart, 86400000); // 86400000ms = 24시간
 
-});
+}
 
-
-function fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType) {
+function fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType, serialNum) {
     const access_token = document.getElementById("access_token").value;
     const minBaseUrl = `http://localhost:8888/api/sensor/${sensorType}/fields/${sensorType}_min/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/min`;
     const maxBaseUrl = `http://localhost:8888/api/sensor/${sensorType}/fields/${sensorType}_max/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/max`;
@@ -199,7 +192,7 @@ function fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType) {
                                 y: roundedValue
                             };
                         });
-                        console.log("변환된 최고 데이터 : ", JSON.stringify(maxSeriesData));
+                        draw(serialNum);
 
                         weekChart.updateSeries([{
                             name: '최저',
