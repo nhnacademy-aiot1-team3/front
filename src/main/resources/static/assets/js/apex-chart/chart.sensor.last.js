@@ -142,7 +142,7 @@ function drawGaugeChart(sequenceNumber) {
 
 function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
-    const url = `https://databo3.live:8888/api/sensor/${sensorType}/fields/value/branches/${branchName}/places/${placeName}/sensors/${sensorName}/last`;
+    const url = `https://databo3.live/api/sensor/${sensorType}/fields/value/branches/${branchName}/places/${placeName}/sensors/${sensorName}/last`;
 
     fetch(url, {
         headers:{
