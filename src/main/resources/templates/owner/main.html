@@ -47,7 +47,7 @@
 
         <div class="container-fluid">
       <div class="col-12">
-          <h2 th:if="${electChargeList.size() != 0 }">AI가 예측한 조직별 당월 예상 전기요금</h2>
+          <h2 th:if="${electChargeList.size() != 0 }">당월 예상 전기요금</h2>
         <div class="row" th:each="electCharge : ${electChargeList}">
           <div class="col-lg-6" th:if="${electCharge.value != null}" >
             <div class="text-right mt-3 mb-3 d-fixed"></div>
