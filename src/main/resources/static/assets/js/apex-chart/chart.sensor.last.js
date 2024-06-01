@@ -153,7 +153,7 @@ function drawGaugeChart(sequenceNumber, sensorType) {
 function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
 
-    const url = `https://www.databo3.live/api/sensor/${sensorType}/fields/value/branches/${branchName}/places/${placeName}/sensors/${sensorName}/last`;
+    const url = `https://databo3.live/api/sensor/${sensorType}/fields/value/branches/${branchName}/places/${placeName}/sensors/${sensorName}/last`;
 
 
     fetch(url, {
@@ -179,8 +179,12 @@ function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequ
                 gaugeChart.updateOptions({
                     labels: [Number.isInteger(gaugeValue) ? parseInt(gaugeValue)+ symbol : gaugeValue.toFixed(1)+ symbol]
                 });
+            console.log(time);
+            document.querySelectorAll(".realTime").forEach(element => {
+                element.innerText = `${time}`;
+            });
 
-                document.querySelector(".realTime").innerText = `${time}`;
+                // document.querySelector(".realTime").innerText = `${time}`;
         })
         .catch(error => {
             console.error('Fetch error:', error);
