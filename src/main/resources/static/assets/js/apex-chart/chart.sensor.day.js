@@ -31,7 +31,7 @@ function drawDayChart(sequenceNumber, sensorType) {
             width: [0, 4]
         },
         title: {
-            text: '최근 24시간, 48시간 평균 ' + daySensorType + '(1시간 단위)',
+            text: '최근 24시간, 48시간 평균 ' + daySensorType,
             align: 'left',
             style: {
                 fontSize: '20px'
@@ -46,7 +46,11 @@ function drawDayChart(sequenceNumber, sensorType) {
             labels: {
                 formatter: function (val) {
                     return val + '시';
-                }
+                },
+
+            },
+            title: {
+                text: '(1시간 단위)'
             }
         },
         yaxis: {

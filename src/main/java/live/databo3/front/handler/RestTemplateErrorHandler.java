@@ -48,7 +48,6 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
      */
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
-        log.error("{}", response.getStatusCode());
         ResponseDto<ResponseHeaderDto,Object> responseDto = objectMapper.readValue(
                 response.getBody(),
                 new TypeReference<>() {

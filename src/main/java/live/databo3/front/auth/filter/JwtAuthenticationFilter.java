@@ -32,7 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain){
-        log.info("jwtAuthenticationFilter {}", request.getRequestURI());
         try {
             Object attribute = request.getAttribute(HttpHeaders.AUTHORIZATION);
             if (Objects.isNull(attribute)) {
