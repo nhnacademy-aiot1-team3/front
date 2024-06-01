@@ -28,7 +28,6 @@ let sensorTypeLast = document.getElementById("sensor-type").value;
 
 function drawGaugeChart(sequenceNumber) {
     'use strict'
-    // console.log(gaugeValue + symbol);
 
     let options = {
         series: [0],
@@ -162,17 +161,17 @@ function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequ
 
                 let time = dayjs().format('HH:mm:ss A');
 
-            if(sensorTypeLast ==='temperature'){
+            if(sensorType ==='temperature'){
                 symbol = '°C';
                 gaugeSensorType = '온도';
                 minValue = 0;
                 maxValue = 40;
-            }else if(sensorTypeLast === 'humidity'){
+            }else if(sensorType === 'humidity'){
                 symbol = '%';
                 gaugeSensorType = '습도';
                 minValue = 0;
                 maxValue = 100;
-            }else if(sensorTypeLast === 'co2'){
+            }else if(sensorType === 'co2'){
                 symbol = 'ppm';
                 gaugeSensorType = 'CO2';
                 minValue = 500;
