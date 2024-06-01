@@ -9,22 +9,22 @@ let maxValue = null;
 
 let sensorTypeLast = document.getElementById("sensor-type").value;
 
-if(sensorTypeLast ==='temperature'){
-    symbol = '°C';
-    gaugeSensorType = '온도';
-    minValue = 0;
-    maxValue = 40;
-}else if(sensorTypeLast === 'humidity'){
-    symbol = '%';
-    gaugeSensorType = '습도';
-    minValue = 0;
-    maxValue = 100;
-}else if(sensorTypeLast === 'co2'){
-    symbol = 'ppm';
-    gaugeSensorType = 'CO2';
-    minValue = 500;
-    maxValue = 2000;
-}
+// if(sensorTypeLast ==='temperature'){
+//     symbol = '°C';
+//     gaugeSensorType = '온도';
+//     minValue = 0;
+//     maxValue = 40;
+// }else if(sensorTypeLast === 'humidity'){
+//     symbol = '%';
+//     gaugeSensorType = '습도';
+//     minValue = 0;
+//     maxValue = 100;
+// }else if(sensorTypeLast === 'co2'){
+//     symbol = 'ppm';
+//     gaugeSensorType = 'CO2';
+//     minValue = 500;
+//     maxValue = 2000;
+// }
 
 function drawGaugeChart(sequenceNumber) {
     'use strict'
@@ -166,6 +166,22 @@ function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequ
                 let normalizedValue = ((gaugeValue - minValue) / (maxValue - minValue)) * 100;
                 console.log(normalizedValue);
 
+                if(sensorTypeLast ==='temperature'){
+                    symbol = '°C';
+                    gaugeSensorType = '온도';
+                    minValue = 0;
+                    maxValue = 40;
+                }else if(sensorTypeLast === 'humidity'){
+                    symbol = '%';
+                    gaugeSensorType = '습도';
+                    minValue = 0;
+                    maxValue = 100;
+                }else if(sensorTypeLast === 'co2'){
+                    symbol = 'ppm';
+                    gaugeSensorType = 'CO2';
+                    minValue = 500;
+                    maxValue = 2000;
+                }
                 drawGaugeChart(sequenceNumber);
 
                 gaugeChart.updateOptions({
