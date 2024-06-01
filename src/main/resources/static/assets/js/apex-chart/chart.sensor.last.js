@@ -7,7 +7,7 @@ let gaugeValue=null;
 let minValue = null;
 let maxValue = null;
 
-let sensorTypeLast = document.getElementById("sensor-type").value;
+// let sensorTypeLast = document.getElementById("sensor-type").value;
 
 // if(sensorTypeLast ==='temperature'){
 //     symbol = '°C';
@@ -26,11 +26,30 @@ let sensorTypeLast = document.getElementById("sensor-type").value;
 //     maxValue = 2000;
 // }
 
-function drawGaugeChart(sequenceNumber) {
+function drawGaugeChart(sequenceNumber, sensorType) {
     'use strict'
+    if(sensorType ==='temperature'){
+        symbol = '°C';
+        gaugeSensorType = '온도';
+        minValue = 0;
+        maxValue = 40;
+    }else if(sensorType === 'humidity'){
+        symbol = '%';
+        gaugeSensorType = '습도';
+        minValue = 0;
+        maxValue = 100;
+    }else if(sensorType === 'co2'){
+        symbol = 'ppm';
+        gaugeSensorType = 'CO2';
+        minValue = 500;
+        maxValue = 2000;
+    }
+
+    let normalizedValue = ((gaugeValue - minValue) / (maxValue - minValue)) * 100;
+    console.log(normalizedValue);
 
     let options = {
-        series: [0],
+        series: [normalizedValue],
         chart: {
             height: 315,
             type: 'radialBar',
@@ -126,17 +145,9 @@ function drawGaugeChart(sequenceNumber) {
         }
     };
 
-    // document.querySelectorAll(".realTimeGauge").forEach(function(element) {
-    //     gaugeChart = new ApexCharts(document.querySelector(element), options);
-    //     gaugeChart.render();
-    // });
-
     gaugeChart = new ApexCharts(document.getElementById(sequenceNumber), options);
     gaugeChart.render();
 
-    // fetchDataOfRealTime();
-
-    // setInterval(await fetchDataOfRealTime, 10000, branchName, placeName, sensorName, sensorType);
 }
 
 function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequenceNumber) {
@@ -160,32 +171,12 @@ function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequ
                 gaugeValue = (data && data.data && typeof data.data.value !== 'undefined' && data.data.value !== null) ? data.data.value : 0;
 
                 let time = dayjs().format('HH:mm:ss A');
-
-            if(sensorType ==='temperature'){
-                symbol = '°C';
-                gaugeSensorType = '온도';
-                minValue = 0;
-                maxValue = 40;
-            }else if(sensorType === 'humidity'){
-                symbol = '%';
-                gaugeSensorType = '습도';
-                minValue = 0;
-                maxValue = 100;
-            }else if(sensorType === 'co2'){
-                symbol = 'ppm';
-                gaugeSensorType = 'CO2';
-                minValue = 500;
-                maxValue = 2000;
-            }
+                console.log(sensorType);
                 console.log("가져온 값 : "+gaugeValue+symbol);
 
-                let normalizedValue = ((gaugeValue - minValue) / (maxValue - minValue)) * 100;
-                console.log(normalizedValue);
-
-                drawGaugeChart(sequenceNumber);
+                drawGaugeChart(sequenceNumber, sensorType);
 
                 gaugeChart.updateOptions({
-                    series: [normalizedValue],
                     labels: [Number.isInteger(gaugeValue) ? parseInt(gaugeValue)+ symbol : gaugeValue.toFixed(1)+ symbol]
                 });
 

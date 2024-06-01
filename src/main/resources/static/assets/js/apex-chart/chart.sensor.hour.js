@@ -3,16 +3,14 @@
 let hourChart = null;
 let hourSensorType = '';
 
-let sensorTypeHour = document.getElementById("sensor-type").value;
-
-if(sensorTypeHour ==='temperature'){
-    hourSensorType = '온도';
-}else if(sensorTypeHour === 'humidity'){
-    hourSensorType = '습도';
-}else if(sensorTypeHour === 'co2'){
-    hourSensorType = 'CO2';
-}
-function drawHourChart(sequenceNumber) {
+function drawHourChart(sequenceNumber, sensorType) {
+    if(sensorType ==='temperature'){
+        hourSensorType = '온도';
+    }else if(sensorType === 'humidity'){
+        hourSensorType = '습도';
+    }else if(sensorType === 'co2'){
+        hourSensorType = 'CO2';
+    }
     var options = {
 
         series: [{
@@ -102,13 +100,6 @@ function drawHourChart(sequenceNumber) {
 
     hourChart = new ApexCharts(document.getElementById(sequenceNumber), options);
     hourChart.render();
-
-    // 페이지 로딩 후 데이터 가져오기
-    // fetchDataOfHourChart();
-
-    // 1분마다 데이터 가져오기
-    // setInterval(fetchDataOfHourChart, 60000); // 60000ms = 1분
-
 }
 
 
@@ -148,7 +139,7 @@ function fetchDataOfHourChart(branchName, placeName, sensorName, sensorType, seq
                     };
                 });
 
-                drawHourChart(sequenceNumber);
+                drawHourChart(sequenceNumber, sensorType);
 
                 hourChart.updateSeries([{
                     name: hourSensorType,
