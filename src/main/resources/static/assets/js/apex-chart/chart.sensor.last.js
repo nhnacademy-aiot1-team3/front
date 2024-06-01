@@ -23,8 +23,8 @@ function drawGaugeChart(sequenceNumber, sensorType) {
     }else if(sensorType === 'co2'){
         symbol = 'ppm';
         gaugeSensorType = 'CO2';
-        minValue = 500;
-        maxValue = 4000;
+        minValue = 0;
+        maxValue = 3500;
     }
 
     let normalizedValue = ((gaugeValue - minValue) / (maxValue - minValue)) * 100;

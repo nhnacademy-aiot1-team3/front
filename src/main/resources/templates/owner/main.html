@@ -85,7 +85,6 @@
                 <h6 th:text="${'차트 종류 : ' + dashboardConfig.chartType}"></h6>
                 <h6 th:text="${'센서 종류 : ' + dashboardConfig.sensorType}"></h6>
                 <h6 th:text="${'센서 시리얼 넘버 : ' + dashboardConfig.sensorSn}"></h6>
-                <div class="row mt-5"></div>
                   <div th:if="${dashboardConfig.chartType == 'REAL_TIME'}">
                     <div class="realTimeGauge" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
                     <div class="realTime" style="text-align: center"></div>
@@ -102,6 +101,7 @@
                   <div th:if="${dashboardConfig.chartType == 'WEEKLY' && dashboardConfig.sensorType == 'co2'}">
                     <div class="weekCo2Chart" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
                   </div>
+                <div class="row mt-5"></div>
               </div>
 
             </div>
