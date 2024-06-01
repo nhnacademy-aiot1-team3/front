@@ -42,7 +42,7 @@ function drawGaugeChart(sequenceNumber, sensorType) {
         symbol = 'ppm';
         gaugeSensorType = 'CO2';
         minValue = 500;
-        maxValue = 2000;
+        maxValue = 3000;
     }
 
     let normalizedValue = ((gaugeValue - minValue) / (maxValue - minValue)) * 100;
@@ -153,8 +153,7 @@ function drawGaugeChart(sequenceNumber, sensorType) {
 function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
 
-    const url = `https://www.databo3.live/api/sensor/${sensorType}/fields/value/branches/${branchName}/places/${placeName}/sensors/${sensorName}/last`;
-
+    const url = `https://databo3.live/api/sensor/${sensorType}/fields/value/branches/${branchName}/places/${placeName}/sensors/${sensorName}/last`;
 
     fetch(url, {
         headers:{
@@ -173,6 +172,7 @@ function fetchDataOfRealTime(branchName, placeName, sensorName, sensorType, sequ
                 let time = dayjs().format('HH:mm:ss A');
                 console.log(sensorType);
                 console.log("가져온 값 : "+gaugeValue+symbol);
+                console.log(sensorType);
 
                 drawGaugeChart(sequenceNumber, sensorType);
 
