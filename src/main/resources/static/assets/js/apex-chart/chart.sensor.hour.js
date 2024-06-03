@@ -106,7 +106,7 @@ function drawHourChart(sequenceNumber, sensorType) {
 function fetchDataOfHourChart(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
 
-    const baseUrl = `https://www.databo3.live/api/sensor/${sensorType}/fields/${sensorType}_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/hour/mean`;
+    const baseUrl = `/api/sensor/${sensorType}/fields/${sensorType}_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/hour/mean`;
 
 
     let begin = dayjs().utc().subtract(1, 'hour').format();

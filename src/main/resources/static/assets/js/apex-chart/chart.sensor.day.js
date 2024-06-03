@@ -87,7 +87,7 @@ function fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType, 
     const access_token = document.getElementById("access_token").value;
 
 
-    const baseUrl = `https://www.databo3.live/api/sensor/${sensorType}/fields/${sensorType}_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/day/mean`;
+    const baseUrl = `/api/sensor/${sensorType}/fields/${sensorType}_mean/branches/${branchName}/places/${placeName}/sensors/${sensorName}/day/mean`;
 
     // 현재
     let todayBegin = dayjs().utc().subtract(24, 'hour').format();

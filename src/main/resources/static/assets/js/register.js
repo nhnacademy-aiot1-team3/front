@@ -42,7 +42,7 @@ document.getElementById("id").addEventListener('blur', async event=> {
         return;
     }
 
-    let url = "https://www.databo3.live/api/account/member/duplicate/";
+    let url = "/api/account/member/duplicate/";
     let queryParam = id.value;
     url += queryParam;
 
@@ -64,7 +64,7 @@ document.getElementById("email-button").addEventListener('click', async event=> 
     const email = document.getElementById("email");
     const email_languages = document.getElementById("email-languages");
 
-    let url = "https://www.databo3.live/api/account/member/email/send";
+    let url = "/api/account/member/email/send";
 
     fetch(url, {
         method: "POST",
@@ -106,7 +106,7 @@ document.getElementById("email-button").addEventListener('click', async event=> 
                         const email = document.getElementById("email");
                         const certification_number = document.getElementById("email-code");
 
-                        let url = "https://www.databo3.live/api/account/member/email/verify";
+                        let url = "/api/account/member/email/verify";
 
                         fetch(url, {
                             method: "POST",
