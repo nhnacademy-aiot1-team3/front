@@ -33,7 +33,7 @@
         let m = [[${mainConfigurationList}]]
         console.log("main List : ",m);
         let removeConfigList = [];
-        const thisUrl = "https://www.databo3.live/viewer/mainConfigurations";
+        const thisUrl = "/viewer/mainConfigurations";
     </script>
     <script>
         let dataList = null;
@@ -194,7 +194,7 @@
         function fetchToSensorTypeMapping(orgNumber) {
             const access_token = document.getElementById("access_token").value;
             console.log(orgNumber);
-            const url = `https://www.databo3.live/api/sensor/org/` + orgNumber +`/sensorTypeMapping`;
+            const url = `/api/sensor/org/` + orgNumber +`/sensorTypeMapping`;
 
 
             fetch(url,{
@@ -287,7 +287,7 @@
 
             // 삭제
             if (removeConfigList.length !== 0) {
-                const url = "https://www.databo3.live/api/account/config/dashboard/delete";
+                const url = "/api/account/config/dashboard/delete";
 
 
                 fetch(url, {
@@ -324,7 +324,7 @@
             // 리스트 출력 (디버깅용)
             console.log(modifyList);
 
-            const modifyUrl = "https://www.databo3.live/api/account/config/dashboard/modify"
+            const modifyUrl = "/api/account/config/dashboard/modify"
 
 
             fetch(modifyUrl,{
@@ -357,7 +357,7 @@
                         <div class="row">
                             <!-- 조직 드롭박스 -->
                             <div class="col-6">
-                                <select id="organizationSelect" th:field="*{organizationList}" class="form-check">
+                                <select id="organizationSelect" th:field="*{organizationList}" class="form-select">
                                     <option value="">조직을 골라주세요</option>
 
                                     <option th:if="${organization.getState() == 2}" th:each="organization:${organizationList}" th:value="${organization.getOrganizationId()}"
@@ -379,7 +379,7 @@
                         <div class="row">
                             <!-- 장소 드롭박스 -->
                             <div class="col-6">
-                                <select id="placeSelect">
+                                <select id="placeSelect" class="form-select">
 
                                 </select>
                             </div>
@@ -398,7 +398,7 @@
                     <div class="card-body px-4 py-3">
                         <div class="row">
                             <!-- 타입 드롭박스 -->
-                            <div class="col-6">
+                            <div class="col-6" class="form-select">
                                 <select id="typeSelect">
 
                                 </select>
@@ -418,7 +418,7 @@
                         <div class="row">
                             <!-- 센서 드롭박스 -->
                             <div class="col-6">
-                                <select id="sensorSelect">
+                                <select id="sensorSelect" class="form-select">
 
                                 </select>
                             </div>
@@ -437,7 +437,7 @@
                         <div class="row">
                             <!-- 차트타입 드롭박스 -->
                             <div class="col-6">
-                                <select id="chartTypeSelect">
+                                <select id="chartTypeSelect" class="form-select">
 
                                 </select>
                             </div>
@@ -458,7 +458,7 @@
                                 <input type="hidden" id="recordNumberInput" name="recordNumber">
                                 <input type="hidden" id="sequenceNumberInput" name="sequenceNumber">
                                 <input type="hidden" id="chartTypeInput" name="chartType">
-                                <button type="submit" class="btn-primary">추가</button>
+                                <button type="submit" class="btn btn-primary">추가</button>
                             </form>
                         </div>
                     </div>
@@ -495,12 +495,12 @@
                                 <span th:text="${config.getSensorType()}"></span> )
                             </td>
                             <td th:text="${config.getChartType()}"></td>
-                            <td><button type="button" onclick="removeConfig(this)">삭제</button></td>
+                            <td><button type="button" onclick="removeConfig(this)" class="btn btn-danger">삭제</button></td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="row" style="display: flex; justify-content: right">
-                    <button type="button" onclick="modifyConfig()" class="btn-primary" style="width:5%;" >수정</button>
+                <div class="row mt-5" style="display: flex; justify-content: right">
+                    <button type="button" onclick="modifyConfig()" class="btn btn-primary" style="width:5%;" >수정</button>
                 </div>
             </div>
         </div>
