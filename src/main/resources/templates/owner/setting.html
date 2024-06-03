@@ -233,7 +233,6 @@
                                                         <option th:if="${generalConfig.getDeviceSn() != null}"
                                                                 th:value="${generalConfig.getDeviceSn()}"
                                                                 th:text="${generalConfig.getDeviceName() + '(' + generalConfig.getDeviceSn() + ')'}"></option>
-                                                        <option th:value="${null}" th:text="없음"></option>
                                                         <option th:each="device: ${deviceList}"
                                                                 th:value="${device.getDeviceSn()}"
                                                                 th:text="${device.getDeviceName() + '(' + device.getDeviceSn() + ')'}"></option>
