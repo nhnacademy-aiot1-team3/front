@@ -3,17 +3,15 @@
 let dayChart = null;
 let daySensorType = '';
 
-let sensorTypeGetDay = document.getElementById("sensor-type").value;
 
-if(sensorTypeGetDay ==='temperature'){
-    daySensorType = '온도';
-}else if(sensorTypeGetDay === 'humidity'){
-    daySensorType = '습도';
-}else if(sensorTypeGetDay === 'co2'){
-    daySensorType = 'CO2';
-}
-
-function drawDayChart(sequenceNumber) {
+function drawDayChart(sequenceNumber, sensorType) {
+    if(sensorType ==='temperature'){
+        daySensorType = '온도';
+    }else if(sensorType === 'humidity'){
+        daySensorType = '습도';
+    }else if(sensorType === 'co2'){
+        daySensorType = 'CO2';
+    }
     var options = {
         series: [{
             name: '현재',
@@ -33,7 +31,7 @@ function drawDayChart(sequenceNumber) {
             width: [0, 4]
         },
         title: {
-            text: '최근 24시간, 48시간 평균 ' + daySensorType + '(1시간 단위)',
+            text: '최근 24시간, 48시간 평균 ' + daySensorType,
             align: 'left',
             style: {
                 fontSize: '20px'
@@ -48,7 +46,11 @@ function drawDayChart(sequenceNumber) {
             labels: {
                 formatter: function (val) {
                     return val + '시';
-                }
+                },
+
+            },
+            title: {
+                text: '(1시간 단위)'
             }
         },
         yaxis: {
@@ -162,7 +164,7 @@ function fetchDataAndUpdateChart(branchName, placeName, sensorName, sensorType, 
                             alignedTodayData.push(todayItem);
                             alignedYesterdayData.push(yesterdayItem);
                         });
-                        drawDayChart(sequenceNumber);
+                        drawDayChart(sequenceNumber, sensorType);
 
                         dayChart.updateSeries([{
                             name: '현재',

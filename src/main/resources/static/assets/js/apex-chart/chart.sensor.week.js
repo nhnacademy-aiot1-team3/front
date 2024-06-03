@@ -3,17 +3,15 @@
 let weekChart = null;
 let weekSensorType = '';
 
-let sensorTypeWeek = document.getElementById("sensor-type").value;
 
-if(sensorTypeWeek ==='temperature'){
-    weekSensorType = '온도';
-}else if(sensorTypeWeek === 'humidity'){
-    weekSensorType = '습도';
-}else if(sensorTypeWeek === 'co2'){
-    weekSensorType = 'CO2';
-}
-
-function drawWeekChart(sequenceNumber) {
+function drawWeekChart(sequenceNumber, sensorType) {
+    if(sensorType ==='temperature'){
+        weekSensorType = '온도';
+    }else if(sensorType === 'humidity'){
+        weekSensorType = '습도';
+    }else if(sensorType === 'co2'){
+        weekSensorType = 'CO2';
+    }
     var options = {
         series: [
             {
@@ -187,7 +185,7 @@ function fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType, seq
                                 y: roundedValue
                             };
                         });
-                        drawWeekChart(sequenceNumber);
+                        drawWeekChart(sequenceNumber, sensorType);
 
                         weekChart.updateSeries([{
                             name: '최저',

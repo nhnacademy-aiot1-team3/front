@@ -42,7 +42,6 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, MissingRefreshTokenException {
 
-        log.info("tokenRenewalFilter {}", request.getRequestURI());
         Cookie accessTokenCookie = CookieUtil.findCookie(request, "access_token");
 
         if (Objects.isNull(accessTokenCookie)) {
@@ -85,7 +84,6 @@ public class TokenRenewalFilter extends OncePerRequestFilter {
             response.addCookie(accessTokenCookie);
             response.addCookie(refreshTokenCookie);
 
-            log.info("{}", responseDto);
         } else if (now.isAfter(expireTime)) {
             Arrays.stream(request.getCookies()).forEach(cookie -> {
                 cookie.setMaxAge(0);

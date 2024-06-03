@@ -16,10 +16,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -34,7 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain){
-        log.info("jwtAuthenticationFilter {}", request.getRequestURI());
         try {
             Object attribute = request.getAttribute(HttpHeaders.AUTHORIZATION);
             if (Objects.isNull(attribute)) {
@@ -53,7 +50,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .map(authenticationRoleDto -> new SimpleGrantedAuthority(authenticationRoleDto.getAuthority()))
                     .collect(Collectors.toList());
 
-            log.info("memberId: {}, memberEmail: {}, authorities: {}", memberId, memberEmail, authorities);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(
                     new UsernamePasswordAuthenticationToken(
@@ -66,7 +62,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-//            log.error(e.getMessage());
         } finally {
             SecurityContextHolder.clearContext();
         }

@@ -47,7 +47,7 @@
 
         <div class="container-fluid">
       <div class="col-12">
-          <h2 th:if="${electChargeList.size() != 0 }">AI가 예측한 조직별 당월 예상 전기요금</h2>
+          <h2 th:if="${electChargeList.size() != 0 }">당월 예상 전기요금</h2>
         <div class="row" th:each="electCharge : ${electChargeList}">
           <div class="col-lg-6" th:if="${electCharge.value != null}" >
             <div class="text-right mt-3 mb-3 d-fixed"></div>
@@ -81,9 +81,10 @@
                 <input type="hidden" id="sensor-type" th:value="${dashboardConfig.getSensorType()}"/>
                 <input type="hidden" id="chart-type" th:value="${dashboardConfig.getChartType()}"/>
                 <input type="hidden" id="sequenceNumber" th:value="${dashboardConfig.getSequenceNumber()}"/>
-                <h4 th:text="${'조직 : ' + dashboardConfig.organization + '/ 장소 : ' + dashboardConfig.place + '/ 차트 타입 : ' + dashboardConfig.chartType}"></h4>
-                <h4 th:text="${'센서 타입 : ' + dashboardConfig.sensorType + '/ 센서 시리얼 : ' + dashboardConfig.sensorSn}"></h4>
-                <div class="row mt-5"></div>
+                <h6 th:text="${'조직 : ' + dashboardConfig.organization + '   장소 : ' + dashboardConfig.place}"></h6>
+                <h6 th:text="${'차트 종류 : ' + dashboardConfig.chartType}"></h6>
+                <h6 th:text="${'센서 종류 : ' + dashboardConfig.sensorType}"></h6>
+                <h6 th:text="${'센서 시리얼 넘버 : ' + dashboardConfig.sensorSn}"></h6>
                   <div th:if="${dashboardConfig.chartType == 'REAL_TIME'}">
                     <div class="realTimeGauge" th:id="${dashboardConfig.getSequenceNumber()}" style="min-height: 365px;"></div>
                     <div class="realTime" style="text-align: center"></div>
@@ -110,6 +111,7 @@
     </div>
   </div>
     </div>
+  </div>
 
 
   </body>

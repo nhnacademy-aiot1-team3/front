@@ -56,11 +56,6 @@ function drawWeekChartCo2(sequenceNumber) {
 
     weekChartCo2 = new ApexCharts(document.getElementById(sequenceNumber), options);
     weekChartCo2.render();
-
-    // fetchDataOfWeekCo2Chart();
-
-    // setInterval(fetchDataOfWeekCo2Chart, 86400000);
-
 }
 
 
