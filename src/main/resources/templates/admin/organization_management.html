@@ -99,7 +99,7 @@
                                 id="pills-bills-tab" data-bs-toggle="pill" data-bs-target="#pills-bills" type="button" role="tab"
                                 aria-controls="pills-bills" aria-selected="false">
                             <i class="ti ti-user-plus me-2 fs-6"></i>
-                            <span class="d-none d-md-block">오너 조직 신청 요청</span>
+                            <span class="d-none d-md-block">담당자 조직 신청 요청</span>
                         </button>
                     </li>
                 </ul>
@@ -117,12 +117,12 @@
                                                 <div class="text-center">
                                                     <i class="ti ti-user-check fs-6 d-block mb-2"></i>
                                                     <h4 class="mb-0 fw-semibold lh-1" th:text="${ownerMemberAmount}"></h4>
-                                                    <p class="mb-0 fs-4">오너</p>
+                                                    <p class="mb-0 fs-4">담당자</p>
                                                 </div>
                                                 <div class="text-center">
                                                     <i class="ti ti-eye fs-6 d-block mb-2"></i>
                                                     <h4 class="mb-0 fw-semibold lh-1" th:text="${viewerMemberAmount}"></h4>
-                                                    <p class="mb-0 fs-4">뷰어</p>
+                                                    <p class="mb-0 fs-4">직원</p>
                                                 </div>
                                                 <div class="text-center">
                                                     <i class="ti ti-router fs-6 d-block mb-2"></i>
@@ -139,6 +139,27 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-4 order-last">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card w-100 position-relative overflow-hidden mb-0">
+                                    <div class="card-body p-4">
+                                        <h5 class="card-title fw-semibold">게이트웨이, 컨트롤러</h5>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div>
+                                                    <label class="form-label">게이트웨이</label>
+                                                    <a th:if="${organization.getGatewaySn() == null}">X</a>
+                                                    <a th:if="${organization.getGatewaySn() != null}" th:text="${organization.getGatewaySn()}"/>
+                                                </div>
+                                                <div>
+                                                    <label  class="form-label">컨트롤러</label>
+                                                    <a th:if="${organization.getControllerSn() == null}">X</a>
+                                                    <a th:if="${organization.getControllerSn() != null}" th:text="${organization.getControllerSn()}"/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -378,7 +399,7 @@
                         <div class="tab-pane fade" id="pills-member-list" role="tabpanel"
                              aria-labelledby="pills-member-list-tab" tabindex="0">
                             <div class="card-body p-4">
-                                <h5 class="card-title fw-semibold">오너 목록</h5>
+                                <h5 class="card-title fw-semibold">담당자 목록</h5>
                                 <table id="ownerTable" class="datatable">
                                     <thead>
                                     <tr>
@@ -405,7 +426,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <h5 class="card-title fw-semibold">뷰어 목록</h5>
+                                <h5 class="card-title fw-semibold">담당자 목록</h5>
                                 <table id="viewerTable" class="datatable">
                                     <thead>
                                     <tr>
@@ -583,7 +604,7 @@
                             <div class="widget-content searchable-container list">
                                 <div class="card card-body">
                                     <div class="table-responsive">
-                                        <h5 class="card-title fw-semibold">오너 부서 신청 목록</h5>
+                                        <h5 class="card-title fw-semibold">담당자 부서 신청 목록</h5>
                                         <table id="ownerRequestTable" class="datatable">
                                             <thead>
                                             <tr>
