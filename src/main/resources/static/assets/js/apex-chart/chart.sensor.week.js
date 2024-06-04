@@ -111,8 +111,8 @@ function drawWeekChart(sequenceNumber, sensorType) {
 function fetchDataOfWeekChart(branchName, placeName, sensorName, sensorType, sequenceNumber) {
     const access_token = document.getElementById("access_token").value;
 
-    const minBaseUrl = `https://www.databo3.live/api/sensor/${sensorType}/fields/${sensorType}_min/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/min`;
-    const maxBaseUrl = `https://www.databo3.live/api/sensor/${sensorType}/fields/${sensorType}_max/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/max`;
+    const minBaseUrl = `/api/sensor/${sensorType}/fields/${sensorType}_min/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/min`;
+    const maxBaseUrl = `/api/sensor/${sensorType}/fields/${sensorType}_max/branches/${branchName}/places/${placeName}/sensors/${sensorName}/week/max`;
 
 
     let begin = dayjs().utc().subtract(8, 'day').format();
